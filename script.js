@@ -82,20 +82,9 @@ function updateNews() {
 updateNews();
 setInterval(updateNews, 60000);
 
-// ===== THREAT MAP STATS =====
-function updateThreatStats() {
-    ['usThreats', 'cnThreats', 'ruThreats', 'inThreats', 'ukThreats', 'deThreats'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            let val = parseInt(el.textContent.replace(/,/g, '')) || 1000;
-            val += Math.floor(Math.random() * 20) - 8;
-            el.textContent = Math.max(100, val).toLocaleString();
-        }
-    });
-}
-setInterval(updateThreatStats, 10000);
-
-// ===== CHARTS =====
+// ================================================================
+// 📊 CHARTS
+// ================================================================
 setTimeout(() => {
     try {
         new Chart(document.getElementById('threatChart'), {
@@ -175,7 +164,6 @@ function initThreatMap() {
         const container = document.getElementById('threatMap');
         if (!container) return;
 
-        // Initialize Map
         threatMap = L.map('threatMap', {
             center: [20, 0],
             zoom: 2,
@@ -184,13 +172,11 @@ function initThreatMap() {
             attributionControl: true
         });
 
-        // Tile Layer (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors',
             maxZoom: 19
         }).addTo(threatMap);
 
-        // Custom Icons for Threats
         const threatIcons = {
             high: L.divIcon({
                 className: 'threat-marker',
@@ -212,7 +198,7 @@ function initThreatMap() {
             })
         };
 
-        // Threat Locations Data
+        // Initial Threat Locations
         const threatLocations = [
             { lat: 40.7128, lng: -74.0060, country: '🇺🇸 USA', city: 'New York', threat: 'DDOS Attack', severity: 'high' },
             { lat: 34.0522, lng: -118.2437, country: '🇺🇸 USA', city: 'Los Angeles', threat: 'Ransomware', severity: 'high' },
@@ -237,7 +223,6 @@ function initThreatMap() {
                 loc.severity === 'medium' ? threatIcons.medium : threatIcons.low;
 
             const marker = L.marker([loc.lat, loc.lng], { icon: icon }).addTo(threatMap);
-            
             const popupContent = `
                 <div style="font-family:'Inter',sans-serif;padding:4px;">
                     <h4 style="margin:0 0 4px 0;color:#1B3A5C;font-size:14px;">${loc.country}</h4>
@@ -252,7 +237,6 @@ function initThreatMap() {
             threatMarkers.push({ marker: marker, location: loc });
         });
 
-        // Fit Bounds
         const group = L.featureGroup(threatMarkers.map(m => m.marker));
         threatMap.fitBounds(group.getBounds().pad(0.1));
 
@@ -276,48 +260,193 @@ function initThreatMap() {
     }
 }
 
-// ===== UPDATE THREAT MAP MARKERS =====
-function updateThreatMapMarkers() {
-    if (!threatMap || threatMarkers.length === 0) return;
-    threatMarkers.forEach((item, index) => {
-        const newSeverity = Math.random() > 0.7 ?
-            ['high', 'medium', 'low'][Math.floor(Math.random() * 3)] :
-            item.location.severity;
-        const popupContent = `
-            <div style="font-family:'Inter',sans-serif;padding:4px;">
-                <h4 style="margin:0 0 4px 0;color:#1B3A5C;font-size:14px;">${item.location.country}</h4>
-                <p style="margin:2px 0;font-size:12px;color:#4A5A6A;">
-                    🏙️ ${item.location.city}<br>
-                    ⚡ ${item.location.threat}<br>
-                    <span style="font-size:10px;color:#8A9AAA;">${newSeverity.toUpperCase()} RISK</span>
-                </p>
-            </div>
-        `;
-        item.marker.setPopupContent(popupContent);
-        const newColor = newSeverity === 'high' ? '#FF4444' :
-            newSeverity === 'medium' ? '#FFAA00' : '#44DD88';
-        const markerElement = item.marker._icon;
-        if (markerElement) {
-            const dot = markerElement.querySelector('div');
-            if (dot) { dot.style.background = newColor; }
-        }
-    });
+// ================================================================
+// 🔥 REAL-TIME THREAT GENERATOR
+// ================================================================
+
+function generateRealTimeThreat() {
+    const countries = [
+        { name: '🇺🇸 USA', city: 'New York', lat: 40.7128, lng: -74.0060 },
+        { name: '🇨🇳 China', city: 'Beijing', lat: 39.9042, lng: 116.4074 },
+        { name: '🇷🇺 Russia', city: 'Moscow', lat: 55.7558, lng: 37.6173 },
+        { name: '🇮🇳 India', city: 'Delhi', lat: 28.6139, lng: 77.2090 },
+        { name: '🇬🇧 UK', city: 'London', lat: 51.5074, lng: -0.1278 },
+        { name: '🇩🇪 Germany', city: 'Berlin', lat: 52.5200, lng: 13.4050 },
+        { name: '🇫🇷 France', city: 'Paris', lat: 48.8566, lng: 2.3522 },
+        { name: '🇯🇵 Japan', city: 'Tokyo', lat: 35.6895, lng: 139.6917 },
+        { name: '🇦🇺 Australia', city: 'Sydney', lat: -33.8688, lng: 151.2093 },
+        { name: '🇧🇷 Brazil', city: 'Sao Paulo', lat: -23.5505, lng: -46.6333 },
+        { name: '🇿🇦 South Africa', city: 'Cape Town', lat: -33.9249, lng: 18.4241 },
+        { name: '🇦🇪 UAE', city: 'Dubai', lat: 25.2048, lng: 55.2708 },
+        { name: '🇸🇬 Singapore', city: 'Singapore', lat: 1.3521, lng: 103.8198 },
+        { name: '🇰🇷 South Korea', city: 'Seoul', lat: 37.5665, lng: 126.9780 },
+        { name: '🇮🇱 Israel', city: 'Tel Aviv', lat: 32.0853, lng: 34.7818 }
+    ];
+    
+    const threats = [
+        'DDOS Attack', 'Ransomware Outbreak', 'Phishing Campaign', 
+        'Malware Infection', 'Data Breach', 'Zero-Day Exploit', 
+        'APT Attack', 'IoT Botnet', 'Credential Theft',
+        'DNS Hijacking', 'Email Spoofing', 'SQL Injection'
+    ];
+    
+    const severities = ['high', 'medium', 'low'];
+    const randomIndex = Math.floor(Math.random() * countries.length);
+    const country = countries[randomIndex];
+    
+    return {
+        country: country.name,
+        city: country.city,
+        lat: country.lat + (Math.random() - 0.5) * 2,
+        lng: country.lng + (Math.random() - 0.5) * 2,
+        threat: threats[Math.floor(Math.random() * threats.length)],
+        severity: severities[Math.floor(Math.random() * severities.length)],
+        time: new Date().toLocaleTimeString()
+    };
 }
 
 // ================================================================
-// 🚀 INIT THREAT MAP
+// 🎯 UPDATE THREAT MAP WITH REAL-TIME DATA
+// ================================================================
+
+function addRealTimeThreatToMap() {
+    if (!threatMap) return;
+    
+    const newThreat = generateRealTimeThreat();
+    
+    // Color based on severity
+    const colors = {
+        high: '#FF4444',
+        medium: '#FFAA00',
+        low: '#44DD88'
+    };
+    
+    // Create marker
+    const icon = L.divIcon({
+        className: 'threat-marker',
+        html: `<div style="background:${colors[newThreat.severity]};width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 30px ${colors[newThreat.severity]}80;animation:threat-pulse 1.5s ease-in-out infinite;"></div>`,
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+    });
+    
+    const marker = L.marker([newThreat.lat, newThreat.lng], { icon: icon }).addTo(threatMap);
+    
+    // Popup
+    const popupContent = `
+        <div style="font-family:'Inter',sans-serif;padding:6px;min-width:180px;">
+            <h4 style="margin:0 0 4px 0;color:#1B3A5C;font-size:15px;">🆕 ${newThreat.country}</h4>
+            <p style="margin:2px 0;font-size:13px;color:#4A5A6A;">
+                🏙️ ${newThreat.city}<br>
+                ⚡ <strong>${newThreat.threat}</strong><br>
+                ⏰ ${newThreat.time}<br>
+                <span style="font-size:11px;color:${colors[newThreat.severity]};font-weight:700;">
+                    ${newThreat.severity.toUpperCase()} RISK
+                </span>
+            </p>
+        </div>
+    `;
+    marker.bindPopup(popupContent);
+    marker.openPopup();
+    
+    // Auto remove after 30 seconds (बहुत सारे markers न होने के लिए)
+    setTimeout(() => {
+        if (threatMap && marker) {
+            threatMap.removeLayer(marker);
+        }
+    }, 30000);
+    
+    // Timeline Update
+    const timeline = document.getElementById('threatTimeline');
+    if (timeline) {
+        const emoji = { high: '🔴', medium: '🟡', low: '🟢' };
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.style.animation = 'fadeIn 0.5s ease';
+        item.innerHTML = `
+            <span class="timeline-time">${emoji[newThreat.severity]} JUST NOW</span>
+            <span class="timeline-event">${newThreat.threat} — ${newThreat.country}</span>
+        `;
+        timeline.insertBefore(item, timeline.firstChild);
+        if (timeline.children.length > 10) {
+            timeline.removeChild(timeline.lastChild);
+        }
+    }
+    
+    // Stats Update
+    const countryMap = {
+        '🇺🇸 USA': 'usThreats',
+        '🇨🇳 China': 'cnThreats',
+        '🇷🇺 Russia': 'ruThreats',
+        '🇮🇳 India': 'inThreats',
+        '🇬🇧 UK': 'ukThreats',
+        '🇩🇪 Germany': 'deThreats'
+    };
+    
+    const statId = countryMap[newThreat.country];
+    if (statId) {
+        const el = document.getElementById(statId);
+        if (el) {
+            let val = parseInt(el.textContent.replace(/,/g, '')) || 1000;
+            val += Math.floor(Math.random() * 5) + 1;
+            el.textContent = val.toLocaleString();
+        }
+    }
+    
+    // Total Threats
+    const totalThreats = document.getElementById('totalThreats');
+    if (totalThreats) {
+        let val = parseInt(totalThreats.textContent.replace(/,/g, '')) || 12847;
+        val += 1;
+        totalThreats.textContent = val.toLocaleString();
+    }
+    
+    // Active Attacks
+    const activeAttacks = document.getElementById('activeAttacks');
+    if (activeAttacks) {
+        let val = parseInt(activeAttacks.textContent.replace(/,/g, '')) || 342;
+        val += Math.floor(Math.random() * 3);
+        activeAttacks.textContent = val.toLocaleString();
+    }
+    
+    // Threat Level Update
+    const threatLevels = ['🟢 LOW', '🟡 MEDIUM', '🔴 HIGH'];
+    const randomLevel = threatLevels[Math.floor(Math.random() * threatLevels.length)];
+    document.getElementById('dashThreat').textContent = randomLevel;
+    
+    console.log('🆕 Real-Time Threat Added:', newThreat);
+}
+
+// ================================================================
+// 🚀 INIT THREAT MAP & REAL-TIME UPDATES
 // ================================================================
 
 if (document.readyState === 'complete') {
     setTimeout(initThreatMap, 500);
+    // Start Real-time updates after map loads
+    setTimeout(() => {
+        // Add initial real-time threats
+        for (let i = 0; i < 3; i++) {
+            setTimeout(addRealTimeThreatToMap, i * 2000);
+        }
+        // Add new threat every 8-15 seconds
+        setInterval(addRealTimeThreatToMap, 8000 + Math.random() * 7000);
+    }, 2000);
 } else {
     window.addEventListener('load', () => {
         setTimeout(initThreatMap, 500);
+        setTimeout(() => {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(addRealTimeThreatToMap, i * 2000);
+            }
+            setInterval(addRealTimeThreatToMap, 8000 + Math.random() * 7000);
+        }, 2000);
     });
 }
-setInterval(updateThreatMapMarkers, 15000);
 
-// ===== AI VISION =====
+// ================================================================
+// AI VISION FUNCTIONS
+// ================================================================
+
 function setVisionMode(m) {
     mode = m;
     document.querySelectorAll('.vision-mode').forEach(b => b.classList.remove('active'));
@@ -463,7 +592,10 @@ function liveWikipediaPage() {
     window.open('https://en.wikipedia.org/wiki/' + encodeURIComponent(obj), '_blank');
 }
 
-// ===== OSINT FUNCTIONS =====
+// ================================================================
+// OSINT & SECURITY FUNCTIONS
+// ================================================================
+
 function runDork() { runOSINT('dorkInput', 'dorkResult', 'GOOGLE DORKING'); }
 function runShodan() { runOSINT('shodanInput', 'shodanResult', 'SHODAN'); }
 function runCensys() { runOSINT('censysInput', 'censysResult', 'CENSYS'); }
@@ -489,7 +621,6 @@ function runOSINT(inputId, resultId, name) {
     }, 1500 + Math.random() * 1000);
 }
 
-// ===== SECURITY FUNCTIONS =====
 function runAIAnalysis() { runSecurity('aiInput', 'aiResult', 'AI THREAT ANALYSIS'); }
 function runDarkWebMonitor() { runSecurity('darkWebInput', 'darkWebResult', 'DARK WEB MONITOR'); }
 function runVulnScan() { runSecurity('vulnInput', 'vulnResult', 'VULNERABILITY SCAN'); }
@@ -536,5 +667,29 @@ function exportReport(format) {
     }
 }
 
-console.log('%c⚡ MK CYBER HUB v7.2 — WITH LIVE MAP', 'font-size:20px;color:#1B3A5C;font-weight:900');
+// ================================================================
+// CSS ANIMATION FOR TIMELINE
+// ================================================================
+
+const style = document.createElement('style');
+style.textContent = `
+    .timeline-item {
+        animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    .threat-marker {
+        animation: threat-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes threat-pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.3); opacity: 0.7; }
+    }
+`;
+document.head.appendChild(style);
+
+console.log('%c⚡ MK CYBER HUB v7.2 — WITH REAL-TIME THREAT MAP', 'font-size:20px;color:#1B3A5C;font-weight:900');
+console.log('%c🔥 Real-time threats will appear every 8-15 seconds', 'font-size:14px;color:#FF4444');
 console.log('%c🗺️ Interactive Threat Map Loaded', 'font-size:14px;color:#00D4FF');
