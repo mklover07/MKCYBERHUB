@@ -19,6 +19,13 @@
 ### Live Demo:
 [https://mkcyberhub.vercel.app](https://mkcyberhub.vercel.app)
 
+### Tech Stack:
+- HTML5, CSS3, JavaScript
+- TensorFlow.js + COCO-SSD
+- Three.js (3D Globe)
+- Chart.js (Analytics)
+- Font Awesome Icons
+
 ---
 
 © MK GLOBAL NEXUS. ALL RIGHTS RESERVED.
