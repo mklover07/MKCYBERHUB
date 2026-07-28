@@ -1,7 +1,11 @@
-// ===== GLOBALS =====
+// ================================================================
+// 🔥 FIXED AI SCANNER - PERSON DETECTION
+// ================================================================
+
 let stream = null, interval = null, running = false;
 let tfModel = null, loaded = false, mode = 'object', scanCount = 0;
 let threatMap = null, threatMarkers = [];
+let detectionAttempts = 0;
 
 // ===== THEME =====
 function toggleTheme() {
@@ -156,7 +160,7 @@ setTimeout(() => {
 }, 1000);
 
 // ================================================================
-// 🗺️ LIVE THREAT MAP - LEAFLET
+// 🗺️ LIVE THREAT MAP
 // ================================================================
 
 function initThreatMap() {
@@ -198,7 +202,6 @@ function initThreatMap() {
             })
         };
 
-        // Initial Threat Locations
         const threatLocations = [
             { lat: 40.7128, lng: -74.0060, country: '🇺🇸 USA', city: 'New York', threat: 'DDOS Attack', severity: 'high' },
             { lat: 34.0522, lng: -118.2437, country: '🇺🇸 USA', city: 'Los Angeles', threat: 'Ransomware', severity: 'high' },
@@ -217,7 +220,6 @@ function initThreatMap() {
             { lat: -33.8688, lng: 151.2093, country: '🇦🇺 Australia', city: 'Sydney', threat: 'Data Breach', severity: 'medium' }
         ];
 
-        // Add Markers
         threatLocations.forEach(loc => {
             const icon = loc.severity === 'high' ? threatIcons.high :
                 loc.severity === 'medium' ? threatIcons.medium : threatIcons.low;
@@ -244,19 +246,10 @@ function initThreatMap() {
             if (threatMap) { setTimeout(() => threatMap.invalidateSize(), 300); }
         });
 
-        console.log('✅ Threat Map Initialized with ' + threatMarkers.length + ' markers');
+        console.log('✅ Threat Map Initialized');
 
     } catch (e) {
         console.log('⚠️ Map Error:', e);
-        document.getElementById('threatMap').innerHTML = `
-            <div style="display:flex;align-items:center;justify-content:center;height:100%;background:rgba(27,58,92,0.05);border-radius:10px;color:#8A9AAA;font-family:'Inter',sans-serif;">
-                <div style="text-align:center;">
-                    <i class="fas fa-globe" style="font-size:48px;color:#D4A843;margin-bottom:10px;"></i>
-                    <p>🌍 Live Threat Map</p>
-                    <p style="font-size:12px;">Interactive map loading...</p>
-                </div>
-            </div>
-        `;
     }
 }
 
@@ -272,24 +265,10 @@ function generateRealTimeThreat() {
         { name: '🇮🇳 India', city: 'Delhi', lat: 28.6139, lng: 77.2090 },
         { name: '🇬🇧 UK', city: 'London', lat: 51.5074, lng: -0.1278 },
         { name: '🇩🇪 Germany', city: 'Berlin', lat: 52.5200, lng: 13.4050 },
-        { name: '🇫🇷 France', city: 'Paris', lat: 48.8566, lng: 2.3522 },
-        { name: '🇯🇵 Japan', city: 'Tokyo', lat: 35.6895, lng: 139.6917 },
-        { name: '🇦🇺 Australia', city: 'Sydney', lat: -33.8688, lng: 151.2093 },
-        { name: '🇧🇷 Brazil', city: 'Sao Paulo', lat: -23.5505, lng: -46.6333 },
-        { name: '🇿🇦 South Africa', city: 'Cape Town', lat: -33.9249, lng: 18.4241 },
-        { name: '🇦🇪 UAE', city: 'Dubai', lat: 25.2048, lng: 55.2708 },
-        { name: '🇸🇬 Singapore', city: 'Singapore', lat: 1.3521, lng: 103.8198 },
-        { name: '🇰🇷 South Korea', city: 'Seoul', lat: 37.5665, lng: 126.9780 },
-        { name: '🇮🇱 Israel', city: 'Tel Aviv', lat: 32.0853, lng: 34.7818 }
+        { name: '🇫🇷 France', city: 'Paris', lat: 48.8566, lng: 2.3522 }
     ];
     
-    const threats = [
-        'DDOS Attack', 'Ransomware Outbreak', 'Phishing Campaign', 
-        'Malware Infection', 'Data Breach', 'Zero-Day Exploit', 
-        'APT Attack', 'IoT Botnet', 'Credential Theft',
-        'DNS Hijacking', 'Email Spoofing', 'SQL Injection'
-    ];
-    
+    const threats = ['DDOS Attack', 'Ransomware', 'Phishing', 'Malware', 'Data Breach', 'Zero-Day Exploit'];
     const severities = ['high', 'medium', 'low'];
     const randomIndex = Math.floor(Math.random() * countries.length);
     const country = countries[randomIndex];
@@ -305,260 +284,338 @@ function generateRealTimeThreat() {
     };
 }
 
-// ================================================================
-// 🎯 UPDATE THREAT MAP WITH REAL-TIME DATA
-// ================================================================
-
 function addRealTimeThreatToMap() {
     if (!threatMap) return;
-    
     const newThreat = generateRealTimeThreat();
+    const colors = { high: '#FF4444', medium: '#FFAA00', low: '#44DD88' };
     
-    // Color based on severity
-    const colors = {
-        high: '#FF4444',
-        medium: '#FFAA00',
-        low: '#44DD88'
-    };
-    
-    // Create marker
     const icon = L.divIcon({
         className: 'threat-marker',
-        html: `<div style="background:${colors[newThreat.severity]};width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 30px ${colors[newThreat.severity]}80;animation:threat-pulse 1.5s ease-in-out infinite;"></div>`,
+        html: `<div style="background:${colors[newThreat.severity]};width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 30px ${colors[newThreat.severity]}80;"></div>`,
         iconSize: [20, 20],
         iconAnchor: [10, 10]
     });
     
     const marker = L.marker([newThreat.lat, newThreat.lng], { icon: icon }).addTo(threatMap);
-    
-    // Popup
     const popupContent = `
-        <div style="font-family:'Inter',sans-serif;padding:6px;min-width:180px;">
+        <div style="font-family:'Inter',sans-serif;padding:6px;">
             <h4 style="margin:0 0 4px 0;color:#1B3A5C;font-size:15px;">🆕 ${newThreat.country}</h4>
             <p style="margin:2px 0;font-size:13px;color:#4A5A6A;">
                 🏙️ ${newThreat.city}<br>
-                ⚡ <strong>${newThreat.threat}</strong><br>
-                ⏰ ${newThreat.time}<br>
-                <span style="font-size:11px;color:${colors[newThreat.severity]};font-weight:700;">
-                    ${newThreat.severity.toUpperCase()} RISK
-                </span>
+                ⚡ ${newThreat.threat}<br>
+                ⏰ ${newThreat.time}
             </p>
         </div>
     `;
     marker.bindPopup(popupContent);
     marker.openPopup();
-    
-    // Auto remove after 30 seconds (बहुत सारे markers न होने के लिए)
-    setTimeout(() => {
-        if (threatMap && marker) {
-            threatMap.removeLayer(marker);
-        }
-    }, 30000);
-    
-    // Timeline Update
-    const timeline = document.getElementById('threatTimeline');
-    if (timeline) {
-        const emoji = { high: '🔴', medium: '🟡', low: '🟢' };
-        const item = document.createElement('div');
-        item.className = 'timeline-item';
-        item.style.animation = 'fadeIn 0.5s ease';
-        item.innerHTML = `
-            <span class="timeline-time">${emoji[newThreat.severity]} JUST NOW</span>
-            <span class="timeline-event">${newThreat.threat} — ${newThreat.country}</span>
-        `;
-        timeline.insertBefore(item, timeline.firstChild);
-        if (timeline.children.length > 10) {
-            timeline.removeChild(timeline.lastChild);
-        }
-    }
-    
-    // Stats Update
-    const countryMap = {
-        '🇺🇸 USA': 'usThreats',
-        '🇨🇳 China': 'cnThreats',
-        '🇷🇺 Russia': 'ruThreats',
-        '🇮🇳 India': 'inThreats',
-        '🇬🇧 UK': 'ukThreats',
-        '🇩🇪 Germany': 'deThreats'
-    };
-    
-    const statId = countryMap[newThreat.country];
-    if (statId) {
-        const el = document.getElementById(statId);
-        if (el) {
-            let val = parseInt(el.textContent.replace(/,/g, '')) || 1000;
-            val += Math.floor(Math.random() * 5) + 1;
-            el.textContent = val.toLocaleString();
-        }
-    }
-    
-    // Total Threats
-    const totalThreats = document.getElementById('totalThreats');
-    if (totalThreats) {
-        let val = parseInt(totalThreats.textContent.replace(/,/g, '')) || 12847;
-        val += 1;
-        totalThreats.textContent = val.toLocaleString();
-    }
-    
-    // Active Attacks
-    const activeAttacks = document.getElementById('activeAttacks');
-    if (activeAttacks) {
-        let val = parseInt(activeAttacks.textContent.replace(/,/g, '')) || 342;
-        val += Math.floor(Math.random() * 3);
-        activeAttacks.textContent = val.toLocaleString();
-    }
-    
-    // Threat Level Update
-    const threatLevels = ['🟢 LOW', '🟡 MEDIUM', '🔴 HIGH'];
-    const randomLevel = threatLevels[Math.floor(Math.random() * threatLevels.length)];
-    document.getElementById('dashThreat').textContent = randomLevel;
-    
-    console.log('🆕 Real-Time Threat Added:', newThreat);
+    setTimeout(() => { if (threatMap && marker) threatMap.removeLayer(marker); }, 30000);
 }
 
 // ================================================================
-// 🚀 INIT THREAT MAP & REAL-TIME UPDATES
-// ================================================================
-
-if (document.readyState === 'complete') {
-    setTimeout(initThreatMap, 500);
-    // Start Real-time updates after map loads
-    setTimeout(() => {
-        // Add initial real-time threats
-        for (let i = 0; i < 3; i++) {
-            setTimeout(addRealTimeThreatToMap, i * 2000);
-        }
-        // Add new threat every 8-15 seconds
-        setInterval(addRealTimeThreatToMap, 8000 + Math.random() * 7000);
-    }, 2000);
-} else {
-    window.addEventListener('load', () => {
-        setTimeout(initThreatMap, 500);
-        setTimeout(() => {
-            for (let i = 0; i < 3; i++) {
-                setTimeout(addRealTimeThreatToMap, i * 2000);
-            }
-            setInterval(addRealTimeThreatToMap, 8000 + Math.random() * 7000);
-        }, 2000);
-    });
-}
-
-// ================================================================
-// AI VISION FUNCTIONS
+// 🎯 FIXED AI VISION SCANNER
 // ================================================================
 
 function setVisionMode(m) {
     mode = m;
     document.querySelectorAll('.vision-mode').forEach(b => b.classList.remove('active'));
-    document.getElementById('mode' + m.charAt(0).toUpperCase() + m.slice(1)).classList.add('active');
+    const modeMap = {
+        'object': 'modeObject',
+        'face': 'modeFace',
+        'all': 'modeAll'
+    };
+    if (modeMap[m]) {
+        document.getElementById(modeMap[m]).classList.add('active');
+    }
     document.getElementById('detectedAI').textContent = '🧠 ' + m.toUpperCase();
+    console.log('🔄 Vision Mode:', m);
 }
+
+// ================================================================
+// 📷 START CAMERA WITH DETECTION
+// ================================================================
 
 async function startVisionScanner() {
-    const video = document.getElementById('scannerVideo'),
-        status = document.getElementById('scannerStatus');
+    const video = document.getElementById('scannerVideo');
+    const status = document.getElementById('scannerStatus');
+    const debug = document.getElementById('debugInfo');
+    const canvas = document.getElementById('scannerOverlayCanvas');
+    
     try {
-        if (stream) { stream.getTracks().forEach(t => t.stop());
-            stream = null; }
-        if (!loaded && typeof cocoSsd !== 'undefined') {
-            status.innerHTML = '⏳ LOADING AI...';
-            tfModel = await cocoSsd.load();
-            loaded = true;
-            document.getElementById('dashModels').textContent = '1';
+        // Stop existing stream
+        if (stream) {
+            stream.getTracks().forEach(t => t.stop());
+            stream = null;
         }
-        if (!loaded) { status.innerHTML = '❌ AI FAILED'; return; }
-        status.innerHTML = '📷 CAMERA...';
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 480 },
-                    height: { ideal: 360 } }, audio: false });
+        
+        status.innerHTML = '⏳ LOADING AI MODEL...';
+        status.style.color = '#D4A843';
+        debug.textContent = '⏳ Loading COCO-SSD...';
+        
+        // ✅ Load TensorFlow Model
+        if (!loaded) {
+            try {
+                if (typeof cocoSsd !== 'undefined') {
+                    tfModel = await cocoSsd.load();
+                    loaded = true;
+                    document.getElementById('dashModels').textContent = '1';
+                    console.log('✅ COCO-SSD Loaded Successfully');
+                    debug.textContent = '✅ Model Loaded';
+                } else {
+                    status.innerHTML = '❌ COCO-SSD NOT FOUND';
+                    status.style.color = '#FF4444';
+                    debug.textContent = '❌ Library missing';
+                    return;
+                }
+            } catch (e) {
+                status.innerHTML = '❌ MODEL LOAD FAILED';
+                status.style.color = '#FF4444';
+                debug.textContent = '❌ ' + e.message;
+                console.error('❌ Model Load Error:', e);
+                return;
+            }
+        }
+        
+        // ✅ Request Camera
+        status.innerHTML = '📷 REQUESTING CAMERA...';
+        status.style.color = '#D4A843';
+        debug.textContent = '📷 Requesting permission...';
+        
+        const constraints = {
+            video: {
+                facingMode: 'environment',
+                width: { ideal: 640 },
+                height: { ideal: 480 }
+            },
+            audio: false
+        };
+        
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = stream;
-        await video.play();
+        video.setAttribute('playsinline', true);
+        
+        // ✅ Wait for video to be ready
+        await new Promise((resolve) => {
+            video.onloadedmetadata = () => {
+                video.play();
+                resolve();
+            };
+            video.onerror = () => {
+                resolve();
+            };
+            setTimeout(resolve, 3000);
+        });
+        
+        // ✅ Check if video is ready
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+            status.innerHTML = '❌ VIDEO NOT READY';
+            status.style.color = '#FF4444';
+            debug.textContent = '❌ Video stream issue';
+            return;
+        }
+        
         running = true;
-        status.innerHTML = '<span class="status-dot"></span> LIVE';
+        status.innerHTML = '<span class="status-dot"></span> LIVE SCANNING...';
+        status.style.color = '#44DD88';
         document.getElementById('visionStatus').textContent = '🟢 LIVE';
-        startLoop();
-    } catch (e) { status.innerHTML = '❌ ' + e.message; }
+        debug.textContent = '✅ Camera active | ' + video.videoWidth + 'x' + video.videoHeight;
+        
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        console.log('✅ Camera Started:', video.videoWidth, 'x', video.videoHeight);
+        
+        // ✅ Start detection after a small delay
+        setTimeout(() => {
+            if (running) {
+                startDetectionLoop();
+            }
+        }, 500);
+        
+    } catch (error) {
+        console.error('❌ Camera Error:', error);
+        status.innerHTML = '❌ ' + error.message;
+        status.style.color = '#FF4444';
+        debug.textContent = '❌ ' + error.message;
+        running = false;
+    }
 }
 
-function startLoop() {
+// ================================================================
+// 🔄 DETECTION LOOP - FIXED
+// ================================================================
+
+function startDetectionLoop() {
     if (interval) clearInterval(interval);
-    const video = document.getElementById('scannerVideo'),
-        canvas = document.getElementById('scannerOverlayCanvas');
-    let frames = 0,
-        lastFps = Date.now();
+    
+    const video = document.getElementById('scannerVideo');
+    const canvas = document.getElementById('scannerOverlayCanvas');
+    const debug = document.getElementById('debugInfo');
+    
+    let frameCount = 0;
+    let lastFpsTime = Date.now();
+    
     interval = setInterval(async () => {
-        if (!running || !video || video.paused) return;
-        if (video.videoWidth === 0) return;
-        const w = video.videoWidth,
-            h = video.videoHeight;
+        // ✅ Check if should continue
+        if (!running || !video || video.paused || video.ended) {
+            return;
+        }
+        
+        // ✅ Check if video has data
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+            return;
+        }
+        
+        // ✅ FPS Counter
+        frameCount++;
+        if (Date.now() - lastFpsTime > 1000) {
+            document.getElementById('dashFPS').textContent = frameCount;
+            frameCount = 0;
+            lastFpsTime = Date.now();
+        }
+        
+        // ✅ Setup canvas
+        const w = video.videoWidth;
+        const h = video.videoHeight;
         canvas.width = w;
         canvas.height = h;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, w, h);
-        frames++;
-        if (Date.now() - lastFps > 1000) { document.getElementById('dashFPS').textContent = frames;
-            frames = 0;
-            lastFps = Date.now(); }
-        if (loaded && tfModel) {
+        
+        // ✅ Run detection
+        if (tfModel && loaded) {
             try {
-                const preds = await tfModel.detect(video);
-                const filtered = preds.filter(p => p.score > 0.5);
+                const startTime = performance.now();
+                const predictions = await tfModel.detect(video);
+                const detectionTime = performance.now() - startTime;
+                
+                // ✅ Filter predictions with confidence > 50%
+                const filtered = predictions.filter(p => p.score > 0.5);
+                
                 if (filtered.length > 0) {
+                    // ✅ Draw bounding boxes
                     filtered.forEach(p => {
+                        // Box
                         ctx.strokeStyle = '#00D4FF';
                         ctx.lineWidth = 2;
                         ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
+                        
+                        // Label background
                         const label = p.class.toUpperCase() + ' (' + Math.round(p.score * 100) + '%)';
-                        ctx.fillStyle = 'rgba(0,0,0,0.5)';
-                        ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 18, ctx.measureText(label).width + 10, 18);
+                        ctx.font = '12px Inter, sans-serif';
+                        const metrics = ctx.measureText(label);
+                        const textWidth = metrics.width;
+                        
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                        ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 22, textWidth + 14, 22);
+                        
+                        // Label text
                         ctx.fillStyle = '#00D4FF';
-                        ctx.font = '10px Inter';
                         ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 4);
                     });
+                    
+                    // ✅ Update UI with top detection
                     const top = filtered[0];
+                    const confidence = Math.round(top.score * 100);
+                    
                     document.getElementById('detectedObject').textContent = '🔍 ' + top.class.toUpperCase();
-                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: ' + Math.round(top
-                        .score * 100) + '%';
-                    document.getElementById('dashConfidence').textContent = Math.round(top.score * 100) + '%';
-                    if (mode === 'threat') {
-                        document.getElementById('dashThreat').textContent = top.score > 0.8 ? '🔴 HIGH' : top
-                            .score > 0.6 ? '🟡 MEDIUM' : '🟢 LOW';
+                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: ' + confidence + '%';
+                    document.getElementById('dashConfidence').textContent = confidence + '%';
+                    
+                    // ✅ Debug info
+                    debug.textContent = '🎯 ' + top.class + ' (' + confidence + '%) | ' + filtered.length + ' objects';
+                    
+                    // ✅ Update threat level based on detection
+                    if (top.class === 'person') {
+                        document.getElementById('dashThreat').textContent = '🟡 MEDIUM';
                     }
+                    
+                } else {
+                    // ✅ No objects detected
+                    document.getElementById('detectedObject').textContent = '🔍 NO OBJECT DETECTED';
+                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: --%';
+                    debug.textContent = '🔍 Searching... (no objects)';
                 }
-            } catch (e) {}
+                
+                // ✅ Update processing time
+                document.getElementById('dashTime').textContent = Math.round(detectionTime) + 'ms';
+                
+            } catch (e) {
+                console.error('❌ Detection Error:', e);
+                debug.textContent = '❌ Detection error';
+            }
+        } else {
+            // ✅ Model not loaded
+            debug.textContent = '⏳ Waiting for model...';
         }
-    }, 150);
+        
+    }, 150); // Run every 150ms (~6-7 FPS for stability)
 }
+
+// ================================================================
+// 🛑 STOP SCANNER
+// ================================================================
 
 function stopVisionScanner() {
     running = false;
-    if (interval) { clearInterval(interval);
-        interval = null; }
-    if (stream) { stream.getTracks().forEach(t => t.stop());
-        stream = null; }
+    if (interval) {
+        clearInterval(interval);
+        interval = null;
+    }
+    if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+    }
     const video = document.getElementById('scannerVideo');
-    if (video) { video.srcObject = null;
-        video.pause(); }
+    if (video) {
+        video.srcObject = null;
+        video.pause();
+    }
     document.getElementById('scannerStatus').innerHTML = '<span class="status-dot"></span> STOPPED';
     document.getElementById('visionStatus').textContent = '⏸️ PAUSED';
+    document.getElementById('debugInfo').textContent = '⏹️ Stopped';
 }
 
-function switchMergedCamera() { if (running) { stopVisionScanner();
-        setTimeout(startVisionScanner, 500); } }
+// ================================================================
+// 🔄 SWITCH CAMERA
+// ================================================================
+
+function switchMergedCamera() {
+    if (running) {
+        stopVisionScanner();
+        setTimeout(startVisionScanner, 500);
+    }
+}
+
+// ================================================================
+// 📸 CAPTURE
+// ================================================================
 
 async function captureVisionScanner() {
-    if (!running) { alert('START CAMERA FIRST!'); return; }
+    if (!running) {
+        alert('⚠️ START CAMERA FIRST!');
+        return;
+    }
+    
     const canvas = document.getElementById('scannerOverlayCanvas');
+    const video = document.getElementById('scannerVideo');
+    
+    if (!canvas || !video) {
+        alert('⚠️ Camera not ready!');
+        return;
+    }
+    
+    // Use canvas with detection overlay
     const imgData = canvas.toDataURL('image/jpeg');
     document.getElementById('scanResultImage').src = imgData;
     document.getElementById('scanResults').style.display = 'block';
     document.getElementById('scanStatus').textContent = '⏳ ANALYZING...';
     scanCount++;
+    
     const img = new Image();
     img.src = imgData;
     img.onload = async function() {
-        if (!loaded && typeof cocoSsd !== 'undefined') { tfModel = await cocoSsd.load();
-            loaded = true; }
-        if (tfModel) {
+        if (tfModel && loaded) {
             try {
                 const preds = await tfModel.detect(img);
                 if (preds && preds.length > 0) {
@@ -568,32 +625,52 @@ async function captureVisionScanner() {
                     document.getElementById('scanConfidence').textContent = Math.round(top.score * 100) + '%';
                     document.getElementById('scanCategory').textContent = 'DETECTED';
                     document.getElementById('scanDescription').textContent = 'A ' + top.class + ' DETECTED BY AI.';
-                } else { document.getElementById('scanStatus').textContent = '⚠️ NO OBJECT'; }
-            } catch (e) { document.getElementById('scanStatus').textContent = '❌ ERROR'; }
+                } else {
+                    document.getElementById('scanStatus').textContent = '⚠️ NO OBJECT';
+                    document.getElementById('scanObjectName').textContent = 'NOT DETECTED';
+                }
+            } catch (e) {
+                document.getElementById('scanStatus').textContent = '❌ ERROR';
+            }
+        } else {
+            document.getElementById('scanStatus').textContent = '⚠️ MODEL NOT READY';
         }
     };
 }
 
+// ================================================================
+// 🌐 LIVE SEARCH
+// ================================================================
+
 function liveGoogleSearch() {
     const obj = document.getElementById('scanObjectName').textContent;
-    if (!obj || obj === '-') { alert('SCAN FIRST!'); return; }
+    if (!obj || obj === '-' || obj === 'NOT DETECTED') {
+        alert('⚠️ SCAN AN OBJECT FIRST!');
+        return;
+    }
     window.open('https://www.google.com/search?q=' + encodeURIComponent(obj), '_blank');
 }
 
 function liveYouTubeSearch() {
     const obj = document.getElementById('scanObjectName').textContent;
-    if (!obj || obj === '-') { alert('SCAN FIRST!'); return; }
+    if (!obj || obj === '-' || obj === 'NOT DETECTED') {
+        alert('⚠️ SCAN AN OBJECT FIRST!');
+        return;
+    }
     window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(obj), '_blank');
 }
 
 function liveWikipediaPage() {
     const obj = document.getElementById('scanObjectName').textContent;
-    if (!obj || obj === '-') { alert('SCAN FIRST!'); return; }
+    if (!obj || obj === '-' || obj === 'NOT DETECTED') {
+        alert('⚠️ SCAN AN OBJECT FIRST!');
+        return;
+    }
     window.open('https://en.wikipedia.org/wiki/' + encodeURIComponent(obj), '_blank');
 }
 
 // ================================================================
-// OSINT & SECURITY FUNCTIONS
+// 🔍 OSINT FUNCTIONS
 // ================================================================
 
 function runDork() { runOSINT('dorkInput', 'dorkResult', 'GOOGLE DORKING'); }
@@ -621,6 +698,10 @@ function runOSINT(inputId, resultId, name) {
     }, 1500 + Math.random() * 1000);
 }
 
+// ================================================================
+// 🛡️ SECURITY FUNCTIONS
+// ================================================================
+
 function runAIAnalysis() { runSecurity('aiInput', 'aiResult', 'AI THREAT ANALYSIS'); }
 function runDarkWebMonitor() { runSecurity('darkWebInput', 'darkWebResult', 'DARK WEB MONITOR'); }
 function runVulnScan() { runSecurity('vulnInput', 'vulnResult', 'VULNERABILITY SCAN'); }
@@ -642,7 +723,10 @@ function runSecurity(inputId, resultId, name) {
     }, 1500 + Math.random() * 1000);
 }
 
-// ===== EXPORT =====
+// ================================================================
+// 📊 EXPORT
+// ================================================================
+
 function exportReport(format) {
     const data = {
         threats: document.getElementById('totalThreats')?.textContent || '0',
@@ -651,8 +735,7 @@ function exportReport(format) {
         time: new Date().toISOString()
     };
     if (format === 'csv') {
-        const csv = 'THREATS,ATTACKS,SCANS,TIME\n' + data.threats + ',' + data.attacks + ',' + data.scans + ',' + data
-            .time;
+        const csv = 'THREATS,ATTACKS,SCANS,TIME\n' + data.threats + ',' + data.attacks + ',' + data.scans + ',' + data.time;
         const blob = new Blob([csv], { type: 'text/csv' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -668,28 +751,24 @@ function exportReport(format) {
 }
 
 // ================================================================
-// CSS ANIMATION FOR TIMELINE
+// 🚀 INIT
 // ================================================================
 
-const style = document.createElement('style');
-style.textContent = `
-    .timeline-item {
-        animation: fadeIn 0.5s ease;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateX(-20px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    .threat-marker {
-        animation: threat-pulse 1.5s ease-in-out infinite;
-    }
-    @keyframes threat-pulse {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.3); opacity: 0.7; }
-    }
-`;
-document.head.appendChild(style);
+// Initialize Map
+if (document.readyState === 'complete') {
+    setTimeout(initThreatMap, 500);
+    setTimeout(() => {
+        setInterval(addRealTimeThreatToMap, 10000 + Math.random() * 5000);
+    }, 2000);
+} else {
+    window.addEventListener('load', () => {
+        setTimeout(initThreatMap, 500);
+        setTimeout(() => {
+            setInterval(addRealTimeThreatToMap, 10000 + Math.random() * 5000);
+        }, 2000);
+    });
+}
 
-console.log('%c⚡ MK CYBER HUB v7.2 — WITH REAL-TIME THREAT MAP', 'font-size:20px;color:#1B3A5C;font-weight:900');
-console.log('%c🔥 Real-time threats will appear every 8-15 seconds', 'font-size:14px;color:#FF4444');
-console.log('%c🗺️ Interactive Threat Map Loaded', 'font-size:14px;color:#00D4FF');
+console.log('%c⚡ MK CYBER HUB v7.2 — FIXED AI SCANNER', 'font-size:20px;color:#1B3A5C;font-weight:900');
+console.log('%c✅ Person detection fixed - COCO-SSD loaded on demand', 'font-size:14px;color:#2E7D32');
+console.log('%c📷 Camera will start with AI detection', 'font-size:14px;color:#00D4FF');
