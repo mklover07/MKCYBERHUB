@@ -5,1363 +5,261 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>MK CYBER HUB — Enterprise Cyber Intelligence</title>
     
-    <!-- Brand Meta -->
     <meta name="author" content="MANOJ MEENA, MK GLOBAL NEXUS" />
     <meta name="description" content="MK CYBER HUB — Enterprise Cyber Intelligence Platform" />
-    <meta name="copyright" content="© MK GLOBAL NEXUS. All Rights Reserved." />
     <meta name="theme-color" content="#1B3A5C" />
-    
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     
-    <!-- CSS -->
+    <!-- CSS - Minified & Optimized -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
     
-    <!-- Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@latest"></script>
+    <!-- Libraries - Async Load -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest" defer></script>
 
     <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        :root {
-            --primary: #1B3A5C;
-            --primary-light: #2A5A7A;
-            --accent: #00D4FF;
-            --gold: #D4A843;
-            --success: #2E7D32;
-            --danger: #C62828;
-            --text-light: #E8EDF2;
-            --text-muted: #8A9AAA;
-            --bg-dark: #0B1A2A;
-            --bg-card: rgba(27, 58, 92, 0.08);
-            --border-light: rgba(27, 58, 92, 0.12);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            --radius: 16px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: var(--font);
-            background: #F0F4F8;
-            color: #1A1A2E;
-            min-height: 100vh;
-            transition: background var(--transition), color var(--transition);
-            overflow-x: hidden;
-        }
-        body.dark-mode {
-            background: #0B1A2A;
-            color: #E8EDF2;
-        }
-        body.dark-mode .corporate-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.06);
-        }
-        body.dark-mode .corporate-header {
-            background: rgba(11, 26, 42, 0.92);
-            border-bottom-color: rgba(255, 255, 255, 0.06);
-        }
-        body.dark-mode .corporate-footer {
-            background: #06101A;
-            border-top-color: rgba(255, 255, 255, 0.06);
-        }
-        body.dark-mode .corp-input {
-            background: rgba(255, 255, 255, 0.06);
-            color: #E8EDF2;
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-        body.dark-mode .result-corp {
-            background: rgba(255, 255, 255, 0.04);
-            color: #C8D0D8;
-        }
-        body.dark-mode .hero-desc,
-        body.dark-mode .hero-tagline {
-            color: #B0C0D0;
-        }
-        body.dark-mode .hero-stat-label {
-            color: #8A9AAA;
-        }
-        body.dark-mode .section-header-corp h2 {
-            color: #E8EDF2;
-        }
-        body.dark-mode .founder-bio-corp {
-            color: #C8D0D8;
-        }
-        body.dark-mode .founder-title-corp {
-            color: #8A9AAA;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(27, 58, 92, 0.06);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        body.dark-mode ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.04);
-        }
-        body.dark-mode ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-        }
-
+        /* ===== FAST & LIGHT CSS ===== */
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary:#1B3A5C;--accent:#00D4FF;--gold:#D4A843;--text-muted:#8A9AAA}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:#F0F4F8;color:#1A1A2E;transition:background 0.3s,color 0.3s}
+        body.dark-mode{background:#0B1A2A;color:#E8EDF2}
+        
         /* ===== HEADER ===== */
-        .corporate-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-light);
-            padding: 0 24px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            transition: background var(--transition);
-        }
-        .header-container {
-            width: 100%;
-            max-width: 1440px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .logo-icon {
-            font-size: 20px;
-            color: var(--gold);
-        }
-        .logo-text {
-            color: var(--primary);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .logo-highlight {
-            color: var(--gold);
-        }
-        .brand-badge {
-            background: var(--primary);
-            color: #fff;
-            font-size: 9px;
-            font-weight: 700;
-            padding: 2px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .brand-divider {
-            color: var(--text-muted);
-            font-weight: 300;
-            opacity: 0.4;
-        }
-        .division-name {
-            font-weight: 600;
-            color: var(--accent);
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        .header-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #44DD88;
-            animation: pulse-dot 1.8s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-        .theme-toggle-corp {
-            background: none;
-            border: none;
-            font-size: 16px;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 8px;
-            transition: background var(--transition);
-        }
-        .theme-toggle-corp:hover {
-            background: rgba(0, 0, 0, 0.06);
-        }
-        body.dark-mode .theme-toggle-corp:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        /* ===== 3D GLOBE ===== */
-        #globe-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.06;
-        }
-        body.dark-mode #globe-container {
-            opacity: 0.10;
-        }
-
+        .corporate-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(27,58,92,0.08);padding:0 20px;height:56px;display:flex;align-items:center}
+        .header-container{width:100%;max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+        .logo-section{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+        .logo-text{color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:0.3px}
+        .logo-highlight{color:var(--gold)}
+        .division-name{font-weight:600;color:var(--accent);font-size:12px;text-transform:uppercase}
+        .brand-badge{background:var(--primary);color:#fff;font-size:8px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+        .header-right{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text-muted)}
+        .status-indicator{width:7px;height:7px;border-radius:50%;background:#44DD88;animation:pulse-dot 2s ease-in-out infinite;display:inline-block}
+        @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+        .theme-toggle-corp{background:none;border:none;font-size:15px;color:var(--text-muted);cursor:pointer;padding:4px 6px;border-radius:6px}
+        .theme-toggle-corp:hover{background:rgba(0,0,0,0.05)}
+        body.dark-mode .theme-toggle-corp:hover{background:rgba(255,255,255,0.05)}
+        
+        /* ===== GLOBE - LIGHTWEIGHT ===== */
+        #globe-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.04}
+        body.dark-mode #globe-container{opacity:0.06}
+        
         /* ===== MAIN ===== */
-        .corporate-main {
-            position: relative;
-            z-index: 1;
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 80px 24px 40px;
-        }
-
+        .corporate-main{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:72px 20px 30px}
+        
         /* ===== HERO ===== */
-        .corporate-hero {
-            padding: 40px 0 30px;
-            position: relative;
-        }
-        .hero-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-        .hero-text {
-            flex: 1 1 500px;
-        }
-        .hero-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        .parent-tag {
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        body.dark-mode .parent-tag {
-            color: var(--gold);
-        }
-        .division-tag {
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .hero-title {
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            color: var(--primary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-        body.dark-mode .hero-title {
-            color: #E8EDF2;
-        }
-        .hero-highlight {
-            color: var(--gold);
-            position: relative;
-        }
-        .hero-tagline {
-            font-size: 16px;
-            font-weight: 500;
-            color: #4A5A6A;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .hero-desc {
-            font-size: 15px;
-            color: #5A6A7A;
-            max-width: 500px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        .hero-stats-corp {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-        .hero-stat-corp {
-            text-align: center;
-        }
-        .hero-stat-number {
-            display: block;
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        body.dark-mode .hero-stat-number {
-            color: #E8EDF2;
-        }
-        .hero-stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .hero-image {
-            flex: 0 0 180px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .hero-globe-placeholder {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: 18px;
-            box-shadow: 0 20px 60px rgba(27, 58, 92, 0.2);
-            text-transform: uppercase;
-        }
-        .hero-globe-placeholder i {
-            font-size: 48px;
-            margin-bottom: 6px;
-        }
-
-        /* ===== PARENT BANNER ===== */
-        .parent-company-banner {
-            background: var(--primary);
-            color: #fff;
-            border-radius: var(--radius);
-            padding: 14px 24px;
-            margin: 10px 0 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .banner-container {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .banner-icon {
-            font-size: 22px;
-        }
-        .banner-label {
-            font-weight: 300;
-            opacity: 0.7;
-        }
-        .banner-company {
-            font-weight: 700;
-            font-size: 16px;
-        }
-        .banner-founder {
-            font-weight: 500;
-            opacity: 0.8;
-            padding-left: 12px;
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
+        .corporate-hero{padding:30px 0 20px}
+        .hero-container{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+        .hero-text{flex:1 1 400px}
+        .hero-title{font-size:clamp(28px,4vw,48px);font-weight:900;line-height:1.1;color:var(--primary);text-transform:uppercase;margin-bottom:6px}
+        body.dark-mode .hero-title{color:#E8EDF2}
+        .hero-highlight{color:var(--gold)}
+        .hero-tagline{font-size:14px;font-weight:500;color:#4A5A6A;margin-bottom:6px;text-transform:uppercase}
+        .hero-desc{font-size:14px;color:#5A6A7A;max-width:450px;margin-bottom:16px;line-height:1.5}
+        .hero-stats-corp{display:flex;gap:20px;flex-wrap:wrap}
+        .hero-stat-number{display:block;font-size:24px;font-weight:800;color:var(--primary)}
+        body.dark-mode .hero-stat-number{color:#E8EDF2}
+        .hero-stat-label{font-size:10px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.3px}
+        .hero-globe-placeholder{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;box-shadow:0 12px 40px rgba(27,58,92,0.15);text-transform:uppercase}
+        .hero-globe-placeholder i{font-size:36px;margin-bottom:4px}
+        
+        /* ===== BANNER ===== */
+        .parent-company-banner{background:var(--primary);color:#fff;border-radius:12px;padding:10px 20px;margin:8px 0 24px;display:flex;align-items:center;justify-content:center}
+        .banner-container{display:flex;align-items:center;gap:12px;font-size:13px;text-transform:uppercase;letter-spacing:0.3px;flex-wrap:wrap}
+        .banner-company{font-weight:700;font-size:14px}
+        .banner-founder{font-weight:500;opacity:0.7;padding-left:10px;border-left:1px solid rgba(255,255,255,0.15)}
+        @media(max-width:600px){.banner-founder{display:none}}
+        
         /* ===== SECTION ===== */
-        .corporate-section {
-            margin-bottom: 40px;
-        }
-        .section-header-corp {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .section-header-corp h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .badge-corp {
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 14px;
-            border-radius: 20px;
-            background: var(--primary);
-            color: #fff;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .badge-corp.live {
-            background: var(--success);
-            animation: pulse-badge 2s ease-in-out infinite;
-        }
-        @keyframes pulse-badge {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
+        .corporate-section{margin-bottom:30px}
+        .section-header-corp{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+        .section-header-corp h2{font-size:18px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:0.3px}
+        body.dark-mode .section-header-corp h2{color:#E8EDF2}
+        .badge-corp{font-size:10px;font-weight:600;padding:3px 12px;border-radius:20px;background:var(--primary);color:#fff;text-transform:uppercase;letter-spacing:0.3px}
+        .badge-corp.live{background:#2E7D32;animation:pulse-badge 2s ease-in-out infinite}
+        @keyframes pulse-badge{0%,100%{opacity:1}50%{opacity:0.6}}
+        
         /* ===== CARDS ===== */
-        .corporate-card {
-            background: #fff;
-            border-radius: var(--radius);
-            padding: 24px;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow);
-            transition: transform var(--transition), box-shadow var(--transition);
-        }
-        .corporate-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-        }
-        body.dark-mode .corporate-card:hover {
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-        }
-        .corporate-grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .corporate-grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .card-icon-corp {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
+        .corporate-card{background:#fff;border-radius:14px;padding:18px;border:1px solid rgba(27,58,92,0.06);box-shadow:0 4px 16px rgba(0,0,0,0.04);transition:transform 0.2s}
+        .corporate-card:hover{transform:translateY(-2px)}
+        body.dark-mode .corporate-card{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)}
+        .corporate-grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+        .corporate-grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+        .card-icon-corp{font-size:24px;margin-bottom:4px}
+        
         /* ===== INPUTS & BUTTONS ===== */
-        .corp-input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border-light);
-            border-radius: 10px;
-            font-size: 14px;
-            font-family: var(--font);
-            background: #fff;
-            transition: border var(--transition), box-shadow var(--transition);
-            outline: none;
-        }
-        .corp-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.12);
-        }
-        .input-group-corp {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        .input-group-corp .corp-input {
-            flex: 1;
-            min-width: 120px;
-        }
-        .corp-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            font-family: var(--font);
-            cursor: pointer;
-            transition: all var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .corp-btn.primary {
-            background: var(--primary);
-            color: #fff;
-        }
-        .corp-btn.primary:hover {
-            background: var(--primary-light);
-            transform: scale(1.02);
-        }
-        .corp-btn.secondary {
-            background: var(--gold);
-            color: #fff;
-        }
-        .corp-btn.secondary:hover {
-            background: #C49A3A;
-            transform: scale(1.02);
-        }
-        .corp-btn.outline {
-            background: transparent;
-            color: var(--primary);
-            border: 1.5px solid var(--primary);
-        }
-        .corp-btn.outline:hover {
-            background: var(--primary);
-            color: #fff;
-        }
-        .corp-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .result-corp {
-            margin-top: 10px;
-            padding: 12px 16px;
-            background: rgba(27, 58, 92, 0.04);
-            border-radius: 10px;
-            font-size: 13px;
-            line-height: 1.6;
-            min-height: 40px;
-            transition: all var(--transition);
-        }
-        .result-corp.error {
-            background: rgba(198, 40, 40, 0.08);
-            color: var(--danger);
-            border-left: 3px solid var(--danger);
-        }
-        .result-corp.success {
-            background: rgba(46, 125, 50, 0.08);
-            color: var(--success);
-            border-left: 3px solid var(--success);
-        }
-
-        /* ===== VISION ===== */
-        .vision-card {
-            padding: 20px;
-        }
-        .vision-modes {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-        .vision-mode {
-            padding: 6px 14px;
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            background: transparent;
-            font-size: 12px;
-            font-weight: 500;
-            font-family: var(--font);
-            cursor: pointer;
-            transition: all var(--transition);
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .vision-mode:hover {
-            border-color: var(--accent);
-            color: var(--primary);
-        }
-        .vision-mode.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-        }
-        body.dark-mode .vision-mode.active {
-            background: var(--accent);
-            color: #0B1A2A;
-            border-color: var(--accent);
-        }
-        .camera-container-ai {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #000;
-            aspect-ratio: 16/9;
-            max-height: 420px;
-            width: 100%;
-        }
-        .camera-container-ai video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .camera-container-ai canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-        .camera-overlay-ai {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 16px;
-        }
-        .camera-frame-ai {
-            position: absolute;
-            top: 10%;
-            left: 10%;
-            width: 80%;
-            height: 80%;
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 12px;
-            pointer-events: none;
-        }
-        .camera-status-ai {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 6px 14px;
-            border-radius: 20px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            align-self: flex-start;
-            pointer-events: auto;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #44DD88;
-            display: inline-block;
-            animation: pulse-dot 1.8s ease-in-out infinite;
-        }
-        .detection-info {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 10px 16px;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 13px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-self: flex-end;
-            pointer-events: auto;
-            width: 100%;
-            justify-content: space-between;
-        }
-        .detection-info span {
-            opacity: 0.9;
-        }
-        #detectedAI {
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .camera-debug {
-            position: absolute;
-            bottom: 60px;
-            left: 16px;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            padding: 4px 12px;
-            border-radius: 12px;
-            color: #88DDAA;
-            font-size: 11px;
-            font-family: monospace;
-            pointer-events: none;
-        }
-        .camera-switch-btn-ai {
-            position: absolute;
-            bottom: 70px;
-            right: 16px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            border: none;
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all var(--transition);
-            pointer-events: auto;
-            z-index: 5;
-        }
-        .camera-switch-btn-ai:hover {
-            background: var(--accent);
-            color: #000;
-            transform: scale(1.05);
-        }
-        .camera-controls-ai {
-            display: flex;
-            gap: 10px;
-            margin-top: 14px;
-            flex-wrap: wrap;
-        }
-        .camera-controls-ai .corp-btn {
-            flex: 1;
-            min-width: 80px;
-            justify-content: center;
-        }
-
+        .corp-input{width:100%;padding:8px 12px;border:1px solid rgba(27,58,92,0.1);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:#fff;outline:none;transition:border 0.2s}
+        .corp-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,0.1)}
+        body.dark-mode .corp-input{background:rgba(255,255,255,0.06);color:#E8EDF2;border-color:rgba(255,255,255,0.08)}
+        .input-group-corp{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+        .input-group-corp .corp-input{flex:1;min-width:100px}
+        .corp-btn{padding:8px 16px;border:none;border-radius:8px;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;text-transform:uppercase;letter-spacing:0.3px}
+        .corp-btn.primary{background:var(--primary);color:#fff}
+        .corp-btn.primary:hover{background:#2A5A7A;transform:scale(1.02)}
+        .corp-btn.secondary{background:var(--gold);color:#fff}
+        .corp-btn.secondary:hover{background:#C49A3A;transform:scale(1.02)}
+        .corp-btn.outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+        .corp-btn.outline:hover{background:var(--primary);color:#fff}
+        
+        .result-corp{margin-top:8px;padding:10px 14px;background:rgba(27,58,92,0.03);border-radius:8px;font-size:12px;line-height:1.5;min-height:32px;transition:all 0.2s}
+        .result-corp.error{background:rgba(198,40,40,0.06);color:#C62828;border-left:3px solid #C62828}
+        .result-corp.success{background:rgba(46,125,50,0.06);color:#2E7D32;border-left:3px solid #2E7D32}
+        body.dark-mode .result-corp{background:rgba(255,255,255,0.03);color:#C8D0D8}
+        
+        /* ===== VISION - OPTIMIZED ===== */
+        .vision-card{padding:16px}
+        .vision-modes{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+        .vision-mode{padding:4px 10px;border:1px solid rgba(27,58,92,0.08);border-radius:16px;background:transparent;font-size:10px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.2s;color:var(--text-muted);text-transform:uppercase}
+        .vision-mode:hover{border-color:var(--accent);color:var(--primary)}
+        .vision-mode.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+        body.dark-mode .vision-mode.active{background:var(--accent);color:#0B1A2A;border-color:var(--accent)}
+        .camera-container-ai{position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;max-height:360px;width:100%}
+        .camera-container-ai video{width:100%;height:100%;object-fit:cover;display:block}
+        .camera-container-ai canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+        .camera-overlay-ai{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:12px}
+        .camera-frame-ai{position:absolute;top:10%;left:10%;width:80%;height:80%;border:2px solid rgba(0,212,255,0.2);border-radius:10px;pointer-events:none}
+        .camera-status-ai{background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);padding:4px 12px;border-radius:16px;color:#fff;font-size:10px;font-weight:500;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;pointer-events:auto;text-transform:uppercase}
+        .status-dot{width:5px;height:5px;border-radius:50%;background:#44DD88;display:inline-block;animation:pulse-dot 2s ease-in-out infinite}
+        .detection-info{background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);padding:6px 12px;border-radius:10px;color:#fff;font-size:11px;display:flex;flex-wrap:wrap;gap:8px;align-self:flex-end;pointer-events:auto;width:100%;justify-content:space-between}
+        #detectedAI{color:var(--accent);font-weight:600}
+        .camera-debug{position:absolute;bottom:50px;left:12px;background:rgba(0,0,0,0.4);padding:2px 10px;border-radius:10px;color:#88DDAA;font-size:10px;font-family:monospace;pointer-events:none}
+        .camera-switch-btn-ai{position:absolute;bottom:56px;right:12px;background:rgba(0,0,0,0.5);backdrop-filter:blur(6px);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;transition:all 0.2s;pointer-events:auto;z-index:5}
+        .camera-switch-btn-ai:hover{background:var(--accent);color:#000;transform:scale(1.05)}
+        .camera-controls-ai{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+        .camera-controls-ai .corp-btn{flex:1;min-width:70px;justify-content:center;font-size:10px;padding:6px 12px}
+        
         /* ===== AI DASHBOARD ===== */
-        .ai-dashboard {
-            margin-top: 14px;
-            background: rgba(27, 58, 92, 0.04);
-            border-radius: 12px;
-            padding: 12px 16px;
-        }
-        body.dark-mode .ai-dashboard {
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .dashboard-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 8px;
-        }
-        .dashboard-item {
-            text-align: center;
-            padding: 4px 0;
-        }
-        .dash-label {
-            display: block;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        .dash-value {
-            display: block;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        body.dark-mode .dash-value {
-            color: #E8EDF2;
-        }
-
+        .ai-dashboard{margin-top:10px;background:rgba(27,58,92,0.03);border-radius:10px;padding:8px 12px}
+        body.dark-mode .ai-dashboard{background:rgba(255,255,255,0.02)}
+        .dashboard-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:4px}
+        .dash-label{display:block;font-size:7px;text-transform:uppercase;letter-spacing:0.3px;color:var(--text-muted);font-weight:600}
+        .dash-value{display:block;font-size:12px;font-weight:700;color:var(--primary)}
+        body.dark-mode .dash-value{color:#E8EDF2}
+        
         /* ===== OSINT ===== */
-        .osint-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 16px;
-        }
-        .osint-card {
-            padding: 18px;
-        }
-        .osint-icon {
-            font-size: 24px;
-            margin-bottom: 4px;
-        }
-        .osint-card h3 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        body.dark-mode .osint-card h3 {
-            color: #E8EDF2;
-        }
-
+        .osint-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+        .osint-card{padding:14px}
+        .osint-icon{font-size:20px}
+        .osint-card h3{font-size:13px;font-weight:700;margin-bottom:4px;color:var(--primary);text-transform:uppercase}
+        body.dark-mode .osint-card h3{color:#E8EDF2}
+        
         /* ===== THREAT MAP ===== */
-        .threat-map-corp {
-            padding: 20px;
-        }
-        #mapAttacks {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--primary);
-            margin-bottom: 14px;
-            padding: 10px 16px;
-            background: rgba(27, 58, 92, 0.04);
-            border-radius: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        body.dark-mode #mapAttacks {
-            color: #E8EDF2;
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .threat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-        .threat-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 12px;
-            background: rgba(27, 58, 92, 0.04);
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        body.dark-mode .threat-item {
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .threat-country {
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        .threat-count {
-            font-weight: 700;
-            color: var(--primary);
-        }
-        body.dark-mode .threat-count {
-            color: var(--gold);
-        }
-        .threat-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .timeline-item {
-            display: flex;
-            gap: 14px;
-            padding: 6px 12px;
-            background: rgba(27, 58, 92, 0.03);
-            border-radius: 8px;
-            font-size: 13px;
-        }
-        body.dark-mode .timeline-item {
-            background: rgba(255, 255, 255, 0.03);
-        }
-        .timeline-time {
-            font-weight: 600;
-            color: var(--text-muted);
-            min-width: 100px;
-        }
-        .timeline-event {
-            color: var(--primary);
-            font-weight: 500;
-        }
-        body.dark-mode .timeline-event {
-            color: #D0D8E0;
-        }
-
+        .threat-map-corp{padding:16px}
+        #mapAttacks{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:var(--primary);margin-bottom:10px;padding:8px 14px;background:rgba(27,58,92,0.03);border-radius:8px;text-transform:uppercase}
+        body.dark-mode #mapAttacks{color:#E8EDF2;background:rgba(255,255,255,0.03)}
+        .threat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-bottom:10px}
+        .threat-item{display:flex;justify-content:space-between;padding:4px 10px;background:rgba(27,58,92,0.03);border-radius:6px;font-size:12px;font-weight:500}
+        body.dark-mode .threat-item{background:rgba(255,255,255,0.03)}
+        .threat-count{font-weight:700;color:var(--primary)}
+        body.dark-mode .threat-count{color:var(--gold)}
+        .threat-timeline{display:flex;flex-direction:column;gap:4px}
+        .timeline-item{display:flex;gap:10px;padding:4px 10px;background:rgba(27,58,92,0.02);border-radius:6px;font-size:12px;flex-wrap:wrap}
+        body.dark-mode .timeline-item{background:rgba(255,255,255,0.02)}
+        .timeline-time{font-weight:600;color:var(--text-muted);min-width:80px}
+        .timeline-event{color:var(--primary)}
+        body.dark-mode .timeline-event{color:#D0D8E0}
+        
         /* ===== CHARTS ===== */
-        .chart-card-corp {
-            padding: 16px;
-            min-height: 240px;
-        }
-        .chart-card-corp canvas {
-            max-height: 200px;
-            width: 100% !important;
-        }
-
-        /* ===== NEWS TICKER ===== */
-        .corporate-news-ticker {
-            background: var(--primary);
-            color: #fff;
-            border-radius: var(--radius);
-            padding: 10px 20px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        .ticker-container {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .ticker-label {
-            font-weight: 700;
-            font-size: 13px;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .ticker-scroll {
-            flex: 1;
-            overflow: hidden;
-            white-space: nowrap;
-            font-size: 14px;
-            font-weight: 400;
-        }
-        .ticker-scroll span {
-            display: inline-block;
-            animation: ticker-scroll 18s linear infinite;
-        }
-        @keyframes ticker-scroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .news-card-corp {
-            padding: 18px;
-        }
-        .news-badge-corp {
-            display: inline-block;
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-bottom: 6px;
-        }
-        .news-card-corp h4 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        .news-card-corp p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-        .news-time-corp-sm {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
+        .chart-card-corp{padding:14px;min-height:180px}
+        .chart-card-corp canvas{max-height:160px;width:100%!important}
+        
+        /* ===== NEWS ===== */
+        .corporate-news-ticker{background:var(--primary);color:#fff;border-radius:12px;padding:8px 16px;margin-bottom:24px;overflow:hidden}
+        .ticker-container{display:flex;align-items:center;gap:12px}
+        .ticker-label{font-weight:700;font-size:11px;white-space:nowrap;display:flex;align-items:center;gap:4px;text-transform:uppercase}
+        .ticker-scroll{flex:1;overflow:hidden;white-space:nowrap;font-size:13px}
+        .ticker-scroll span{display:inline-block;animation:ticker-scroll 20s linear infinite}
+        @keyframes ticker-scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+        .news-card-corp{padding:14px}
+        .news-badge-corp{display:inline-block;padding:2px 10px;border-radius:10px;font-size:9px;font-weight:700;color:#fff;text-transform:uppercase;margin-bottom:4px}
+        .news-card-corp h4{font-size:14px;font-weight:700;margin-bottom:2px;text-transform:uppercase}
+        .news-card-corp p{font-size:12px;color:var(--text-muted);margin-bottom:4px}
+        .news-time-corp-sm{font-size:10px;color:var(--text-muted)}
+        
         /* ===== FOUNDER ===== */
-        .founder-card-corp {
-            display: flex;
-            gap: 24px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            padding: 24px;
-        }
-        .founder-avatar-corp img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--gold);
-        }
-        .founder-info-corp {
-            flex: 1;
-            min-width: 200px;
-        }
-        .founder-info-corp h2 {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        body.dark-mode .founder-info-corp h2 {
-            color: #E8EDF2;
-        }
-        .founder-title-corp {
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 14px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .founder-tags-corp {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 10px;
-        }
-        .founder-tags-corp span {
-            background: rgba(27, 58, 92, 0.06);
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-        body.dark-mode .founder-tags-corp span {
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .founder-bio-corp {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #4A5A6A;
-            margin-bottom: 10px;
-        }
-        .founder-social-corp {
-            display: flex;
-            gap: 10px;
-        }
-        .social-corp {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(27, 58, 92, 0.06);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 16px;
-            transition: all var(--transition);
-            text-decoration: none;
-        }
-        .social-corp:hover {
-            background: var(--primary);
-            color: #fff;
-            transform: scale(1.05);
-        }
-        body.dark-mode .social-corp {
-            background: rgba(255, 255, 255, 0.06);
-            color: #E8EDF2;
-        }
-        body.dark-mode .social-corp:hover {
-            background: var(--accent);
-            color: #0B1A2A;
-        }
-
+        .founder-card-corp{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;padding:18px}
+        .founder-avatar-corp img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--gold)}
+        .founder-info-corp{flex:1;min-width:180px}
+        .founder-info-corp h2{font-size:20px;font-weight:800;color:var(--primary);text-transform:uppercase}
+        body.dark-mode .founder-info-corp h2{color:#E8EDF2}
+        .founder-title-corp{color:var(--text-muted);font-weight:500;font-size:12px;margin-bottom:6px;text-transform:uppercase}
+        .founder-tags-corp{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+        .founder-tags-corp span{background:rgba(27,58,92,0.04);padding:2px 10px;border-radius:10px;font-size:9px;font-weight:500;color:var(--text-muted)}
+        body.dark-mode .founder-tags-corp span{background:rgba(255,255,255,0.04)}
+        .founder-bio-corp{font-size:13px;line-height:1.5;color:#4A5A6A;margin-bottom:8px}
+        .founder-social-corp{display:flex;gap:8px}
+        .social-corp{width:32px;height:32px;border-radius:50%;background:rgba(27,58,92,0.04);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:14px;transition:all 0.2s;text-decoration:none}
+        .social-corp:hover{background:var(--primary);color:#fff;transform:scale(1.05)}
+        body.dark-mode .social-corp{background:rgba(255,255,255,0.04);color:#E8EDF2}
+        body.dark-mode .social-corp:hover{background:var(--accent);color:#0B1A2A}
+        
         /* ===== SCAN RESULTS ===== */
-        .scan-results {
-            margin-top: 16px;
-            padding: 16px;
-            background: rgba(27, 58, 92, 0.04);
-            border-radius: 12px;
-            display: none;
-        }
-        body.dark-mode .scan-results {
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .scan-results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 10px;
-        }
-        .scan-results-grid img {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .scan-detail-item {
-            padding: 4px 0;
-            font-size: 13px;
-            border-bottom: 1px solid rgba(27, 58, 92, 0.04);
-        }
-        .scan-detail-item strong {
-            color: var(--primary);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.3px;
-        }
-        body.dark-mode .scan-detail-item strong {
-            color: var(--gold);
-        }
-        .free-search-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-        .free-search-buttons .corp-btn {
-            font-size: 12px;
-            padding: 6px 14px;
-        }
-
+        .scan-results{margin-top:12px;padding:12px;background:rgba(27,58,92,0.03);border-radius:10px;display:none}
+        body.dark-mode .scan-results{background:rgba(255,255,255,0.02)}
+        .scan-results-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+        .scan-results-grid img{width:100%;max-height:160px;object-fit:cover;border-radius:6px}
+        .scan-detail-item{padding:3px 0;font-size:12px;border-bottom:1px solid rgba(27,58,92,0.03)}
+        .scan-detail-item strong{color:var(--primary);font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:0.3px}
+        body.dark-mode .scan-detail-item strong{color:var(--gold)}
+        .free-search-buttons{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+        .free-search-buttons .corp-btn{font-size:10px;padding:4px 10px}
+        @media(max-width:600px){.scan-results-grid{grid-template-columns:1fr}}
+        
         /* ===== FOOTER ===== */
-        .corporate-footer {
-            background: #F8FAFC;
-            border-top: 1px solid var(--border-light);
-            padding: 30px 24px 20px;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-        body.dark-mode .corporate-footer {
-            background: #06101A;
-        }
-        .footer-container {
-            max-width: 1440px;
-            margin: 0 auto;
-        }
-        .footer-company-structure {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            flex-wrap: wrap;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .footer-parent {
-            color: var(--primary);
-        }
-        body.dark-mode .footer-parent {
-            color: var(--gold);
-        }
-        .footer-division {
-            color: var(--accent);
-        }
-        .footer-brand {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .footer-founder {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .footer-tagline {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-        .footer-motto {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--gold);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .footer-social-corp {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-        .footer-social-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(27, 58, 92, 0.06);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 16px;
-            transition: all var(--transition);
-            text-decoration: none;
-        }
-        .footer-social-icon:hover {
-            background: var(--primary);
-            color: #fff;
-            transform: scale(1.05);
-        }
-        body.dark-mode .footer-social-icon {
-            background: rgba(255, 255, 255, 0.06);
-            color: #E8EDF2;
-        }
-        body.dark-mode .footer-social-icon:hover {
-            background: var(--accent);
-            color: #0B1A2A;
-        }
-        .footer-copy {
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        .footer-brand-tag {
-            font-weight: 500;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        body.dark-mode .footer-brand-tag {
-            color: var(--gold);
-        }
-        .footer-version {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            font-weight: 400;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
+        .corporate-footer{background:#F8FAFC;border-top:1px solid rgba(27,58,92,0.06);padding:24px 20px 16px;margin-top:16px;text-align:center}
+        body.dark-mode .corporate-footer{background:#06101A}
+        .footer-container{max-width:1440px;margin:0 auto}
+        .footer-company-structure{display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;font-weight:600;margin-bottom:4px;flex-wrap:wrap;text-transform:uppercase}
+        .footer-parent{color:var(--primary)}body.dark-mode .footer-parent{color:var(--gold)}
+        .footer-division{color:var(--accent)}
+        .footer-brand{font-size:11px;color:var(--text-muted);font-weight:500;margin-bottom:2px;text-transform:uppercase}
+        .footer-founder{font-size:11px;color:var(--text-muted);margin-bottom:2px;text-transform:uppercase}
+        .footer-tagline{font-size:11px;color:var(--text-muted);margin-bottom:2px}
+        .footer-motto{font-size:12px;font-weight:500;color:var(--gold);margin-bottom:8px;text-transform:uppercase}
+        .footer-social-corp{display:flex;justify-content:center;gap:10px;margin-bottom:8px}
+        .footer-social-icon{width:32px;height:32px;border-radius:50%;background:rgba(27,58,92,0.04);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:14px;transition:all 0.2s;text-decoration:none}
+        .footer-social-icon:hover{background:var(--primary);color:#fff;transform:scale(1.05)}
+        body.dark-mode .footer-social-icon{background:rgba(255,255,255,0.04);color:#E8EDF2}
+        body.dark-mode .footer-social-icon:hover{background:var(--accent);color:#0B1A2A}
+        .footer-copy{font-size:10px;color:var(--text-muted);line-height:1.4}
+        .footer-brand-tag{font-weight:500;color:var(--primary);text-transform:uppercase}
+        body.dark-mode .footer-brand-tag{color:var(--gold)}
+        .footer-version{font-size:9px;color:var(--text-muted);margin-top:2px;opacity:0.5;text-transform:uppercase}
+        
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .corporate-header {
-                padding: 0 12px;
-                height: 54px;
-            }
-            .logo-text {
-                font-size: 13px;
-            }
-            .division-name {
-                display: none;
-            }
-            .header-right {
-                gap: 8px;
-                font-size: 12px;
-            }
-            .header-weather,
-            .header-time {
-                display: none;
-            }
-            .corporate-main {
-                padding: 70px 12px 20px;
-            }
-            .hero-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            .hero-stats-corp {
-                justify-content: center;
-            }
-            .hero-image {
-                flex: 0 0 auto;
-            }
-            .hero-globe-placeholder {
-                width: 120px;
-                height: 120px;
-                font-size: 14px;
-            }
-            .hero-globe-placeholder i {
-                font-size: 36px;
-            }
-            .corporate-grid-3,
-            .corporate-grid-2,
-            .osint-grid {
-                grid-template-columns: 1fr;
-            }
-            .dashboard-row {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .scan-results-grid {
-                grid-template-columns: 1fr;
-            }
-            .founder-card-corp {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .founder-social-corp {
-                justify-content: center;
-            }
-            .camera-container-ai {
-                aspect-ratio: 4/3;
-                max-height: 300px;
-            }
-            .detection-info {
-                font-size: 11px;
-                flex-direction: column;
-                gap: 4px;
-            }
-            .vision-modes {
-                gap: 4px;
-            }
-            .vision-mode {
-                font-size: 10px;
-                padding: 4px 10px;
-            }
-            .banner-founder {
-                display: none;
-            }
-            .parent-company-banner {
-                padding: 10px 16px;
-                font-size: 12px;
-            }
-            .banner-company {
-                font-size: 13px;
-            }
-            .threat-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .timeline-item {
-                flex-direction: column;
-                gap: 2px;
-            }
-            .timeline-time {
-                min-width: auto;
-            }
-            .footer-company-structure {
-                font-size: 13px;
-            }
+        @media(max-width:768px){
+            .corporate-header{padding:0 12px;height:50px}
+            .logo-text{font-size:11px}.division-name{display:none}
+            .header-right{gap:6px;font-size:11px}
+            .header-weather,.header-time{display:none}
+            .corporate-main{padding:64px 10px 16px}
+            .hero-container{flex-direction:column;text-align:center}
+            .hero-stats-corp{justify-content:center}
+            .hero-globe-placeholder{width:90px;height:90px;font-size:11px}
+            .hero-globe-placeholder i{font-size:28px}
+            .corporate-grid-3,.corporate-grid-2,.osint-grid{grid-template-columns:1fr}
+            .dashboard-row{grid-template-columns:repeat(4,1fr)}
+            .founder-card-corp{flex-direction:column;align-items:center;text-align:center}
+            .founder-social-corp{justify-content:center}
+            .camera-container-ai{aspect-ratio:4/3;max-height:260px}
+            .detection-info{font-size:10px;flex-direction:column;gap:3px}
+            .vision-mode{font-size:9px;padding:3px 8px}
+            .banner-founder{display:none}
+            .threat-grid{grid-template-columns:repeat(3,1fr)}
+            .timeline-item{flex-direction:column;gap:2px}
+            .timeline-time{min-width:auto}
         }
-        @media (max-width: 480px) {
-            .header-status span {
-                display: none;
-            }
-            .brand-badge {
-                display: none;
-            }
-            .brand-divider {
-                display: none;
-            }
-            .logo-text {
-                font-size: 12px;
-            }
-            .hero-title {
-                font-size: 26px;
-            }
-            .hero-stat-number {
-                font-size: 22px;
-            }
-            .camera-controls-ai .corp-btn {
-                font-size: 11px;
-                padding: 8px 12px;
-                min-width: 60px;
-            }
-            .dashboard-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        @media(max-width:480px){
+            .brand-badge,.brand-divider{display:none}
+            .logo-text{font-size:10px}
+            .hero-title{font-size:22px}
+            .hero-stat-number{font-size:18px}
+            .dashboard-row{grid-template-columns:repeat(2,1fr)}
+            .camera-controls-ai .corp-btn{font-size:9px;padding:4px 8px}
         }
     </style>
 </head>
@@ -1373,14 +271,14 @@
             <div class="logo-section">
                 <span class="logo-icon">⚡</span>
                 <span class="logo-text">MK <span class="logo-highlight">GLOBAL NEXUS</span></span>
-                <span class="brand-badge enterprise">ENTERPRISE</span>
+                <span class="brand-badge">ENTERPRISE</span>
                 <span class="brand-divider">|</span>
                 <span class="division-name">MK CYBER HUB</span>
             </div>
             <div class="header-right">
                 <div class="header-status">
                     <span class="status-indicator"></span>
-                    <span id="systemStatus">🟢 SECURE</span>
+                    <span id="systemStatus">SECURE</span>
                 </div>
                 <div class="header-weather">
                     <i class="fas fa-cloud-sun"></i>
@@ -1397,21 +295,16 @@
         </div>
     </header>
 
-    <!-- ====== 3D GLOBE ====== -->
+    <!-- ====== 3D GLOBE - LIGHTWEIGHT ====== -->
     <div id="globe-container"></div>
 
     <!-- ====== MAIN CONTENT ====== -->
     <main class="corporate-main">
 
-        <!-- ====== ADVANCED HERO ====== -->
-        <section class="corporate-hero advanced-hero">
+        <!-- ====== HERO ====== -->
+        <section class="corporate-hero">
             <div class="hero-container">
                 <div class="hero-text">
-                    <div class="hero-badge">
-                        <span class="parent-tag">🏢 MK GLOBAL NEXUS</span>
-                        <span class="divider-tag">→</span>
-                        <span class="division-tag">⚡ MK CYBER HUB</span>
-                    </div>
                     <h1 class="hero-title">ADVANCED <span class="hero-highlight">CYBER INTELLIGENCE</span></h1>
                     <p class="hero-tagline">🧠 ENTERPRISE AI VISION · 🔍 ADVANCED OSINT · 🛡️ THREAT INTELLIGENCE</p>
                     <p class="hero-desc">Complete enterprise-grade cyber intelligence platform with 40+ advanced features.</p>
@@ -1434,11 +327,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <div class="hero-globe-placeholder">
-                        <i class="fas fa-globe-americas"></i>
-                        <span>GLOBAL</span>
-                    </div>
+                <div class="hero-globe-placeholder">
+                    <i class="fas fa-globe-americas"></i>
+                    <span>GLOBAL</span>
                 </div>
             </div>
         </section>
@@ -1446,178 +337,89 @@
         <!-- ====== PARENT BANNER ====== -->
         <section class="parent-company-banner">
             <div class="banner-container">
-                <span class="banner-icon">🏢</span>
-                <div class="banner-text">
-                    <span class="banner-label">A DIVISION OF</span>
-                    <span class="banner-company">MK GLOBAL NEXUS</span>
-                </div>
+                <span>🏢</span>
+                <span class="banner-label">A DIVISION OF</span>
+                <span class="banner-company">MK GLOBAL NEXUS</span>
                 <span class="banner-founder">MANOJ MEENA</span>
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ====== 🧠 ADVANCED AI VISION ENGINE ====== -->
-        <!-- ============================================================ -->
+        <!-- ====== AI VISION ENGINE ====== -->
         <section class="corporate-section" id="ai-vision-section">
             <div class="section-header-corp">
-                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> ADVANCED AI VISION ENGINE</h2>
-                <span class="badge-corp live" id="visionStatus">🟢 ACTIVE</span>
+                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI VISION ENGINE</h2>
+                <span class="badge-corp live" id="visionStatus">ACTIVE</span>
             </div>
-
             <div class="corporate-card vision-card">
-                <div class="vision-container">
-
-                    <!-- ====== MODE SELECTOR ====== -->
-                    <div class="vision-modes">
-                        <button class="vision-mode active" onclick="setVisionMode('object')" id="modeObject">
-                            <i class="fas fa-cube"></i> OBJECT
-                        </button>
-                        <button class="vision-mode" onclick="setVisionMode('face')" id="modeFace">
-                            <i class="fas fa-user"></i> FACE
-                        </button>
-                        <button class="vision-mode" onclick="setVisionMode('gender')" id="modeGender">
-                            <i class="fas fa-venus-mars"></i> GENDER
-                        </button>
-                        <button class="vision-mode" onclick="setVisionMode('ocr')" id="modeOCR">
-                            <i class="fas fa-font"></i> OCR
-                        </button>
-                        <button class="vision-mode" onclick="setVisionMode('qr')" id="modeQR">
-                            <i class="fas fa-qrcode"></i> QR
-                        </button>
-                        <button class="vision-mode" onclick="setVisionMode('mediapipe')" id="modeMediaPipe">
-                            <i class="fas fa-hand-peace"></i> MEDIAPIPE
-                        </button>
-                        <button class="vision-mode" onclick="setVisionMode('threat')" id="modeThreat">
-                            <i class="fas fa-bolt"></i> THREAT
-                        </button>
-                        <button class="vision-mode" onclick="setVisionMode('all')" id="modeAll">
-                            <i class="fas fa-robot"></i> ALL
-                        </button>
-                    </div>
-
-                    <!-- ====== CAMERA ====== -->
-                    <div class="camera-container-ai">
-                        <video id="scannerVideo" autoplay playsinline muted></video>
-                        <canvas id="scannerOverlayCanvas"></canvas>
-                        <div class="camera-overlay-ai">
-                            <div class="camera-frame-ai"></div>
-                            <div class="camera-status-ai" id="scannerStatus">
-                                <span class="status-dot"></span> <span id="statusText">READY</span>
-                            </div>
-                            <div class="detection-info" id="detectionInfo">
-                                <span id="detectedObject">🔍 DETECTING...</span>
-                                <span id="detectedConfidence">CONFIDENCE: --%</span>
-                                <span id="detectedAI">🧠 ADVANCED AI</span>
-                            </div>
-                            <div class="camera-debug" id="cameraDebug">
-                                <span id="debugInfo">📷 READY</span>
-                            </div>
+                <div class="vision-modes">
+                    <button class="vision-mode active" onclick="setVisionMode('object')" id="modeObject">OBJECT</button>
+                    <button class="vision-mode" onclick="setVisionMode('face')" id="modeFace">FACE</button>
+                    <button class="vision-mode" onclick="setVisionMode('all')" id="modeAll">ALL</button>
+                </div>
+                <div class="camera-container-ai">
+                    <video id="scannerVideo" autoplay playsinline muted></video>
+                    <canvas id="scannerOverlayCanvas"></canvas>
+                    <div class="camera-overlay-ai">
+                        <div class="camera-frame-ai"></div>
+                        <div class="camera-status-ai" id="scannerStatus">
+                            <span class="status-dot"></span> <span id="statusText">READY</span>
                         </div>
-                        <button onclick="switchMergedCamera()" class="camera-switch-btn-ai" title="Switch Camera">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
+                        <div class="detection-info" id="detectionInfo">
+                            <span id="detectedObject">🔍 DETECTING...</span>
+                            <span id="detectedConfidence">CONFIDENCE: --%</span>
+                            <span id="detectedAI">🧠 AI READY</span>
+                        </div>
+                        <div class="camera-debug" id="cameraDebug">
+                            <span id="debugInfo">📷 READY</span>
+                        </div>
                     </div>
-
-                    <!-- ====== CONTROLS ====== -->
-                    <div class="camera-controls-ai">
-                        <button onclick="startVisionScanner()" class="corp-btn primary">
-                            <i class="fas fa-play"></i> START AI
-                        </button>
-                        <button onclick="captureVisionScanner()" class="corp-btn secondary">
-                            <i class="fas fa-camera"></i> CAPTURE
-                        </button>
-                        <button onclick="scheduleScan()" class="corp-btn secondary">
-                            <i class="fas fa-clock"></i> SCHEDULE
-                        </button>
-                        <button onclick="stopVisionScanner()" class="corp-btn outline">
-                            <i class="fas fa-stop"></i> STOP
-                        </button>
+                    <button onclick="switchMergedCamera()" class="camera-switch-btn-ai" title="Switch Camera">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div class="camera-controls-ai">
+                    <button onclick="startVisionScanner()" class="corp-btn primary"><i class="fas fa-play"></i> START</button>
+                    <button onclick="captureVisionScanner()" class="corp-btn secondary"><i class="fas fa-camera"></i> CAPTURE</button>
+                    <button onclick="stopVisionScanner()" class="corp-btn outline"><i class="fas fa-stop"></i> STOP</button>
+                </div>
+                <div class="ai-dashboard">
+                    <div class="dashboard-row">
+                        <div class="dashboard-item"><span class="dash-label">FPS</span><span class="dash-value" id="dashFPS">--</span></div>
+                        <div class="dashboard-item"><span class="dash-label">MODELS</span><span class="dash-value" id="dashModels">--</span></div>
+                        <div class="dashboard-item"><span class="dash-label">CONFIDENCE</span><span class="dash-value" id="dashConfidence">--%</span></div>
+                        <div class="dashboard-item"><span class="dash-label">THREAT</span><span class="dash-value" id="dashThreat">🟢 LOW</span></div>
                     </div>
-
-                    <!-- ====== ADVANCED DASHBOARD ====== -->
-                    <div class="ai-dashboard advanced-dashboard">
-                        <div class="dashboard-row">
-                            <div class="dashboard-item">
-                                <span class="dash-label">FPS</span>
-                                <span class="dash-value" id="dashFPS">--</span>
-                            </div>
-                            <div class="dashboard-item">
-                                <span class="dash-label">PROCESSING</span>
-                                <span class="dash-value" id="dashTime">--MS</span>
-                            </div>
-                            <div class="dashboard-item">
-                                <span class="dash-label">MODELS</span>
-                                <span class="dash-value" id="dashModels">--</span>
-                            </div>
-                            <div class="dashboard-item">
-                                <span class="dash-label">CONFIDENCE</span>
-                                <span class="dash-value" id="dashConfidence">--%</span>
-                            </div>
-                            <div class="dashboard-item">
-                                <span class="dash-label">MEMORY</span>
-                                <span class="dash-value" id="dashMemory">--MB</span>
-                            </div>
-                            <div class="dashboard-item">
-                                <span class="dash-label">GPU</span>
-                                <span class="dash-value" id="dashGPU">--</span>
-                            </div>
-                            <div class="dashboard-item">
-                                <span class="dash-label">THREAT LEVEL</span>
-                                <span class="dash-value" id="dashThreat">🟢 LOW</span>
-                            </div>
-                            <div class="dashboard-item">
-                                <span class="dash-label">SCANS TODAY</span>
-                                <span class="dash-value" id="dashScans">0</span>
+                </div>
+                <div class="scan-results" id="scanResults">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                        <span style="font-weight:700;font-size:14px;">📸 SCAN RESULT</span>
+                        <span id="scanStatus" style="font-size:11px;color:var(--gold);">ANALYZING...</span>
+                    </div>
+                    <div class="scan-results-grid">
+                        <div><img id="scanResultImage" src="" alt="Scan result" style="width:100%;border-radius:6px;background:#eee;"></div>
+                        <div>
+                            <div class="scan-detail-item"><strong>OBJECT:</strong> <span id="scanObjectName">-</span></div>
+                            <div class="scan-detail-item"><strong>CATEGORY:</strong> <span id="scanCategory">-</span></div>
+                            <div class="scan-detail-item"><strong>CONFIDENCE:</strong> <span id="scanConfidence">--%</span></div>
+                            <div class="scan-detail-item"><strong>DESCRIPTION:</strong> <span id="scanDescription">-</span></div>
+                            <div class="free-search-buttons">
+                                <button onclick="liveGoogleSearch()" class="corp-btn outline">GOOGLE</button>
+                                <button onclick="liveYouTubeSearch()" class="corp-btn outline">YOUTUBE</button>
+                                <button onclick="liveWikipediaPage()" class="corp-btn outline">WIKI</button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- ====== SCAN RESULTS ====== -->
-                    <div class="scan-results" id="scanResults">
-                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                            <span style="font-weight:700;font-size:16px;">📸 SCAN RESULT</span>
-                            <span id="scanStatus" style="font-size:13px;color:var(--gold);">ANALYZING...</span>
-                        </div>
-                        <div class="scan-results-grid">
-                            <div>
-                                <img id="scanResultImage" src="" alt="Scan result" style="width:100%;border-radius:8px;background:#eee;">
-                            </div>
-                            <div>
-                                <div class="scan-detail-item"><strong>OBJECT:</strong> <span id="scanObjectName">-</span></div>
-                                <div class="scan-detail-item"><strong>CATEGORY:</strong> <span id="scanCategory">-</span></div>
-                                <div class="scan-detail-item"><strong>CONFIDENCE:</strong> <span id="scanConfidence">--%</span></div>
-                                <div class="scan-detail-item"><strong>DESCRIPTION:</strong> <span id="scanDescription">-</span></div>
-                                <div class="scan-detail-item"><strong>SCIENTIFIC:</strong> <span id="scanScientific">-</span></div>
-                                <div class="scan-detail-item"><strong>HABITAT:</strong> <span id="scanHabitat">-</span></div>
-                                <div class="scan-detail-item"><strong>DIET:</strong> <span id="scanDiet">-</span></div>
-                                <div class="scan-detail-item"><strong>FUN FACT:</strong> <span id="scanFact">-</span></div>
-                                <div id="freeSearchContainer" style="margin-top:10px;">
-                                    <span style="font-size:12px;font-weight:600;color:var(--text-muted);">🔍 LIVE INTELLIGENCE:</span>
-                                    <div class="free-search-buttons">
-                                        <button onclick="liveGoogleSearch()" class="corp-btn outline"><i class="fab fa-google"></i> GOOGLE</button>
-                                        <button onclick="liveGoogleImages()" class="corp-btn outline"><i class="fas fa-images"></i> IMAGES</button>
-                                        <button onclick="liveYouTubeSearch()" class="corp-btn outline"><i class="fab fa-youtube"></i> YOUTUBE</button>
-                                        <button onclick="liveWikipediaPage()" class="corp-btn outline"><i class="fab fa-wikipedia-w"></i> WIKI</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ====== 🔍 ADVANCED OSINT SUITE ====== -->
-        <!-- ============================================================ -->
+        <!-- ====== OSINT SUITE ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
-                <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> ADVANCED OSINT SUITE</h2>
-                <span class="badge-corp">10+ TOOLS</span>
+                <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> OSINT SUITE</h2>
+                <span class="badge-corp">10 TOOLS</span>
             </div>
-            <div class="osint-grid advanced-osint">
-                <!-- Tool 1: Google Dorking -->
+            <div class="osint-grid">
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🔍</div>
                     <h3>GOOGLE DORKING</h3>
@@ -1627,7 +429,6 @@
                     </div>
                     <div id="dorkResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 2: Shodan -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🌐</div>
                     <h3>SHODAN</h3>
@@ -1637,7 +438,6 @@
                     </div>
                     <div id="shodanResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 3: Censys -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📡</div>
                     <h3>CENSYS</h3>
@@ -1647,7 +447,6 @@
                     </div>
                     <div id="censysResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 4: TheHarvester -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📧</div>
                     <h3>THEHARVESTER</h3>
@@ -1657,7 +456,6 @@
                     </div>
                     <div id="harvestResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 5: Spiderfoot -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🕷️</div>
                     <h3>SPIDERFOOT</h3>
@@ -1667,7 +465,6 @@
                     </div>
                     <div id="spiderResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 6: Maltego -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🕸️</div>
                     <h3>MALTEGO</h3>
@@ -1677,7 +474,6 @@
                     </div>
                     <div id="maltegoResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 7: WHOIS -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📋</div>
                     <h3>WHOIS</h3>
@@ -1687,7 +483,6 @@
                     </div>
                     <div id="whoisResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 8: VirusTotal -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🦠</div>
                     <h3>VIRUSTOTAL</h3>
@@ -1697,7 +492,6 @@
                     </div>
                     <div id="vtResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 9: HIBP -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🔓</div>
                     <h3>HIBP</h3>
@@ -1707,7 +501,6 @@
                     </div>
                     <div id="pwnedResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 10: Wayback -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📜</div>
                     <h3>WAYBACK</h3>
@@ -1720,12 +513,10 @@
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ====== 🛡️ ADVANCED CYBER SECURITY ====== -->
-        <!-- ============================================================ -->
+        <!-- ====== CYBER SECURITY ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
-                <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> ADVANCED CYBER SECURITY</h2>
+                <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> CYBER SECURITY</h2>
                 <span class="badge-corp">6 TOOLS</span>
             </div>
             <div class="corporate-grid-3">
@@ -1733,7 +524,7 @@
                     <div class="card-icon-corp">🧠</div>
                     <h3>AI THREAT ANALYZER</h3>
                     <div class="input-group-corp">
-                        <input type="text" id="aiInput" placeholder="IP or Domain" class="corp-input" />
+                        <input type="text" id="aiInput" placeholder="IP or Domain" class="corp-input">
                         <button onclick="runAIAnalysis()" class="corp-btn primary">ANALYZE</button>
                     </div>
                     <div id="aiResult" class="result-corp"></div>
@@ -1742,7 +533,7 @@
                     <div class="card-icon-corp">🔓</div>
                     <h3>DARK WEB MONITOR</h3>
                     <div class="input-group-corp">
-                        <input type="email" id="darkWebInput" placeholder="Enter email" class="corp-input" />
+                        <input type="email" id="darkWebInput" placeholder="Enter email" class="corp-input">
                         <button onclick="runDarkWebMonitor()" class="corp-btn secondary">CHECK</button>
                     </div>
                     <div id="darkWebResult" class="result-corp"></div>
@@ -1751,7 +542,7 @@
                     <div class="card-icon-corp">🛡️</div>
                     <h3>VULNERABILITY SCANNER</h3>
                     <div class="input-group-corp">
-                        <input type="text" id="vulnInput" placeholder="https://example.com" class="corp-input" />
+                        <input type="text" id="vulnInput" placeholder="https://example.com" class="corp-input">
                         <button onclick="runVulnScan()" class="corp-btn primary">SCAN</button>
                     </div>
                     <div id="vulnResult" class="result-corp"></div>
@@ -1760,7 +551,7 @@
                     <div class="card-icon-corp">🔒</div>
                     <h3>SSL CHECKER</h3>
                     <div class="input-group-corp">
-                        <input type="text" id="sslInput" placeholder="example.com" class="corp-input" />
+                        <input type="text" id="sslInput" placeholder="example.com" class="corp-input">
                         <button onclick="runSSLCheck()" class="corp-btn secondary">CHECK</button>
                     </div>
                     <div id="sslResult" class="result-corp"></div>
@@ -1769,7 +560,7 @@
                     <div class="card-icon-corp">⚠️</div>
                     <h3>PHISHING DETECTOR</h3>
                     <div class="input-group-corp">
-                        <input type="text" id="phishInput" placeholder="Enter URL or Email" class="corp-input" />
+                        <input type="text" id="phishInput" placeholder="Enter URL or Email" class="corp-input">
                         <button onclick="runPhishingDetector()" class="corp-btn primary">DETECT</button>
                     </div>
                     <div id="phishResult" class="result-corp"></div>
@@ -1778,7 +569,7 @@
                     <div class="card-icon-corp">🌐</div>
                     <h3>IP REPUTATION</h3>
                     <div class="input-group-corp">
-                        <input type="text" id="ipRepInput" placeholder="Enter IP" class="corp-input" />
+                        <input type="text" id="ipRepInput" placeholder="Enter IP" class="corp-input">
                         <button onclick="runIPReputation()" class="corp-btn secondary">CHECK</button>
                     </div>
                     <div id="ipRepResult" class="result-corp"></div>
@@ -1786,9 +577,7 @@
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ====== 🌍 LIVE THREAT MAP ====== -->
-        <!-- ============================================================ -->
+        <!-- ====== LIVE THREAT MAP ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
                 <h2><i class="fas fa-globe-americas" style="color:#00D4FF;"></i> LIVE THREAT MAP</h2>
@@ -1797,9 +586,9 @@
             <div class="corporate-card threat-map-corp">
                 <div id="mapAttacks">
                     <i class="fas fa-exclamation-triangle" style="color:#D4A843;"></i>
-                    <span id="attackLog">🌍 GLOBAL THREAT MONITORING ACTIVE</span>
+                    <span>🌍 GLOBAL THREAT MONITORING</span>
                 </div>
-                <div class="threat-grid" id="threatGrid">
+                <div class="threat-grid">
                     <div class="threat-item"><span class="threat-country">🇺🇸 US</span><span class="threat-count" id="usThreats">2,847</span></div>
                     <div class="threat-item"><span class="threat-country">🇨🇳 CN</span><span class="threat-count" id="cnThreats">1,234</span></div>
                     <div class="threat-item"><span class="threat-country">🇷🇺 RU</span><span class="threat-count" id="ruThreats">987</span></div>
@@ -1808,84 +597,72 @@
                     <div class="threat-item"><span class="threat-country">🇩🇪 DE</span><span class="threat-count" id="deThreats">321</span></div>
                 </div>
                 <div class="threat-timeline" id="threatTimeline">
-                    <div class="timeline-item"><span class="timeline-time">🔴 2 MIN AGO</span><span class="timeline-event">DDoS ATTACK DETECTED — US</span></div>
-                    <div class="timeline-item"><span class="timeline-time">🟡 15 MIN AGO</span><span class="timeline-event">PHISHING CAMPAIGN — IN</span></div>
-                    <div class="timeline-item"><span class="timeline-time">🟢 32 MIN AGO</span><span class="timeline-event">MALWARE DETECTED — RU</span></div>
+                    <div class="timeline-item"><span class="timeline-time">🔴 2 MIN AGO</span><span class="timeline-event">DDOS ATTACK — US</span></div>
+                    <div class="timeline-item"><span class="timeline-time">🟡 15 MIN AGO</span><span class="timeline-event">PHISHING — IN</span></div>
+                    <div class="timeline-item"><span class="timeline-time">🟢 32 MIN AGO</span><span class="timeline-event">MALWARE — RU</span></div>
                     <div class="timeline-item"><span class="timeline-time">🔵 1 HOUR AGO</span><span class="timeline-event">DATA BREACH — UK</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ====== 📊 ADVANCED ANALYTICS ====== -->
-        <!-- ============================================================ -->
+        <!-- ====== ANALYTICS ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
-                <h2><i class="fas fa-chart-line" style="color:#00D4FF;"></i> ADVANCED ANALYTICS</h2>
+                <h2><i class="fas fa-chart-line" style="color:#00D4FF;"></i> ANALYTICS</h2>
                 <span class="badge-corp">VISUAL</span>
             </div>
             <div class="corporate-grid-2">
-                <div class="corporate-card chart-card-corp">
-                    <canvas id="threatChart"></canvas>
-                </div>
-                <div class="corporate-card chart-card-corp">
-                    <canvas id="attackChart"></canvas>
-                </div>
+                <div class="corporate-card chart-card-corp"><canvas id="threatChart"></canvas></div>
+                <div class="corporate-card chart-card-corp"><canvas id="attackChart"></canvas></div>
             </div>
-            <div class="analytics-export" style="margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;">
-                <button onclick="exportReport('csv')" class="corp-btn primary"><i class="fas fa-file-csv"></i> EXPORT CSV</button>
-                <button onclick="exportReport('pdf')" class="corp-btn secondary"><i class="fas fa-file-pdf"></i> EXPORT PDF</button>
-                <button onclick="exportReport('json')" class="corp-btn outline"><i class="fas fa-file-code"></i> EXPORT JSON</button>
-                <button onclick="scheduleReport()" class="corp-btn secondary"><i class="fas fa-clock"></i> SCHEDULE REPORT</button>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                <button onclick="exportReport('csv')" class="corp-btn primary"><i class="fas fa-file-csv"></i> CSV</button>
+                <button onclick="exportReport('json')" class="corp-btn outline"><i class="fas fa-file-code"></i> JSON</button>
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ====== 📰 CYBER NEWS ====== -->
-        <!-- ============================================================ -->
+        <!-- ====== CYBER NEWS ====== -->
         <section class="corporate-news-ticker">
             <div class="ticker-container">
                 <div class="ticker-label"><i class="fas fa-bolt"></i> CYBER NEWS</div>
                 <div class="ticker-scroll" id="breakingNewsTicker">
-                    <span>🚨 RANSOMWARE ATTACK HITS MAJOR HOSPITAL CHAIN — 3,000+ PATIENTS AFFECTED</span>
+                    <span>🚨 RANSOMWARE ATTACK HITS MAJOR HOSPITAL — 3,000+ AFFECTED</span>
                 </div>
             </div>
         </section>
 
         <section class="corporate-section">
             <div class="section-header-corp">
-                <h2><i class="fas fa-newspaper" style="color:#1B3A5C;"></i> CYBER NEWS FEED</h2>
+                <h2><i class="fas fa-newspaper" style="color:#1B3A5C;"></i> NEWS FEED</h2>
                 <span class="badge-corp">LIVE</span>
             </div>
             <div class="corporate-grid-3">
                 <div class="corporate-card news-card-corp">
                     <span class="news-badge-corp" style="background:#D4A843;">BREAKING</span>
-                    <h4>RANSOMWARE ATTACK HITS HOSPITAL</h4>
-                    <p>Patient data compromised in latest attack</p>
+                    <h4>RANSOMWARE ATTACK</h4>
+                    <p>Hospital patient data compromised</p>
                     <span class="news-time-corp-sm">2 HOURS AGO</span>
                 </div>
                 <div class="corporate-card news-card-corp">
                     <span class="news-badge-corp" style="background:#1B3A5C;">UPDATE</span>
-                    <h4>NEW ZERO-DAY VULNERABILITY</h4>
+                    <h4>ZERO-DAY VULNERABILITY</h4>
                     <p>Millions of devices at risk</p>
                     <span class="news-time-corp-sm">5 HOURS AGO</span>
                 </div>
                 <div class="corporate-card news-card-corp">
                     <span class="news-badge-corp" style="background:#2E7D32;">ALERT</span>
-                    <h4>AI-POWERED PHISHING ON RISE</h4>
+                    <h4>AI PHISHING ON RISE</h4>
                     <p>Cybercriminals using AI</p>
                     <span class="news-time-corp-sm">8 HOURS AGO</span>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ====== 👨‍💼 FOUNDER ====== -->
-        <!-- ============================================================ -->
+        <!-- ====== FOUNDER ====== -->
         <section class="corporate-section">
             <div class="corporate-card founder-card-corp">
                 <div class="founder-avatar-corp">
-                    <img src="https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=1B3A5C&color=fff&bold=true" alt="Manoj Meena" />
+                    <img src="https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=1B3A5C&color=fff&bold=true" alt="Manoj Meena">
                 </div>
                 <div class="founder-info-corp">
                     <h2>MANOJ MEENA</h2>
@@ -1894,13 +671,8 @@
                         <span>🛡️ CYBER CRIME ANALYST</span>
                         <span>📰 INVESTIGATIVE JOURNALIST</span>
                         <span>🔍 DIGITAL FRAUD INVESTIGATOR</span>
-                        <span>⚕️ HEALTHCARE PROFESSIONAL</span>
-                        <span>🎓 B.SC. NURSING</span>
                     </div>
-                    <p class="founder-bio-corp">
-                        <strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of
-                        <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.
-                    </p>
+                    <p class="founder-bio-corp"><strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.</p>
                     <div class="founder-social-corp">
                         <a href="#" class="social-corp"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="social-corp"><i class="fab fa-github"></i></a>
@@ -1918,12 +690,12 @@
         <div class="footer-container">
             <div class="footer-company-structure">
                 <span class="footer-parent">🏢 MK GLOBAL NEXUS</span>
-                <span class="footer-arrow">→</span>
+                <span>→</span>
                 <span class="footer-division">⚡ MK CYBER HUB</span>
             </div>
             <div class="footer-brand">ADVANCED CYBER INTELLIGENCE DIVISION</div>
-            <p class="footer-founder">FOUNDER, OWNER &amp; CEO: MANOJ MEENA</p>
-            <p class="footer-tagline">🧠 AI VISION | 🔍 OSINT | 🛡️ THREAT INTELLIGENCE | 🤖 AUTOMATION</p>
+            <p class="footer-founder">FOUNDER &amp; CEO: MANOJ MEENA</p>
+            <p class="footer-tagline">🧠 AI VISION · 🔍 OSINT · 🛡️ THREAT INTELLIGENCE</p>
             <p class="footer-motto">TECHNOLOGY WITH INTEGRITY. INTELLIGENCE WITH PURPOSE.</p>
             <div class="footer-social-corp">
                 <a href="#" class="footer-social-icon"><i class="fab fa-twitter"></i></a>
@@ -1932,1088 +704,424 @@
                 <a href="#" class="footer-social-icon"><i class="fas fa-envelope"></i></a>
             </div>
             <div class="footer-copy">
-                © MK GLOBAL NEXUS. ALL RIGHTS RESERVED.<br />
-                <span class="footer-brand-tag">ENTERPRISE CYBER INTELLIGENCE PLATFORM</span>
+                © MK GLOBAL NEXUS. ALL RIGHTS RESERVED.<br>
+                <span class="footer-brand-tag">ENTERPRISE CYBER INTELLIGENCE</span>
             </div>
-            <div class="footer-version">VERSION v7.0 — ADVANCED ENTERPRISE</div>
+            <div class="footer-version">VERSION v7.1 — OPTIMIZED</div>
         </div>
     </footer>
 
-    <!-- ====== JAVASCRIPT ====== -->
+    <!-- ====== OPTIMIZED JAVASCRIPT ====== -->
     <script>
-        // ================================================================
-        // 🏢 MK GLOBAL NEXUS — COMPLETE SCRIPT v7.0
-        // ================================================================
-        // COMPANY: MK GLOBAL NEXUS
-        // FOUNDER & CEO: MANOJ MEENA
-        // VERSION: v7.0 — COMPLETE ENTERPRISE TECH STACK
-        // ================================================================
+        // ===== GLOBALS =====
+        let stream = null,
+            interval = null,
+            running = false,
+            tfModel = null,
+            loaded = false,
+            mode = 'object',
+            scanCount = 0;
 
-        console.log('%c⚡ MK GLOBAL NEXUS', 'font-size:32px;color:#1B3A5C;font-weight:900;');
-        console.log('%c🧠 COMPLETE TECH STACK v7.0', 'font-size:14px;color:#00D4FF;font-weight:600;');
-
-        // ================================================================
-        // 📌 GLOBAL VARIABLES
-        // ================================================================
-
-        let mergedStream = null;
-        let mergedInterval = null;
-        let mergedMode = 'environment';
-        let isMergedRunning = false;
-        let tfModel = null;
-        let isTFLoaded = false;
-        let visionMode = 'all';
-        let activeModels = [];
-        let currentImageData = null;
-        let currentObjectName = '';
-        let scanCount = 0;
-
-        // ================================================================
-        // 🌍 3D GLOBE
-        // ================================================================
-
-        function initGlobe() {
-            const container = document.getElementById('globe-container');
-            if (!container) return;
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-            camera.position.z = 2.5;
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(width, height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-            container.appendChild(renderer.domElement);
-            const textureLoader = new THREE.TextureLoader();
-            const earthTexture = textureLoader.load(
-                'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
-            const geometry = new THREE.SphereGeometry(1, 48, 48);
-            const material = new THREE.MeshPhongMaterial({ map: earthTexture, shininess: 5 });
-            const earth = new THREE.Mesh(geometry, material);
-            scene.add(earth);
-            const ambientLight = new THREE.AmbientLight(0x404060);
-            scene.add(ambientLight);
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-            dirLight.position.set(5, 3, 5);
-            scene.add(dirLight);
-            const glowGeometry = new THREE.SphereGeometry(1.05, 48, 48);
-            const glowMaterial = new THREE.MeshBasicMaterial({ color: 0x1B3A5C, transparent: true, opacity: 0.04 });
-            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-            scene.add(glow);
-            let rotation = 0;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                rotation += 0.001;
-                earth.rotation.y = rotation;
-                glow.rotation.y = rotation;
-                renderer.render(scene, camera);
-            }
-            animate();
-            window.addEventListener('resize', () => {
-                const w = window.innerWidth;
-                const h = window.innerHeight;
-                camera.aspect = w / h;
-                camera.updateProjectionMatrix();
-                renderer.setSize(w, h);
-            });
-        }
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initGlobe);
-        } else {
-            initGlobe();
-        }
-
-        // ================================================================
-        // 🌤️ WEATHER & CLOCK
-        // ================================================================
-
-        async function getWeather() {
-            const tempElem = document.getElementById('weatherTemp');
-            if (!tempElem) return;
-            try {
-                const ipResponse = await fetch('https://ipapi.co/json/');
-                const ipData = await ipResponse.json();
-                const weatherResponse = await fetch(
-                    `https://api.open-meteo.com/v1/forecast?latitude=${ipData.latitude || 26.2389}&longitude=${ipData.longitude || 73.0243}&current_weather=true&timezone=auto`
-                    );
-                const weatherData = await weatherResponse.json();
-                if (weatherData.current_weather) {
-                    tempElem.textContent = `${Math.round(weatherData.current_weather.temperature)}°C`;
-                }
-            } catch (error) {
-                tempElem.textContent = '34°C';
-            }
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            const timeElem = document.getElementById('currentTime');
-            if (timeElem) timeElem.textContent = `${h}:${m}:${s}`;
-        }
-
-        // ================================================================
-        // 📊 STATS ANIMATION
-        // ================================================================
-
-        function animateStats() {
-            const stats = [
-                { id: 'totalThreats', target: 12847 },
-                { id: 'activeAttacks', target: 342 },
-                { id: 'vulnerabilities', target: 1204 },
-                { id: 'countries', target: 189 }
-            ];
-            stats.forEach(stat => {
-                const el = document.getElementById(stat.id);
-                if (!el) return;
-                let current = 0;
-                const step = Math.ceil(stat.target / 60);
-                const interval = setInterval(() => {
-                    current += step;
-                    if (current >= stat.target) {
-                        current = stat.target;
-                        clearInterval(interval);
-                    }
-                    el.textContent = current.toLocaleString();
-                }, 30);
-            });
-        }
-
-        // ================================================================
-        // 🌙 THEME TOGGLE
-        // ================================================================
-
+        // ===== THEME =====
         function toggleTheme() {
-            const body = document.body;
-            const isDark = body.classList.contains('dark-mode');
-            if (isDark) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-                document.querySelector('.theme-toggle-corp i').className = 'fas fa-moon';
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-                document.querySelector('.theme-toggle-corp i').className = 'fas fa-sun';
-            }
-            localStorage.setItem('mk-theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-toggle-corp i');
+            icon.className = document.body.classList.contains('dark-mode') ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
 
         function loadTheme() {
-            const saved = localStorage.getItem('mk-theme');
-            if (saved === 'dark') {
+            if (localStorage.getItem('theme') === 'dark') {
                 document.body.classList.add('dark-mode');
-                document.body.classList.remove('light-mode');
-                const icon = document.querySelector('.theme-toggle-corp i');
-                if (icon) icon.className = 'fas fa-sun';
-            } else {
-                document.body.classList.add('light-mode');
-                document.body.classList.remove('dark-mode');
-                const icon = document.querySelector('.theme-toggle-corp i');
-                if (icon) icon.className = 'fas fa-moon';
+                document.querySelector('.theme-toggle-corp i').className = 'fas fa-sun';
             }
         }
+        loadTheme();
 
-        // ================================================================
-        // 📚 OBJECT DATABASE
-        // ================================================================
-
-        const OBJECT_DATABASE = {
-            'person': { name: 'PERSON 👨', category: 'HUMAN', description: 'A human being.', scientific: 'HOMO SAPIENS',
-                habitat: 'EVERYWHERE', diet: 'OMNIVORE', funFact: 'MOST INTELLIGENT SPECIES ON EARTH!' },
-            'dog': { name: 'DOG 🐕', category: 'ANIMAL', description: 'A loyal domesticated carnivore.',
-                scientific: 'CANIS LUPUS FAMILIARIS', habitat: 'WORLDWIDE', diet: 'OMNIVORE',
-                funFact: '100,000X BETTER SMELL THAN HUMANS!' },
-            'cat': { name: 'CAT 🐈', category: 'ANIMAL', description: 'A small carnivorous pet.', scientific: 'FELIS CATUS',
-                habitat: 'WORLDWIDE', diet: 'CARNIVORE', funFact: 'CAN ROTATE EARS 180 DEGREES!' },
-            'car': { name: 'CAR 🚗', category: 'VEHICLE', description: 'A four-wheeled motor vehicle.', scientific: 'N/A',
-                habitat: 'ROADS', diet: 'FUEL/ELECTRICITY', funFact: 'FIRST CAR INVENTED IN 1886!' },
-            'laptop': { name: 'LAPTOP 💻', category: 'ELECTRONICS', description: 'A portable personal computer.',
-                scientific: 'N/A', habitat: 'HOMES, OFFICES', diet: 'BATTERY',
-                funFact: 'FIRST LAPTOP WAS OSBORNE 1 IN 1981!' },
-            'phone': { name: 'PHONE 📱', category: 'ELECTRONICS', description: 'A portable communication device.',
-                scientific: 'N/A', habitat: 'EVERYWHERE', diet: 'BATTERY', funFact: 'FIRST MOBILE PHONE IN 1973!' },
-            'chair': { name: 'CHAIR 🪑', category: 'FURNITURE', description: 'A seat with a backrest.', scientific: 'N/A',
-                habitat: 'HOMES, OFFICES', diet: 'N/A', funFact: 'USED IN ANCIENT EGYPT!' },
-            'table': { name: 'TABLE 🪑', category: 'FURNITURE', description: 'A flat-topped piece of furniture.',
-                scientific: 'N/A', habitat: 'HOMES, OFFICES', diet: 'N/A', funFact: 'DATES BACK TO ANCIENT EGYPT!' },
-            'book': { name: 'BOOK 📚', category: 'MEDIA', description: 'A collection of written pages.', scientific: 'N/A',
-                habitat: 'LIBRARIES, HOMES', diet: 'N/A', funFact: 'OLDEST PRINTED BOOK FROM 868 AD!' },
-            'bottle': { name: 'BOTTLE 🍾', category: 'CONTAINER', description: 'A container for liquids.', scientific: 'N/A',
-                habitat: 'EVERYWHERE', diet: 'N/A', funFact: 'FIRST GLASS BOTTLES IN ANCIENT EGYPT!' },
-            'pizza': { name: 'PIZZA 🍕', category: 'FOOD', description: 'A flat bread with toppings.', scientific: 'N/A',
-                habitat: 'PIZZERIAS', diet: 'EATEN BY HUMANS', funFact: 'FIRST PIZZERIA OPENED IN 1830!' },
-            'apple': { name: 'APPLE 🍎', category: 'FRUIT', description: 'A sweet edible fruit.',
-                scientific: 'MALUS DOMESTICA', habitat: 'WORLDWIDE', diet: 'N/A', funFact: 'OVER 7,500 VARIETIES!' },
-            'flower': { name: 'FLOWER 🌸', category: 'PLANT', description: 'Reproductive part of flowering plants.',
-                scientific: 'ANGIOSPERMS', habitat: 'WORLDWIDE', diet: 'PHOTOSYNTHESIS',
-                funFact: 'LARGEST FLOWER IS RAFFLESIA!' },
-            'tree': { name: 'TREE 🌳', category: 'PLANT', description: 'A perennial woody plant.', scientific: 'PLANTAE',
-                habitat: 'WORLDWIDE', diet: 'PHOTOSYNTHESIS', funFact: 'OLDEST TREE OVER 5,000 YEARS!' }
-        };
-
-        function getObjectInfo(objectName) {
-            const lowerName = objectName.toLowerCase();
-            for (const [key, value] of Object.entries(OBJECT_DATABASE)) {
-                if (lowerName.includes(key) || key.includes(lowerName)) {
-                    return value;
-                }
-            }
-            return { name: objectName.toUpperCase(), category: 'UNKNOWN', description: `A ${objectName} DETECTED.`,
-                scientific: 'N/A', habitat: 'UNKNOWN', diet: 'UNKNOWN', funFact: 'DETECTED BY AI!' };
+        // ===== CLOCK =====
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent =
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0') + ':' +
+                String(now.getSeconds()).padStart(2, '0');
         }
+        updateClock();
+        setInterval(updateClock, 1000);
 
-        // ================================================================
-        // 🧠 LOAD TENSORFLOW MODELS
-        // ================================================================
-
-        async function loadTensorFlowModels() {
+        // ===== WEATHER =====
+        async function getWeather() {
             try {
-                if (typeof cocoSsd !== 'undefined') {
-                    tfModel = await cocoSsd.load();
-                    isTFLoaded = true;
-                    if (!activeModels.includes('COCO-SSD')) activeModels.push('COCO-SSD');
-                    console.log('✅ COCO-SSD LOADED');
-                    return true;
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                const w = await fetch(
+                    `https://api.open-meteo.com/v1/forecast?latitude=${data.latitude||26.2389}&longitude=${data.longitude||73.0243}&current_weather=true`);
+                const wd = await w.json();
+                if (wd.current_weather) {
+                    document.getElementById('weatherTemp').textContent = Math.round(wd.current_weather.temperature) + '°C';
                 }
-                return false;
-            } catch (error) {
-                console.error('❌ COCO-SSD ERROR:', error);
-                return false;
-            }
+            } catch (e) { document.getElementById('weatherTemp').textContent = '34°C'; }
         }
+        getWeather();
+        setInterval(getWeather, 300000);
 
-        // ================================================================
-        // 🎯 VISION MODE SWITCHER
-        // ================================================================
-
-        function setVisionMode(mode) {
-            visionMode = mode;
-            document.querySelectorAll('.vision-mode').forEach(btn => btn.classList.remove('active'));
-            const modeMap = {
-                'object': 'modeObject',
-                'face': 'modeFace',
-                'gender': 'modeGender',
-                'ocr': 'modeOCR',
-                'qr': 'modeQR',
-                'mediapipe': 'modeMediaPipe',
-                'threat': 'modeThreat',
-                'all': 'modeAll'
-            };
-            if (modeMap[mode]) {
-                document.getElementById(modeMap[mode]).classList.add('active');
-            }
-            const modeNames = {
-                'object': '🎯 OBJECT DETECTION',
-                'face': '👤 FACE DETECTION',
-                'gender': '⚤ GENDER RECOGNITION',
-                'ocr': '📝 OCR',
-                'qr': '📱 QR/BARCODE',
-                'mediapipe': '👐 MEDIAPIPE',
-                'threat': '⚡ THREAT DETECTION',
-                'all': '🧠 ADVANCED AI'
-            };
-            document.getElementById('detectedAI').textContent = `🧠 ${modeNames[mode]}`;
-            console.log(`🔄 VISION MODE: ${mode.toUpperCase()}`);
+        // ===== STATS =====
+        function animateStats() {
+            [
+                ['totalThreats', 12847],
+                ['activeAttacks', 342],
+                ['vulnerabilities', 1204],
+                ['countries', 189]
+            ].forEach(([id, target]) => {
+                let el = document.getElementById(id),
+                    current = 0,
+                    step = Math.ceil(target / 40);
+                let timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) { current = target;
+                        clearInterval(timer); }
+                    el.textContent = current.toLocaleString();
+                }, 25);
+            });
         }
+        animateStats();
 
-        // ================================================================
-        // 📷 START VISION SCANNER
-        // ================================================================
+        // ===== NEWS =====
+        function updateNews() {
+            const news = [
+                'CRITICAL ZERO-DAY IN VPN — PATCH NOW!',
+                'GLOBAL CYBER ATTACK — 12 BANKS AFFECTED',
+                'AI MALWARE DETECTED IN 50+ COUNTRIES',
+                'RANSOMWARE LEAKS 2TB CORPORATE DATA',
+                'PHISHING CAMPAIGN — 10,000+ VICTIMS',
+                'IOT BOTNET GROWS TO 200,000+ DEVICES'
+            ];
+            const ticker = document.getElementById('breakingNewsTicker');
+            if (ticker) ticker.innerHTML = `<span>🚨 ${news[Math.floor(Math.random()*news.length)]}</span>`;
+        }
+        updateNews();
+        setInterval(updateNews, 60000);
+
+        // ===== THREAT MAP =====
+        function updateThreatMap() {
+            ['usThreats', 'cnThreats', 'ruThreats', 'inThreats', 'ukThreats', 'deThreats'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    let val = parseInt(el.textContent.replace(/,/g, '')) || 1000;
+                    val += Math.floor(Math.random() * 20) - 8;
+                    el.textContent = Math.max(100, val).toLocaleString();
+                }
+            });
+        }
+        setInterval(updateThreatMap, 10000);
+
+        // ===== CHARTS =====
+        setTimeout(() => {
+            try {
+                new Chart(document.getElementById('threatChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+                        datasets: [{ label: 'THREATS', data: [45, 52, 38, 65, 71, 48, 56], borderColor: '#1B3A5C',
+                            tension: 0.4, fill: true, pointRadius: 2 }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+                        scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(0,0,0,0.04)' } } } }
+                });
+                new Chart(document.getElementById('attackChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['DDOS', 'PHISHING', 'MALWARE', 'RANSOM', 'OTHER'],
+                        datasets: [{ data: [30, 25, 20, 15, 10], backgroundColor: ['#1B3A5C', '#D4A843', '#2E7D32',
+                                '#C62828', '#6A7A8A'
+                            ], borderWidth: 0 }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: {
+                                position: 'bottom', labels: { font: { size: 9 } } } } }
+                });
+            } catch (e) {}
+        }, 500);
+
+        // ===== 3D GLOBE - LIGHTWEIGHT =====
+        setTimeout(() => {
+            try {
+                const container = document.getElementById('globe-container');
+                if (!container) return;
+                const w = window.innerWidth,
+                    h = window.innerHeight;
+                const scene = new THREE.Scene(),
+                    camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+                camera.position.z = 2.5;
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(w, h);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+                container.appendChild(renderer.domElement);
+
+                const texture = new THREE.TextureLoader().load(
+                    'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
+                const earth = new THREE.Mesh(
+                    new THREE.SphereGeometry(1, 32, 32),
+                    new THREE.MeshPhongMaterial({ map: texture, shininess: 5 })
+                );
+                scene.add(earth);
+                scene.add(new THREE.AmbientLight(0x404060));
+                const light = new THREE.DirectionalLight(0xffffff, 1.2);
+                light.position.set(5, 3, 5);
+                scene.add(light);
+
+                let rot = 0;
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    rot += 0.001;
+                    earth.rotation.y = rot;
+                    renderer.render(scene, camera);
+                }
+                animate();
+                window.addEventListener('resize', () => {
+                    const w2 = window.innerWidth,
+                        h2 = window.innerHeight;
+                    camera.aspect = w2 / h2;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(w2, h2);
+                });
+            } catch (e) { console.log('Globe skipped'); }
+        }, 1000);
+
+        // ===== AI VISION =====
+        function setVisionMode(m) { mode = m;
+            document.querySelectorAll('.vision-mode').forEach(b => b.classList.remove('active'));
+            document.getElementById('mode' + m.charAt(0).toUpperCase() + m.slice(1)).classList.add('active');
+            document.getElementById('detectedAI').textContent = '🧠 ' + m.toUpperCase(); }
 
         async function startVisionScanner() {
-            const video = document.getElementById('scannerVideo');
-            const status = document.getElementById('scannerStatus');
-            const debug = document.getElementById('debugInfo');
-
+            const video = document.getElementById('scannerVideo'),
+                status = document.getElementById('scannerStatus');
             try {
-                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    status.innerHTML = '❌ CAMERA NOT SUPPORTED';
-                    status.style.color = '#FF4444';
-                    return;
+                if (stream) { stream.getTracks().forEach(t => t.stop());
+                    stream = null; }
+                if (!loaded && typeof cocoSsd !== 'undefined') {
+                    status.innerHTML = '⏳ LOADING AI...';
+                    tfModel = await cocoSsd.load();
+                    loaded = true;
+                    document.getElementById('dashModels').textContent = '1';
                 }
-
-                if (mergedStream) {
-                    mergedStream.getTracks().forEach(track => track.stop());
-                    mergedStream = null;
-                }
-
-                status.innerHTML = '⏳ LOADING AI MODELS...';
-                status.style.color = '#D4A843';
-
-                if (!isTFLoaded) {
-                    await loadTensorFlowModels();
-                }
-
-                if (!isTFLoaded) {
-                    status.innerHTML = '❌ AI LOAD FAILED';
-                    status.style.color = '#FF4444';
-                    return;
-                }
-
-                status.innerHTML = '📷 REQUESTING CAMERA...';
-                status.style.color = '#D4A843';
-                if (debug) debug.textContent = '📷 REQUESTING PERMISSION...';
-
-                const constraints = {
-                    video: {
-                        facingMode: mergedMode,
-                        width: { ideal: 640 },
-                        height: { ideal: 480 }
-                    },
-                    audio: false
-                };
-
-                mergedStream = await navigator.mediaDevices.getUserMedia(constraints);
-                video.srcObject = mergedStream;
+                if (!loaded) { status.innerHTML = '❌ AI FAILED'; return; }
+                status.innerHTML = '📷 CAMERA...';
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 480 },
+                            height: { ideal: 360 } }, audio: false });
+                video.srcObject = stream;
                 await video.play();
-
-                isMergedRunning = true;
-                status.innerHTML = '<span class="status-dot"></span> LIVE SCANNING...';
-                status.style.color = '#44DD88';
+                running = true;
+                status.innerHTML = '<span class="status-dot"></span> LIVE';
                 document.getElementById('visionStatus').textContent = '🟢 LIVE';
-                if (debug) debug.textContent = '✅ CAMERA ACTIVE';
-
-                document.getElementById('dashModels').textContent = activeModels.length;
-
-                setTimeout(startVisionLoop, 500);
-
-            } catch (error) {
-                console.error('❌ CAMERA ERROR:', error);
-                status.innerHTML = `❌ ${error.message}`;
-                status.style.color = '#FF4444';
-                if (debug) debug.textContent = '❌ ' + error.message;
-            }
+                startLoop();
+            } catch (e) { status.innerHTML = '❌ ' + e.message; }
         }
 
-        // ================================================================
-        // 🔄 VISION DETECTION LOOP
-        // ================================================================
-
-        function startVisionLoop() {
-            const video = document.getElementById('scannerVideo');
-            const canvas = document.getElementById('scannerOverlayCanvas');
-            const debug = document.getElementById('debugInfo');
-
-            if (mergedInterval) clearInterval(mergedInterval);
-
-            let frameCount = 0;
-            let lastFPSTime = Date.now();
-
-            mergedInterval = setInterval(async () => {
-                if (!isMergedRunning || !video || video.paused || video.ended) return;
-                if (video.videoWidth === 0 || video.videoHeight === 0) return;
-
-                const startTime = performance.now();
-                const displaySize = { width: video.videoWidth, height: video.videoHeight };
-                canvas.width = displaySize.width;
-                canvas.height = displaySize.height;
+        function startLoop() {
+            if (interval) clearInterval(interval);
+            const video = document.getElementById('scannerVideo'),
+                canvas = document.getElementById('scannerOverlayCanvas');
+            let frames = 0,
+                lastFps = Date.now();
+            interval = setInterval(async () => {
+                if (!running || !video || video.paused) return;
+                if (video.videoWidth === 0) return;
+                const w = video.videoWidth,
+                    h = video.videoHeight;
+                canvas.width = w;
+                canvas.height = h;
                 const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                frameCount++;
-                if (Date.now() - lastFPSTime > 1000) {
-                    document.getElementById('dashFPS').textContent = frameCount;
-                    frameCount = 0;
-                    lastFPSTime = Date.now();
-                }
-
-                try {
-                    if (isTFLoaded && tfModel && (visionMode === 'object' || visionMode === 'all' || visionMode ===
-                            'threat')) {
-                        const predictions = await tfModel.detect(video);
-                        const filtered = predictions.filter(p => p.score > 0.5);
-
+                ctx.clearRect(0, 0, w, h);
+                frames++;
+                if (Date.now() - lastFps > 1000) { document.getElementById('dashFPS').textContent = frames;
+                    frames = 0;
+                    lastFps = Date.now(); }
+                if (loaded && tfModel) {
+                    try {
+                        const preds = await tfModel.detect(video);
+                        const filtered = preds.filter(p => p.score > 0.5);
                         if (filtered.length > 0) {
                             filtered.forEach(p => {
                                 ctx.strokeStyle = '#00D4FF';
                                 ctx.lineWidth = 2;
                                 ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
-
-                                const confidence = Math.round(p.score * 100);
-                                const label = `${p.class.toUpperCase()} (${confidence}%)`;
-                                ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-                                const textWidth = ctx.measureText(label).width;
-                                ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 22, textWidth + 12, 22);
+                                const label = p.class.toUpperCase() + ' (' + Math.round(p.score * 100) + '%)';
+                                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                                ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 18, ctx.measureText(label).width + 10, 18);
                                 ctx.fillStyle = '#00D4FF';
-                                ctx.font = '12px Inter, sans-serif';
+                                ctx.font = '10px Inter';
                                 ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 4);
                             });
-
                             const top = filtered[0];
-                            const info = getObjectInfo(top.class);
-                            document.getElementById('detectedObject').textContent = `🔍 ${info.name}`;
-                            document.getElementById('detectedConfidence').textContent =
-                                `CONFIDENCE: ${Math.round(top.score * 100)}%`;
-                            if (debug) debug.textContent = `🎯 ${top.class.toUpperCase()} (${Math.round(top.score * 100)}%)`;
-
-                            if (visionMode === 'threat') {
-                                const threatLevel = top.score > 0.8 ? '🔴 HIGH' : top.score > 0.6 ? '🟡 MEDIUM' : '🟢 LOW';
-                                document.getElementById('dashThreat').textContent = threatLevel;
+                            document.getElementById('detectedObject').textContent = '🔍 ' + top.class.toUpperCase();
+                            document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: ' + Math.round(top
+                                .score * 100) + '%';
+                            document.getElementById('dashConfidence').textContent = Math.round(top.score * 100) + '%';
+                            if (mode === 'threat') {
+                                document.getElementById('dashThreat').textContent = top.score > 0.8 ? '🔴 HIGH' : top
+                                    .score > 0.6 ? '🟡 MEDIUM' : '🟢 LOW';
                             }
                         }
-                    }
-
-                    const endTime = performance.now();
-                    document.getElementById('dashTime').textContent = `${Math.round(endTime - startTime)}MS`;
-                    document.getElementById('dashConfidence').textContent = `${(70 + Math.random() * 25).toFixed(0)}%`;
-                    document.getElementById('dashMemory').textContent = `${(50 + Math.random() * 40).toFixed(0)}MB`;
-                    document.getElementById('dashGPU').textContent = navigator.gpu ? '✅ AVAILABLE' : '❌ NOT AVAILABLE';
-
-                } catch (e) {}
-            }, 100);
+                    } catch (e) {}
+                }
+            }, 150);
         }
-
-        // ================================================================
-        // 🛑 STOP VISION SCANNER
-        // ================================================================
 
         function stopVisionScanner() {
+            running = false;
+            if (interval) { clearInterval(interval);
+                interval = null; }
+            if (stream) { stream.getTracks().forEach(t => t.stop());
+                stream = null; }
             const video = document.getElementById('scannerVideo');
-            const status = document.getElementById('scannerStatus');
-            const debug = document.getElementById('debugInfo');
-
-            isMergedRunning = false;
-            if (mergedInterval) {
-                clearInterval(mergedInterval);
-                mergedInterval = null;
-            }
-            if (mergedStream) {
-                mergedStream.getTracks().forEach(track => track.stop());
-                mergedStream = null;
-            }
-            if (video) {
-                video.srcObject = null;
-                video.pause();
-            }
-            status.innerHTML = '<span class="status-dot"></span> STOPPED';
-            status.style.color = '#D4A843';
+            if (video) { video.srcObject = null;
+                video.pause(); }
+            document.getElementById('scannerStatus').innerHTML = '<span class="status-dot"></span> STOPPED';
             document.getElementById('visionStatus').textContent = '⏸️ PAUSED';
-            if (debug) debug.textContent = '⏹️ STOPPED';
         }
 
-        // ================================================================
-        // 🔄 SWITCH CAMERA
-        // ================================================================
-
-        function switchMergedCamera() {
-            mergedMode = mergedMode === 'environment' ? 'user' : 'environment';
-            if (isMergedRunning) {
-                stopVisionScanner();
-                setTimeout(startVisionScanner, 500);
-            }
-        }
-
-        // ================================================================
-        // 📸 CAPTURE VISION SCANNER
-        // ================================================================
+        function switchMergedCamera() { if (running) { stopVisionScanner();
+                setTimeout(startVisionScanner, 500); } }
 
         async function captureVisionScanner() {
-            const video = document.getElementById('scannerVideo');
+            if (!running) { alert('START CAMERA FIRST!'); return; }
             const canvas = document.getElementById('scannerOverlayCanvas');
-            const status = document.getElementById('scannerStatus');
-
-            if (!video || !video.srcObject || !isMergedRunning) {
-                status.innerHTML = '⚠️ START CAMERA FIRST';
-                status.style.color = '#D4A843';
-                return;
-            }
-
             const imgData = canvas.toDataURL('image/jpeg');
-            const imgEl = document.getElementById('scanResultImage');
-            if (imgEl) imgEl.src = imgData;
+            document.getElementById('scanResultImage').src = imgData;
             document.getElementById('scanResults').style.display = 'block';
-            document.getElementById('freeSearchContainer').style.display = 'block';
-            currentImageData = imgData;
-            status.innerHTML = '📸 CAPTURED! ANALYZING...';
-            status.style.color = '#00D4FF';
-
+            document.getElementById('scanStatus').textContent = '⏳ ANALYZING...';
             scanCount++;
-            document.getElementById('dashScans').textContent = scanCount;
-
             const img = new Image();
             img.src = imgData;
             img.onload = async function() {
-                if (!isTFLoaded) await loadTensorFlowModels();
+                if (!loaded && typeof cocoSsd !== 'undefined') { tfModel = await cocoSsd.load();
+                    loaded = true; }
                 if (tfModel) {
                     try {
-                        const predictions = await tfModel.detect(img);
-                        if (predictions && predictions.length > 0) {
-                            const top = predictions[0];
-                            const info = getObjectInfo(top.class);
+                        const preds = await tfModel.detect(img);
+                        if (preds && preds.length > 0) {
+                            const top = preds[0];
                             document.getElementById('scanStatus').textContent = '✅ COMPLETE';
-                            document.getElementById('scanObjectName').textContent = info.name;
-                            document.getElementById('scanConfidence').textContent = `${Math.round(top.score * 100)}%`;
-                            document.getElementById('scanCategory').textContent = info.category;
-                            document.getElementById('scanDescription').textContent = info.description;
-                            document.getElementById('scanScientific').textContent = info.scientific;
-                            document.getElementById('scanHabitat').textContent = info.habitat;
-                            document.getElementById('scanDiet').textContent = info.diet;
-                            document.getElementById('scanFact').textContent = info.funFact;
-                            currentObjectName = info.name;
-                        } else {
-                            document.getElementById('scanStatus').textContent = '⚠️ NO OBJECTS DETECTED';
-                        }
-                    } catch (e) {
-                        console.error('DETECTION ERROR:', e);
-                        document.getElementById('scanStatus').textContent = '❌ ERROR ANALYZING';
-                    }
+                            document.getElementById('scanObjectName').textContent = top.class.toUpperCase();
+                            document.getElementById('scanConfidence').textContent = Math.round(top.score * 100) + '%';
+                            document.getElementById('scanCategory').textContent = 'DETECTED';
+                            document.getElementById('scanDescription').textContent = 'A ' + top.class + ' DETECTED BY AI.';
+                        } else { document.getElementById('scanStatus').textContent = '⚠️ NO OBJECT'; }
+                    } catch (e) { document.getElementById('scanStatus').textContent = '❌ ERROR'; }
                 }
-                status.innerHTML = '✅ ANALYSIS COMPLETE';
-                status.style.color = '#44DD88';
-            };
-            img.onerror = function() {
-                status.innerHTML = '❌ IMAGE LOAD ERROR';
-                status.style.color = '#FF4444';
             };
         }
-
-        // ================================================================
-        // 🌐 LIVE INTELLIGENCE
-        // ================================================================
 
         function liveGoogleSearch() {
             const obj = document.getElementById('scanObjectName').textContent;
-            if (!obj || obj === '-' || obj === 'UNKNOWN OBJECT') {
-                alert('PLEASE SCAN AN OBJECT FIRST!');
-                return;
-            }
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(obj)}`, '_blank');
-        }
-
-        function liveGoogleImages() {
-            const obj = document.getElementById('scanObjectName').textContent;
-            if (!obj || obj === '-' || obj === 'UNKNOWN OBJECT') {
-                alert('PLEASE SCAN AN OBJECT FIRST!');
-                return;
-            }
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(obj)}&tbm=isch`, '_blank');
+            if (!obj || obj === '-') { alert('SCAN FIRST!'); return; }
+            window.open('https://www.google.com/search?q=' + encodeURIComponent(obj), '_blank');
         }
 
         function liveYouTubeSearch() {
             const obj = document.getElementById('scanObjectName').textContent;
-            if (!obj || obj === '-' || obj === 'UNKNOWN OBJECT') {
-                alert('PLEASE SCAN AN OBJECT FIRST!');
-                return;
-            }
-            window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(obj)}`, '_blank');
+            if (!obj || obj === '-') { alert('SCAN FIRST!'); return; }
+            window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(obj), '_blank');
         }
 
         function liveWikipediaPage() {
             const obj = document.getElementById('scanObjectName').textContent;
-            if (!obj || obj === '-' || obj === 'UNKNOWN OBJECT') {
-                alert('PLEASE SCAN AN OBJECT FIRST!');
-                return;
-            }
-            window.open(`https://en.wikipedia.org/wiki/${encodeURIComponent(obj)}`, '_blank');
+            if (!obj || obj === '-') { alert('SCAN FIRST!'); return; }
+            window.open('https://en.wikipedia.org/wiki/' + encodeURIComponent(obj), '_blank');
         }
 
-        // ================================================================
-        // 🔍 OSINT FUNCTIONS
-        // ================================================================
+        // ===== OSINT FUNCTIONS =====
+        function runDork() { runOSINT('dorkInput', 'dorkResult', 'GOOGLE DORKING'); }
 
-        function runDork() {
-            const input = document.getElementById('dorkInput');
-            const result = document.getElementById('dorkResult');
-            const query = input.value.trim() || 'SITE:EXAMPLE.COM';
-            result.innerHTML = '🔍 SEARCHING GOOGLE DORKS...';
+        function runShodan() { runOSINT('shodanInput', 'shodanResult', 'SHODAN'); }
+
+        function runCensys() { runOSINT('censysInput', 'censysResult', 'CENSYS'); }
+
+        function runHarvester() { runOSINT('harvestInput', 'harvestResult', 'THEHARVESTER'); }
+
+        function runSpiderfoot() { runOSINT('spiderInput', 'spiderResult', 'SPIDERFOOT'); }
+
+        function runMaltego() { runOSINT('maltegoInput', 'maltegoResult', 'MALTEGO'); }
+
+        function runWhois() { runOSINT('whoisInput', 'whoisResult', 'WHOIS'); }
+
+        function runVirusTotal() { runOSINT('vtInput', 'vtResult', 'VIRUSTOTAL'); }
+
+        function runPwned() { runOSINT('pwnedInput', 'pwnedResult', 'HIBP'); }
+
+        function runWayback() { runOSINT('waybackInput', 'waybackResult', 'WAYBACK'); }
+
+        function runOSINT(inputId, resultId, name) {
+            const input = document.getElementById(inputId);
+            const result = document.getElementById(resultId);
+            const query = input.value.trim() || 'EXAMPLE';
+            result.innerHTML = '🔍 ' + name + ' SCANNING...';
             result.className = 'result-corp';
             setTimeout(() => {
-                const results = [
-                    `📌 FOUND 142 RESULTS FOR "${query.toUpperCase()}"`,
-                    `📌 FOUND 87 RESULTS FOR "${query.toUpperCase()}"`,
-                    `📌 FOUND 231 RESULTS FOR "${query.toUpperCase()}"`,
-                    `📌 FOUND 56 RESULTS FOR "${query.toUpperCase()}"`
-                ];
-                result.innerHTML = results[Math.floor(Math.random() * results.length)] +
-                    '<br><span style="font-size:12px;color:var(--text-muted);">🔗 INCLUDES SENSITIVE DATA EXPOSURES</span>';
+                const found = Math.floor(10 + Math.random() * 50);
+                result.innerHTML = '📌 RESULTS FOR "' + query.toUpperCase() + '":<br>✅ ' + found +
+                    ' ENTRIES FOUND<br>📊 ANALYSIS COMPLETE';
                 result.classList.add('success');
-            }, 1800);
+            }, 1500 + Math.random() * 1000);
         }
 
-        function runShodan() {
-            const input = document.getElementById('shodanInput');
-            const result = document.getElementById('shodanResult');
-            const query = input.value.trim() || 'APACHE PORT:80';
-            result.innerHTML = '🌐 QUERYING SHODAN...';
+        // ===== SECURITY FUNCTIONS =====
+        function runAIAnalysis() { runSecurity('aiInput', 'aiResult', 'AI THREAT ANALYSIS'); }
+
+        function runDarkWebMonitor() { runSecurity('darkWebInput', 'darkWebResult', 'DARK WEB MONITOR'); }
+
+        function runVulnScan() { runSecurity('vulnInput', 'vulnResult', 'VULNERABILITY SCAN'); }
+
+        function runSSLCheck() { runSecurity('sslInput', 'sslResult', 'SSL CHECK'); }
+
+        function runPhishingDetector() { runSecurity('phishInput', 'phishResult', 'PHISHING DETECTOR'); }
+
+        function runIPReputation() { runSecurity('ipRepInput', 'ipRepResult', 'IP REPUTATION'); }
+
+        function runSecurity(inputId, resultId, name) {
+            const input = document.getElementById(inputId);
+            const result = document.getElementById(resultId);
+            const query = input.value.trim() || 'TARGET';
+            result.innerHTML = '🛡️ ' + name + ' IN PROGRESS...';
             result.className = 'result-corp';
             setTimeout(() => {
-                const services = ['APACHE/2.4.41', 'NGINX/1.18.0', 'IIS/10.0', 'LIGHTTPD/1.4'];
-                const ports = ['80', '443', '8080', '8443'];
-                result.innerHTML =
-                    `📡 FOUND ${Math.floor(50 + Math.random() * 150)} HOSTS FOR "${query.toUpperCase()}"<br>` +
-                    `🖥️ TOP SERVICE: ${services[Math.floor(Math.random() * services.length)]} ON PORT ${ports[Math.floor(Math.random() * ports.length)]}<br>` +
-                    `🌍 COUNTRIES: US, CN, RU, IN, DE`;
-                result.classList.add('success');
-            }, 1900);
+                const status = Math.random() > 0.7 ? '🔴 HIGH RISK' : Math.random() > 0.4 ? '🟡 MEDIUM' : '🟢 LOW RISK';
+                result.innerHTML = '📌 TARGET: ' + query + '<br>📊 STATUS: ' + status +
+                    '<br>✅ ANALYSIS COMPLETE';
+                result.className = status.includes('HIGH') ? 'result-corp error' : 'result-corp success';
+            }, 1500 + Math.random() * 1000);
         }
 
-        function runCensys() {
-            const input = document.getElementById('censysInput');
-            const result = document.getElementById('censysResult');
-            const query = input.value.trim() || 'EXAMPLE.COM';
-            result.innerHTML = '📡 SCANNING CENSYS...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                result.innerHTML =
-                    `📌 RESULTS FOR "${query.toUpperCase()}":<br>` +
-                    `🖥️ IP: ${[192, 10, 172, 8][Math.floor(Math.random() * 4)]}.${Math.floor(1 + Math.random() * 254)}.${Math.floor(1 + Math.random() * 254)}.${Math.floor(1 + Math.random() * 254)}<br>` +
-                    `🔓 OPEN PORTS: 22, 80, 443, 3306<br>` +
-                    `📅 FIRST SEEN: ${new Date(Date.now() - 86400000 * Math.floor(30 + Math.random() * 365)).toLocaleDateString()}`;
-                result.classList.add('success');
-            }, 1700);
-        }
-
-        function runHarvester() {
-            const input = document.getElementById('harvestInput');
-            const result = document.getElementById('harvestResult');
-            const query = input.value.trim() || 'EXAMPLE.COM';
-            result.innerHTML = '📧 GATHERING EMAILS...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const domains = ['GMAIL.COM', 'OUTLOOK.COM', 'YAHOO.COM', 'PROTONMAIL.COM'];
-                const emails = [];
-                for (let i = 0; i < 5 + Math.floor(Math.random() * 10); i++) {
-                    const name = ['JOHN', 'JANE', 'ADMIN', 'INFO', 'SUPPORT', 'CEO', 'HR', 'IT'][Math.floor(Math.random() *
-                        8)];
-                    emails.push(`${name}${Math.floor(1 + Math.random() * 99)}@${domains[Math.floor(Math.random() * domains.length)]}`);
-                }
-                result.innerHTML = `📧 FOUND ${emails.length} EMAIL ADDRESSES:<br>${emails.join('<br>')}`;
-                result.classList.add('success');
-            }, 2000);
-        }
-
-        function runSpiderfoot() {
-            const input = document.getElementById('spiderInput');
-            const result = document.getElementById('spiderResult');
-            const query = input.value.trim() || 'TARGET.COM';
-            result.innerHTML = '🕷️ RUNNING SPIDERFOOT...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                result.innerHTML =
-                    `🕸️ SPIDERFOOT RESULTS FOR "${query.toUpperCase()}":<br>` +
-                    `🔗 FOUND ${Math.floor(20 + Math.random() * 80)} UNIQUE LINKS<br>` +
-                    `📧 ${Math.floor(3 + Math.random() * 15)} EMAIL ADDRESSES<br>` +
-                    `🌐 ${Math.floor(2 + Math.random() * 8)} SUBDOMAINS<br>` +
-                    `📡 ${Math.floor(1 + Math.random() * 5)} OPEN PORTS`;
-                result.classList.add('success');
-            }, 2100);
-        }
-
-        function runMaltego() {
-            const input = document.getElementById('maltegoInput');
-            const result = document.getElementById('maltegoResult');
-            const query = input.value.trim() || 'COMPANY NAME';
-            result.innerHTML = '🕸️ RUNNING MALTEGO TRANSFORMS...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const entities = ['PERSON', 'DOMAIN', 'EMAIL', 'PHONE', 'COMPANY', 'SOCIAL MEDIA'];
-                result.innerHTML =
-                    `🔗 MALTEGO RESULTS FOR "${query.toUpperCase()}":<br>` +
-                    `👤 FOUND ${Math.floor(5 + Math.random() * 20)} ENTITIES<br>` +
-                    `📊 TYPES: ${entities.slice(0, 3 + Math.floor(Math.random() * 3)).join(', ')}<br>` +
-                    `🔗 ${Math.floor(10 + Math.random() * 40)} TOTAL CONNECTIONS`;
-                result.classList.add('success');
-            }, 1900);
-        }
-
-        function runWhois() {
-            const input = document.getElementById('whoisInput');
-            const result = document.getElementById('whoisResult');
-            const query = input.value.trim() || 'EXAMPLE.COM';
-            result.innerHTML = '📋 LOOKING UP WHOIS...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const registrars = ['GODADDY', 'NAMECHEAP', 'GOOGLE DOMAINS', 'CLOUDFLARE'];
-                result.innerHTML =
-                    `📌 WHOIS FOR "${query.toUpperCase()}":<br>` +
-                    `🏢 REGISTRAR: ${registrars[Math.floor(Math.random() * registrars.length)]}<br>` +
-                    `📅 REGISTERED: ${new Date(Date.now() - 86400000 * 365 * (2 + Math.floor(Math.random() * 8))).toLocaleDateString()}<br>` +
-                    `⏳ EXPIRES: ${new Date(Date.now() + 86400000 * 365 * (1 + Math.floor(Math.random() * 3))).toLocaleDateString()}<br>` +
-                    `🌐 NAMESERVERS: NS1.${query}, NS2.${query}`;
-                result.classList.add('success');
-            }, 1700);
-        }
-
-        function runVirusTotal() {
-            const input = document.getElementById('vtInput');
-            const result = document.getElementById('vtResult');
-            const query = input.value.trim() || 'HTTPS://EXAMPLE.COM';
-            result.innerHTML = '🦠 SCANNING WITH VIRUSTOTAL...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const detections = Math.floor(Math.random() * 15);
-                const status = detections === 0 ? '✅ CLEAN' : detections < 5 ? '🟡 SUSPICIOUS' : '🔴 MALICIOUS';
-                result.innerHTML =
-                    `🔬 VIRUSTOTAL RESULTS FOR "${query.toUpperCase()}":<br>` +
-                    `📊 DETECTION RATIO: ${detections}/${60 + Math.floor(Math.random() * 20)}<br>` +
-                    `📌 STATUS: ${status}<br>` +
-                    `🖥️ LAST ANALYSIS: ${new Date().toLocaleDateString()}`;
-                result.className = detections > 5 ? 'result-corp error' : 'result-corp success';
-            }, 2000);
-        }
-
-        function runPwned() {
-            const input = document.getElementById('pwnedInput');
-            const result = document.getElementById('pwnedResult');
-            const email = input.value.trim() || 'TEST@EXAMPLE.COM';
-            result.innerHTML = '🔓 CHECKING HIBP...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const breaches = Math.floor(Math.random() * 8);
-                const found = breaches > 0;
-                result.innerHTML =
-                    `📧 CHECKING: ${email}<br>` +
-                    `${found ? `🔴 FOUND IN ${breaches} BREACH${breaches > 1 ? 'ES' : ''}!` : '✅ NO BREACHES FOUND.'}<br>` +
-                    `${found ? '⚠️ CHANGE PASSWORD IMMEDIATELY!' : '🟢 ACCOUNT APPEARS SECURE.'}`;
-                result.className = found ? 'result-corp error' : 'result-corp success';
-            }, 1800);
-        }
-
-        function runWayback() {
-            const input = document.getElementById('waybackInput');
-            const result = document.getElementById('waybackResult');
-            const query = input.value.trim() || 'EXAMPLE.COM';
-            result.innerHTML = '📜 QUERYING WAYBACK MACHINE...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const snapshots = Math.floor(50 + Math.random() * 400);
-                const oldest = new Date(Date.now() - 86400000 * 365 * (5 + Math.random() * 15)).toLocaleDateString();
-                const latest = new Date().toLocaleDateString();
-                result.innerHTML =
-                    `📜 WAYBACK RESULTS FOR "${query.toUpperCase()}":<br>` +
-                    `📸 ${snapshots} SNAPSHOTS ARCHIVED<br>` +
-                    `📅 OLDEST: ${oldest}<br>` +
-                    `📅 LATEST: ${latest}<br>` +
-                    `🔗 FIRST SNAPSHOT: HTTPS://WEB.ARCHIVE.ORG/WEB/${oldest.replace(/\//g, '')}/${query}`;
-                result.classList.add('success');
-            }, 1900);
-        }
-
-        // ================================================================
-        // 🛡️ SECURITY FUNCTIONS
-        // ================================================================
-
-        function runAIAnalysis() {
-            const input = document.getElementById('aiInput');
-            const result = document.getElementById('aiResult');
-            const query = input.value.trim() || '8.8.8.8';
-            result.innerHTML = '🧠 AI THREAT ANALYSIS IN PROGRESS...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const risk = Math.random();
-                const level = risk > 0.7 ? '🔴 HIGH' : risk > 0.4 ? '🟡 MEDIUM' : '🟢 LOW';
-                const details = risk > 0.7 ? 'SUSPICIOUS ACTIVITY DETECTED' : risk > 0.4 ? 'MINOR ANOMALIES FOUND' :
-                    'NO THREATS DETECTED';
-                result.innerHTML =
-                    `📌 TARGET: <strong>${query}</strong><br>` +
-                    `⚠️ RISK LEVEL: ${level}<br>` +
-                    `📊 CONFIDENCE: ${(70 + Math.random() * 25).toFixed(0)}%<br>` +
-                    `📝 ${details}`;
-                result.className = risk > 0.7 ? 'result-corp error' : risk > 0.4 ? 'result-corp' : 'result-corp success';
-            }, 2000);
-        }
-
-        function runDarkWebMonitor() {
-            const input = document.getElementById('darkWebInput');
-            const result = document.getElementById('darkWebResult');
-            const email = input.value.trim() || 'TEST@EXAMPLE.COM';
-            result.innerHTML = '🔍 SCANNING DARK WEB...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const found = Math.random() > 0.4;
-                const sources = ['ALPHABAY', 'SILK ROAD', 'HYDRA', 'DREAM MARKET', 'WHITE HOUSE MARKET'];
-                result.innerHTML =
-                    `📧 MONITORING: ${email}<br>` +
-                    `${found ? `🔴 FOUND ON ${sources[Math.floor(Math.random() * sources.length)]}!` : '✅ NOT FOUND ON DARK WEB.'}<br>` +
-                    `${found ? '⚠️ CONSIDER CHANGING CREDENTIALS.' : '🟢 NO EXPOSURE DETECTED.'}`;
-                result.className = found ? 'result-corp error' : 'result-corp success';
-            }, 2200);
-        }
-
-        function runVulnScan() {
-            const input = document.getElementById('vulnInput');
-            const result = document.getElementById('vulnResult');
-            const url = input.value.trim() || 'HTTPS://EXAMPLE.COM';
-            result.innerHTML = '🛡️ SCANNING FOR VULNERABILITIES...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const vulns = Math.floor(Math.random() * 6);
-                const critical = Math.floor(Math.random() * 3);
-                result.innerHTML =
-                    `🌐 TARGET: ${url}<br>` +
-                    `📊 FOUND ${vulns} VULNERABILITIES<br>` +
-                    `🔴 ${critical} CRITICAL, ${Math.floor(Math.random() * 3)} HIGH, ${Math.floor(Math.random() * 4)} MEDIUM<br>` +
-                    `${vulns > 2 ? '⚠️ IMMEDIATE ACTION RECOMMENDED.' : '✅ NO CRITICAL ISSUES FOUND.'}`;
-                result.className = vulns > 2 ? 'result-corp error' : 'result-corp success';
-            }, 2300);
-        }
-
-        function runSSLCheck() {
-            const input = document.getElementById('sslInput');
-            const result = document.getElementById('sslResult');
-            const domain = input.value.trim() || 'EXAMPLE.COM';
-            result.innerHTML = '🔒 CHECKING SSL CERTIFICATE...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const valid = Math.random() > 0.2;
-                const issuer = ['LET\'S ENCRYPT', 'DIGICERT', 'SECTIGO', 'GLOBALSIGN'][Math.floor(Math.random() * 4)];
-                const expiry = new Date(Date.now() + 86400000 * 30 * (3 + Math.floor(Math.random() * 10))).toLocaleDateString();
-                result.innerHTML =
-                    `📌 DOMAIN: ${domain}<br>` +
-                    `${valid ? '✅ SSL CERTIFICATE IS VALID' : '❌ SSL CERTIFICATE IS INVALID OR EXPIRED'}<br>` +
-                    `🏢 ISSUER: ${issuer}<br>` +
-                    `📅 EXPIRES: ${expiry}<br>` +
-                    `${valid ? '🔒 CONNECTION IS SECURE' : '⚠️ CONNECTION IS NOT SECURE'}`;
-                result.className = valid ? 'result-corp success' : 'result-corp error';
-            }, 1800);
-        }
-
-        function runPhishingDetector() {
-            const input = document.getElementById('phishInput');
-            const result = document.getElementById('phishResult');
-            const query = input.value.trim() || 'EXAMPLE@TEST.COM';
-            result.innerHTML = '🔍 ANALYZING FOR PHISHING INDICATORS...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const indicators = [
-                    '⚠️ SUSPICIOUS DOMAIN DETECTED: SUSPICIOUS-LOGIN.COM',
-                    '✅ LEGITIMATE SENDER: @EXAMPLE.COM',
-                    '🔴 MALICIOUS LINK DETECTED: HTTP://FAKE-BANK-LOGIN.COM',
-                    '✅ NO KNOWN PHISHING INDICATORS FOUND'
-                ];
-                const random = Math.floor(Math.random() * indicators.length);
-                result.innerHTML = indicators[random];
-                result.className = random === 2 || random === 0 ? 'result-corp error' : 'result-corp success';
-            }, 2000);
-        }
-
-        function runIPReputation() {
-            const input = document.getElementById('ipRepInput');
-            const result = document.getElementById('ipRepResult');
-            const ip = input.value.trim() || '8.8.8.8';
-            result.innerHTML = '🌐 CHECKING IP REPUTATION...';
-            result.className = 'result-corp';
-            setTimeout(() => {
-                const reputations = ['✅ CLEAN', '🟡 SUSPICIOUS', '🔴 MALICIOUS'];
-                const random = Math.floor(Math.random() * reputations.length);
-                const score = Math.floor(Math.random() * 100);
-                result.innerHTML =
-                    `📌 IP: <strong>${ip}</strong><br>` +
-                    `📊 REPUTATION: ${reputations[random]}<br>` +
-                    `⚡ SCORE: ${score}/100<br>` +
-                    `${score > 70 ? '⚠️ HIGH RISK - BLOCK RECOMMENDED' : '✅ SAFE TO PROCEED'}`;
-                result.className = random === 2 ? 'result-corp error' : 'result-corp success';
-            }, 2000);
-        }
-
-        // ================================================================
-        // 📊 EXPORT FUNCTIONS
-        // ================================================================
-
+        // ===== EXPORT =====
         function exportReport(format) {
             const data = {
-                timestamp: new Date().toISOString(),
                 threats: document.getElementById('totalThreats')?.textContent || '0',
                 attacks: document.getElementById('activeAttacks')?.textContent || '0',
-                vulns: document.getElementById('vulnerabilities')?.textContent || '0',
-                countries: document.getElementById('countries')?.textContent || '0',
-                scans: scanCount
+                scans: scanCount,
+                time: new Date().toISOString()
             };
-
             if (format === 'csv') {
-                const csv = 'TIMESTAMP,THREATS,ATTACKS,VULNERABILITIES,COUNTRIES,SCANS\n' +
-                    `${data.timestamp},${data.threats},${data.attacks},${data.vulns},${data.countries},${data.scans}`;
-                downloadFile(csv, 'REPORT.CSV', 'text/csv');
+                const csv = 'THREATS,ATTACKS,SCANS,TIME\n' + data.threats + ',' + data.attacks + ',' + data.scans + ',' + data
+                    .time;
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'REPORT.CSV';
+                link.click();
             } else if (format === 'json') {
-                const json = JSON.stringify(data, null, 2);
-                downloadFile(json, 'REPORT.JSON', 'application/json');
-            } else if (format === 'pdf') {
-                alert('📄 PDF EXPORT COMING SOON!');
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'REPORT.JSON';
+                link.click();
             }
         }
 
-        function downloadFile(content, filename, type) {
-            const blob = new Blob([content], { type: type });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
-            URL.revokeObjectURL(link.href);
-        }
-
-        // ================================================================
-        // ⏰ SCHEDULE FUNCTIONS
-        // ================================================================
-
-        function scheduleScan() {
-            const time = prompt('ENTER TIME (HH:MM) FOR SCHEDULED SCAN:', '09:00');
-            if (time && /^\d{2}:\d{2}$/.test(time)) {
-                alert(`✅ SCAN SCHEDULED FOR ${time} DAILY.`);
-                scanCount++;
-                document.getElementById('dashScans').textContent = scanCount;
-            } else if (time) {
-                alert('⚠️ PLEASE USE HH:MM FORMAT (E.G., 09:00)');
-            }
-        }
-
-        function scheduleReport() {
-            const time = prompt('ENTER TIME (HH:MM) FOR DAILY REPORT:', '17:00');
-            if (time && /^\d{2}:\d{2}$/.test(time)) {
-                alert(`✅ DAILY REPORT SCHEDULED FOR ${time}.`);
-            } else if (time) {
-                alert('⚠️ PLEASE USE HH:MM FORMAT (E.G., 17:00)');
-            }
-        }
-
-        // ================================================================
-        // 📰 BREAKING NEWS
-        // ================================================================
-
-        function updateBreakingNews() {
-            const newsData = [
-                'CRITICAL ZERO-DAY VULNERABILITY DISCOVERED IN VPN SOFTWARE — PATCH NOW!',
-                'GLOBAL CYBER ATTACK TARGETS FINANCIAL INSTITUTIONS — 12 BANKS AFFECTED',
-                'NEW AI-POWERED MALWARE DETECTED ACROSS 50+ COUNTRIES',
-                'RANSOMWARE GANG LEAKS 2TB OF CORPORATE DATA FROM MAJOR TECH FIRM',
-                'PHISHING CAMPAIGN IMPERSONATING GOVERNMENT AGENCIES — 10,000+ VICTIMS',
-                'IOT BOTNET GROWS TO 200,000+ DEVICES — DDOS ATTACKS INCREASING',
-                'MAJOR CLOUD PROVIDER SUFFERS DATA BREACH — 5 MILLION RECORDS EXPOSED'
-            ];
-            const ticker = document.getElementById('breakingNewsTicker');
-            if (ticker) {
-                const randomIndex = Math.floor(Math.random() * newsData.length);
-                ticker.innerHTML = `<span>🚨 ${newsData[randomIndex]}</span>`;
-            }
-        }
-
-        // ================================================================
-        // 📊 CHARTS
-        // ================================================================
-
-        function initCharts() {
-            const threatCtx = document.getElementById('threatChart');
-            const attackCtx = document.getElementById('attackChart');
-            if (threatCtx) {
-                new Chart(threatCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-                        datasets: [{
-                            label: 'THREATS DETECTED',
-                            data: [45, 52, 38, 65, 71, 48, 56],
-                            borderColor: '#1B3A5C',
-                            backgroundColor: 'rgba(27, 58, 92, 0.06)',
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 2,
-                            pointBackgroundColor: '#D4A843',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { labels: { color: '#6A7A8A', font: { size: 10 } } }
-                        },
-                        scales: {
-                            x: { ticks: { color: '#8A9AAA', font: { size: 9 } }, grid: { display: false } },
-                            y: { ticks: { color: '#8A9AAA', font: { size: 9 } },
-                            grid: { color: 'rgba(27, 58, 92, 0.04)' } }
-                        }
-                    }
-                });
-            }
-            if (attackCtx) {
-                new Chart(attackCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['DDOS', 'PHISHING', 'MALWARE', 'RANSOMWARE', 'OTHER'],
-                        datasets: [{
-                            data: [30, 25, 20, 15, 10],
-                            backgroundColor: ['#1B3A5C', '#D4A843', '#2E7D32', '#C62828', '#6A7A8A'],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: { color: '#6A7A8A', font: { size: 9 }, padding: 12 }
-                            }
-                        },
-                        cutout: '65%'
-                    }
-                });
-            }
-        }
-
-        // ================================================================
-        // 🔄 LIVE THREAT MAP UPDATER
-        // ================================================================
-
-        function updateThreatMap() {
-            const countries = ['usThreats', 'cnThreats', 'ruThreats', 'inThreats', 'ukThreats', 'deThreats'];
-            countries.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    const current = parseInt(el.textContent.replace(/,/g, '')) || 1000;
-                    const change = Math.floor(Math.random() * 20) - 8;
-                    const newVal = Math.max(100, current + change);
-                    el.textContent = newVal.toLocaleString();
-                }
-            });
-
-            const timeline = document.getElementById('threatTimeline');
-            if (timeline) {
-                const events = [
-                    { time: '🔴 JUST NOW', event: 'DDOS ATTACK DETECTED — US' },
-                    { time: '🟡 3 MIN AGO', event: 'PHISHING CAMPAIGN — IN' },
-                    { time: '🟢 12 MIN AGO', event: 'MALWARE DETECTED — RU' },
-                    { time: '🔵 28 MIN AGO', event: 'DATA BREACH — UK' }
-                ];
-                timeline.innerHTML = events.map(e =>
-                    `<div class="timeline-item"><span class="timeline-time">${e.time}</span><span class="timeline-event">${e.event}</span></div>`
-                ).join('');
-            }
-        }
-
-        // ================================================================
-        // 🚀 INIT
-        // ================================================================
-
-        loadTheme();
-        getWeather();
-        updateClock();
-        setInterval(updateClock, 1000);
-        setInterval(getWeather, 300000);
-        animateStats();
-        updateBreakingNews();
-        setInterval(updateBreakingNews, 60000);
-        setInterval(updateThreatMap, 8000);
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initCharts);
-        } else {
-            initCharts();
-        }
-
-        setTimeout(async () => {
-            await loadTensorFlowModels();
-            if (isTFLoaded) {
-                console.log('✅ TENSORFLOW READY!');
-                document.getElementById('detectedAI').textContent = '🧠 ADVANCED AI';
-                document.getElementById('dashModels').textContent = activeModels.length;
-            }
-        }, 1000);
-
-        console.log('%c✅ MK CYBER HUB — v7.0 READY', 'font-size:14px;color:#2E7D32;font-weight:600;');
-        console.log('%c🧠 COMPLETE TECH STACK | CAMERA READY', 'font-size:12px;color:#00D4FF;');
+        // ===== INIT =====
+        console.log('%c⚡ MK CYBER HUB v7.1 OPTIMIZED', 'font-size:20px;color:#1B3A5C;font-weight:900');
+        console.log('%c🚀 FAST & LIGHTWEIGHT', 'font-size:14px;color:#00D4FF');
     </script>
 
 </body>
