@@ -16,11 +16,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
     
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <!-- Libraries - Async Load -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest" defer></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 </head>
 <body>
 
@@ -60,7 +65,7 @@
     <!-- ====== MAIN CONTENT ====== -->
     <main class="corporate-main">
 
-        <!-- HERO -->
+        <!-- ====== HERO ====== -->
         <section class="corporate-hero">
             <div class="hero-container">
                 <div class="hero-text">
@@ -93,7 +98,7 @@
             </div>
         </section>
 
-        <!-- PARENT BANNER -->
+        <!-- ====== PARENT BANNER ====== -->
         <section class="parent-company-banner">
             <div class="banner-container">
                 <span>🏢</span>
@@ -103,7 +108,7 @@
             </div>
         </section>
 
-        <!-- AI VISION ENGINE -->
+        <!-- ====== AI VISION ENGINE ====== -->
         <section class="corporate-section" id="ai-vision-section">
             <div class="section-header-corp">
                 <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI VISION ENGINE</h2>
@@ -172,14 +177,13 @@
             </div>
         </section>
 
-        <!-- OSINT SUITE -->
+        <!-- ====== OSINT SUITE ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
                 <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> OSINT SUITE</h2>
                 <span class="badge-corp">10 TOOLS</span>
             </div>
             <div class="osint-grid">
-                <!-- Tool 1 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🔍</div>
                     <h3>GOOGLE DORKING</h3>
@@ -189,7 +193,6 @@
                     </div>
                     <div id="dorkResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 2 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🌐</div>
                     <h3>SHODAN</h3>
@@ -199,7 +202,6 @@
                     </div>
                     <div id="shodanResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 3 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📡</div>
                     <h3>CENSYS</h3>
@@ -209,7 +211,6 @@
                     </div>
                     <div id="censysResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 4 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📧</div>
                     <h3>THEHARVESTER</h3>
@@ -219,7 +220,6 @@
                     </div>
                     <div id="harvestResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 5 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🕷️</div>
                     <h3>SPIDERFOOT</h3>
@@ -229,7 +229,6 @@
                     </div>
                     <div id="spiderResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 6 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🕸️</div>
                     <h3>MALTEGO</h3>
@@ -239,7 +238,6 @@
                     </div>
                     <div id="maltegoResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 7 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📋</div>
                     <h3>WHOIS</h3>
@@ -249,7 +247,6 @@
                     </div>
                     <div id="whoisResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 8 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🦠</div>
                     <h3>VIRUSTOTAL</h3>
@@ -259,7 +256,6 @@
                     </div>
                     <div id="vtResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 9 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">🔓</div>
                     <h3>HIBP</h3>
@@ -269,7 +265,6 @@
                     </div>
                     <div id="pwnedResult" class="result-corp"></div>
                 </div>
-                <!-- Tool 10 -->
                 <div class="corporate-card osint-card">
                     <div class="osint-icon">📜</div>
                     <h3>WAYBACK</h3>
@@ -282,7 +277,7 @@
             </div>
         </section>
 
-        <!-- CYBER SECURITY -->
+        <!-- ====== CYBER SECURITY ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
                 <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> CYBER SECURITY</h2>
@@ -346,13 +341,16 @@
             </div>
         </section>
 
-        <!-- LIVE THREAT MAP -->
+        <!-- ====== LIVE THREAT MAP (UPDATED WITH LEAFLET) ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
                 <h2><i class="fas fa-globe-americas" style="color:#00D4FF;"></i> LIVE THREAT MAP</h2>
                 <span class="badge-corp">REAL-TIME</span>
             </div>
             <div class="corporate-card threat-map-corp">
+                <!-- Leaflet Map Container -->
+                <div id="threatMap" style="height:400px;width:100%;border-radius:10px;margin-bottom:15px;border:2px solid rgba(27,58,92,0.08);"></div>
+                
                 <div id="mapAttacks">
                     <i class="fas fa-exclamation-triangle" style="color:#D4A843;"></i>
                     <span>🌍 GLOBAL THREAT MONITORING</span>
@@ -374,7 +372,7 @@
             </div>
         </section>
 
-        <!-- ANALYTICS -->
+        <!-- ====== ANALYTICS ====== -->
         <section class="corporate-section">
             <div class="section-header-corp">
                 <h2><i class="fas fa-chart-line" style="color:#00D4FF;"></i> ANALYTICS</h2>
@@ -390,7 +388,7 @@
             </div>
         </section>
 
-        <!-- CYBER NEWS -->
+        <!-- ====== CYBER NEWS ====== -->
         <section class="corporate-news-ticker">
             <div class="ticker-container">
                 <div class="ticker-label"><i class="fas fa-bolt"></i> CYBER NEWS</div>
@@ -427,37 +425,39 @@
             </div>
         </section>
 
-   <!-- ====== FOUNDER ====== -->
-<section class="corporate-section">
-    <div class="corporate-card founder-card-corp">
-        <div class="founder-avatar-corp">
-            <img src="assets/founder.jpg" alt="MANOJ MEENA">
-        </div>
-        <div class="founder-info-corp">
-            <h2>MANOJ MEENA</h2>
-            <p class="founder-title-corp">FOUNDER, OWNER &amp; CEO — MK GLOBAL NEXUS</p>
-            <div class="founder-tags-corp">
-                <span>🛡️ CYBER CRIME ANALYST</span>
-                <span>📰 INVESTIGATIVE JOURNALIST</span>
-                <span>🔍 DIGITAL FRAUD INVESTIGATOR</span>
-                <span>⚕️ HEALTHCARE PROFESSIONAL</span>
-                <span>🎓 B.SC. NURSING</span>
+        <!-- ====== FOUNDER ====== -->
+        <section class="corporate-section">
+            <div class="corporate-card founder-card-corp">
+                <div class="founder-avatar-corp">
+                    <img src="assets/founder.jpg" alt="MANOJ MEENA">
+                </div>
+                <div class="founder-info-corp">
+                    <h2>MANOJ MEENA</h2>
+                    <p class="founder-title-corp">FOUNDER, OWNER &amp; CEO — MK GLOBAL NEXUS</p>
+                    <div class="founder-tags-corp">
+                        <span>🛡️ CYBER CRIME ANALYST</span>
+                        <span>📰 INVESTIGATIVE JOURNALIST</span>
+                        <span>🔍 DIGITAL FRAUD INVESTIGATOR</span>
+                        <span>⚕️ HEALTHCARE PROFESSIONAL</span>
+                        <span>🎓 B.SC. NURSING</span>
+                    </div>
+                    <p class="founder-bio-corp">
+                        <strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of 
+                        <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.
+                    </p>
+                    <div class="founder-social-corp">
+                        <a href="#" class="social-corp"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-corp"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-corp"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-corp"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
             </div>
-            <p class="founder-bio-corp">
-                <strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of 
-                <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.
-            </p>
-            <div class="founder-social-corp">
-                <a href="#" class="social-corp"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-corp"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-corp"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="social-corp"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-    <!-- FOOTER -->
+    </main>
+
+    <!-- ====== FOOTER ====== -->
     <footer class="corporate-footer">
         <div class="footer-container">
             <div class="footer-company-structure">
@@ -479,7 +479,7 @@
                 © MK GLOBAL NEXUS. ALL RIGHTS RESERVED.<br>
                 <span class="footer-brand-tag">ENTERPRISE CYBER INTELLIGENCE</span>
             </div>
-            <div class="footer-version">VERSION v7.1 — OPTIMIZED</div>
+            <div class="footer-version">VERSION v7.2 — WITH LIVE MAP</div>
         </div>
     </footer>
 
