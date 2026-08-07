@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MK CYBER HUB — Python Edition</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>MK CYBER HUB — Enterprise Cyber Intelligence</title>
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <meta name="author" content="MANOJ MEENA, MK GLOBAL NEXUS" />
+    <meta name="description" content="MK CYBER HUB — Enterprise Cyber Intelligence Platform" />
+    <meta name="theme-color" content="#1B3A5C" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
 
@@ -33,7 +40,7 @@
                     <option value="fr">🇫🇷 Français</option>
                     <option value="ar">🇸🇦 العربية</option>
                 </select>
-                <span class="status" id="systemStatus">🟢 SECURE</span>
+                <span class="status" id="systemStatus">SECURE</span>
                 <span class="time" id="currentTime">--:--:--</span>
                 <button onclick="toggleTheme()" class="theme-btn">🌙</button>
             </div>
@@ -48,8 +55,8 @@
             <div class="hero-container">
                 <div class="hero-text">
                     <h1>ADVANCED <span class="highlight">CYBER INTELLIGENCE</span></h1>
-                    <p class="tagline">🐍 PYTHON · 🎤 VOICE · 🌐 100+ LANGUAGES</p>
-                    <p class="desc" id="welcomeText">Welcome to MK Cyber Hub — Complete Cyber Intelligence Platform</p>
+                    <p class="tagline">🐍 PYTHON · 🎤 VOICE · 🌐 100+ LANGUAGES · 🎮 GAMIFIED</p>
+                    <p class="desc" id="welcomeText">Complete enterprise-grade cyber intelligence platform with real-time AI, OSINT, threat monitoring &amp; analytics.</p>
                     <div class="stats" id="statsContainer">
                         <div class="stat">
                             <span class="number" id="totalThreats">12,847</span>
@@ -78,6 +85,14 @@
             </div>
         </section>
 
+        <!-- ===== PARENT BANNER ===== -->
+        <section class="banner">
+            <span>🏢</span>
+            <span>A DIVISION OF</span>
+            <span class="company">MK GLOBAL NEXUS</span>
+            <span class="founder">MANOJ MEENA</span>
+        </section>
+
         <!-- ===== GAMIFICATION BANNER ===== -->
         <section class="gamification-banner" id="gamificationBanner">
             <div class="gaming-stats">
@@ -100,17 +115,17 @@
             </div>
         </section>
 
-        <!-- ===== AI VISION ===== -->
-        <section class="section">
+        <!-- ===== AI VISION ENGINE ===== -->
+        <section class="section" id="ai-vision-section">
             <div class="section-header">
                 <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI VISION ENGINE</h2>
-                <span class="badge live">REAL-TIME</span>
+                <span class="badge live" id="visionStatus">ACTIVE</span>
             </div>
             <div class="card vision-card">
                 <div class="vision-modes">
-                    <button class="mode active" onclick="setVisionMode('object')">OBJECT</button>
-                    <button class="mode" onclick="setVisionMode('threat')">THREAT</button>
-                    <button class="mode" onclick="setVisionMode('all')">ALL</button>
+                    <button class="mode active" onclick="setVisionMode('object')" id="modeObject">OBJECT</button>
+                    <button class="mode" onclick="setVisionMode('threat')" id="modeThreat">THREAT</button>
+                    <button class="mode" onclick="setVisionMode('all')" id="modeAll">ALL</button>
                 </div>
                 <div class="camera-container">
                     <video id="video" autoplay playsinline muted></video>
@@ -119,7 +134,7 @@
                         <div class="camera-status" id="cameraStatus">
                             <span class="dot"></span> READY
                         </div>
-                        <div class="detection-info">
+                        <div class="detection-info" id="detectionInfo">
                             <span id="detectedObject">🔍 DETECTING...</span>
                             <span id="detectedConfidence">CONFIDENCE: --%</span>
                             <span id="detectedAI">🧠 AI READY</span>
@@ -137,6 +152,28 @@
                     <div class="dash-item"><span class="dash-label">MODELS</span><span class="dash-value" id="models">1</span></div>
                     <div class="dash-item"><span class="dash-label">CONFIDENCE</span><span class="dash-value" id="confidence">--%</span></div>
                     <div class="dash-item"><span class="dash-label">THREAT</span><span class="dash-value" id="threatLevel">🟢 LOW</span></div>
+                    <div class="dash-item"><span class="dash-label">OBJECTS</span><span class="dash-value" id="objCount">0</span></div>
+                    <div class="dash-item"><span class="dash-label">SCANS</span><span class="dash-value" id="dashScans">0</span></div>
+                </div>
+                <div class="scan-results" id="scanResults" style="display:none;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                        <span style="font-weight:700;font-size:14px;">📸 SCAN RESULT</span>
+                        <span id="scanStatus" style="font-size:11px;color:var(--gold);">ANALYZING...</span>
+                    </div>
+                    <div class="scan-results-grid">
+                        <div><img id="scanResultImage" src="" alt="Scan result" style="width:100%;border-radius:6px;background:#eee;"></div>
+                        <div>
+                            <div class="scan-detail-item"><strong>OBJECT:</strong> <span id="scanObjectName">-</span></div>
+                            <div class="scan-detail-item"><strong>CATEGORY:</strong> <span id="scanCategory">-</span></div>
+                            <div class="scan-detail-item"><strong>CONFIDENCE:</strong> <span id="scanConfidence">--%</span></div>
+                            <div class="scan-detail-item"><strong>DESCRIPTION:</strong> <span id="scanDescription">-</span></div>
+                            <div class="free-search-buttons">
+                                <button onclick="liveGoogleSearch()" class="btn outline"><i class="fab fa-google"></i> GOOGLE</button>
+                                <button onclick="liveYouTubeSearch()" class="btn outline"><i class="fab fa-youtube"></i> YOUTUBE</button>
+                                <button onclick="liveWikipediaPage()" class="btn outline"><i class="fab fa-wikipedia-w"></i> WIKI</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -223,6 +260,15 @@
                     <div id="shodanResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
+                    <div class="icon">📡</div>
+                    <h3>CENSYS</h3>
+                    <div class="input-group">
+                        <input type="text" id="censysInput" placeholder="example.com">
+                        <button onclick="runOSINT('censys')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="censysResult" class="result"></div>
+                </div>
+                <div class="card osint-card">
                     <div class="icon">📧</div>
                     <h3>HIBP</h3>
                     <div class="input-group">
@@ -240,6 +286,33 @@
                     </div>
                     <div id="vtResult" class="result"></div>
                 </div>
+                <div class="card osint-card">
+                    <div class="icon">📋</div>
+                    <h3>WHOIS</h3>
+                    <div class="input-group">
+                        <input type="text" id="whoisInput" placeholder="example.com">
+                        <button onclick="runOSINT('whois')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="whoisResult" class="result"></div>
+                </div>
+                <div class="card osint-card">
+                    <div class="icon">🕷️</div>
+                    <h3>SPIDERFOOT</h3>
+                    <div class="input-group">
+                        <input type="text" id="spiderInput" placeholder="target.com">
+                        <button onclick="runOSINT('spider')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="spiderResult" class="result"></div>
+                </div>
+                <div class="card osint-card">
+                    <div class="icon">📜</div>
+                    <h3>WAYBACK</h3>
+                    <div class="input-group">
+                        <input type="text" id="waybackInput" placeholder="example.com">
+                        <button onclick="runOSINT('wayback')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="waybackResult" class="result"></div>
+                </div>
             </div>
         </section>
 
@@ -247,7 +320,7 @@
         <section class="section">
             <div class="section-header">
                 <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> CYBER SECURITY</h2>
-                <span class="badge">4 TOOLS</span>
+                <span class="badge">6 TOOLS</span>
             </div>
             <div class="grid-2">
                 <div class="card">
@@ -258,6 +331,15 @@
                         <button onclick="runSecurity('threat')" class="btn primary">ANALYZE</button>
                     </div>
                     <div id="threatResult" class="result"></div>
+                </div>
+                <div class="card">
+                    <div class="icon">🔓</div>
+                    <h3>DARK WEB MONITOR</h3>
+                    <div class="input-group">
+                        <input type="email" id="darkWebInput" placeholder="Enter email">
+                        <button onclick="runSecurity('darkweb')" class="btn secondary">CHECK</button>
+                    </div>
+                    <div id="darkWebResult" class="result"></div>
                 </div>
                 <div class="card">
                     <div class="icon">🔒</div>
@@ -286,10 +368,19 @@
                     </div>
                     <div id="ipResult" class="result"></div>
                 </div>
+                <div class="card">
+                    <div class="icon">🛡️</div>
+                    <h3>VULNERABILITY SCANNER</h3>
+                    <div class="input-group">
+                        <input type="text" id="vulnInput" placeholder="https://example.com">
+                        <button onclick="runSecurity('vuln')" class="btn primary">SCAN</button>
+                    </div>
+                    <div id="vulnResult" class="result"></div>
+                </div>
             </div>
         </section>
 
-        <!-- ===== THREAT MAP ===== -->
+        <!-- ===== LIVE THREAT MAP ===== -->
         <section class="section">
             <div class="section-header">
                 <h2><i class="fas fa-globe-americas" style="color:#00D4FF;"></i> LIVE THREAT MAP</h2>
@@ -326,10 +417,11 @@
             <div class="export-buttons">
                 <button onclick="exportData('csv')" class="btn primary"><i class="fas fa-file-csv"></i> CSV</button>
                 <button onclick="exportData('json')" class="btn outline"><i class="fas fa-file-code"></i> JSON</button>
+                <button onclick="exportData('pdf')" class="btn secondary"><i class="fas fa-file-pdf"></i> PDF</button>
             </div>
         </section>
 
-        <!-- ===== NEWS ===== -->
+        <!-- ===== CYBER NEWS ===== -->
         <section class="news-ticker">
             <div class="ticker">
                 <span class="label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
@@ -350,8 +442,13 @@
                         <span>🛡️ CYBER CRIME ANALYST</span>
                         <span>📰 INVESTIGATIVE JOURNALIST</span>
                         <span>🔍 DIGITAL FRAUD INVESTIGATOR</span>
+                        <span>⚕️ HEALTHCARE PROFESSIONAL</span>
+                        <span>🎓 B.SC. NURSING</span>
                     </div>
-                    <p class="bio"><strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.</p>
+                    <p class="bio">
+                        <strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of 
+                        <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.
+                    </p>
                     <div class="social">
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-github"></i></a>
@@ -386,7 +483,7 @@
                 © MK GLOBAL NEXUS. ALL RIGHTS RESERVED.<br>
                 <span class="brand-tag">ENTERPRISE CYBER INTELLIGENCE</span>
             </div>
-            <div class="footer-version">VERSION v8.0 — UPDATED</div>
+            <div class="footer-version">VERSION v8.0 — COMPLETE UPDATE</div>
         </div>
     </footer>
 
