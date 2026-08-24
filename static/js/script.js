@@ -1,5 +1,5 @@
 // ================================================================
-// 🐍 MK CYBER HUB - Optimized JavaScript
+// 🐍 MK CYBER HUB - JavaScript
 // ================================================================
 
 // ===== GLOBALS =====
@@ -15,19 +15,38 @@ let scanCount = 0;
 // ================================================================
 
 function toggleTheme() {
-    document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-    const icon = document.querySelector('.theme-btn');
-    icon.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    document.body.classList.toggle('light-mode');
+    const icon = document.querySelector('.theme-btn i');
+    if (document.body.classList.contains('light-mode')) {
+        icon.className = 'fas fa-sun';
+        localStorage.setItem('theme', 'light');
+    } else {
+        icon.className = 'fas fa-moon';
+        localStorage.setItem('theme', 'dark');
+    }
     if (threatMap) {
         setTimeout(() => threatMap.invalidateSize(), 300);
     }
 }
 
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark');
-    document.querySelector('.theme-btn').textContent = '☀️';
+// Load theme
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    document.querySelector('.theme-btn i').className = 'fas fa-sun';
 }
+
+// ================================================================
+// PRELOADER
+// ================================================================
+
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+        }, 1000);
+    }
+});
 
 // ================================================================
 // ⏰ CLOCK
@@ -77,7 +96,6 @@ async function fetchNews() {
     } catch (e) { console.log('News error'); }
 }
 
-// Update every 15 seconds (less frequent)
 setInterval(fetchStats, 15000);
 setInterval(fetchCountryStats, 15000);
 setInterval(fetchNews, 30000);
@@ -133,7 +151,7 @@ async function initThreatMap() {
 setTimeout(initThreatMap, 800);
 
 // ================================================================
-// 🎯 AI VISION - Optimized
+// 🎯 AI VISION
 // ================================================================
 
 async function loadModel() {
@@ -198,7 +216,6 @@ function startDetectionLoop() {
     let frames = 0;
     let lastFps = Date.now();
 
-    // Slower interval = Less CPU usage
     interval = setInterval(async () => {
         if (!running || !video || video.paused) return;
         if (video.videoWidth === 0) return;
@@ -212,6 +229,7 @@ function startDetectionLoop() {
         frames++;
         if (Date.now() - lastFps > 1000) {
             document.getElementById('fps').textContent = frames;
+            document.getElementById('fpsDisplay').textContent = 'FPS: ' + frames;
             frames = 0;
             lastFps = Date.now();
         }
@@ -240,13 +258,13 @@ function startDetectionLoop() {
 
                     const top = filtered[0];
                     const confidence = Math.round(top.score * 100);
-                    document.getElementById('detectedObject').textContent = '🔍 ' + top.class.toUpperCase();
-                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: ' + confidence + '%';
+                    document.getElementById('detectedObject').textContent = top.class.toUpperCase();
+                    document.getElementById('detectedConfidence').textContent = 'Confidence: ' + confidence + '%';
                     document.getElementById('confidence').textContent = confidence + '%';
 
                 } else {
-                    document.getElementById('detectedObject').textContent = '🔍 NO OBJECT';
-                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: --%';
+                    document.getElementById('detectedObject').textContent = 'No Object';
+                    document.getElementById('detectedConfidence').textContent = 'Confidence: --%';
                 }
 
             } catch (e) {
@@ -254,7 +272,7 @@ function startDetectionLoop() {
             }
         }
 
-    }, 200); // Slower = Better performance
+    }, 200);
 }
 
 function stopScanner() {
@@ -290,10 +308,40 @@ function captureFrame() {
     document.getElementById('scanResultImage').src = imgData;
     document.getElementById('scanResults').style.display = 'block';
     scanCount++;
+    document.getElementById('dashScans').textContent = scanCount;
 
-    const obj = document.getElementById('detectedObject').textContent.replace('🔍 ', '');
+    const obj = document.getElementById('detectedObject').textContent;
     document.getElementById('scanObjectName').textContent = obj || 'Unknown';
-    document.getElementById('scanConfidence').textContent = document.getElementById('detectedConfidence').textContent.replace('CONFIDENCE: ', '');
+    document.getElementById('scanConfidence').textContent = document.getElementById('detectedConfidence').textContent.replace('Confidence: ', '');
+    document.getElementById('scanCategory').textContent = 'Object';
+    document.getElementById('scanDescription').textContent = 'Detected by AI Vision Engine';
+}
+
+function liveGoogleSearch() {
+    const obj = document.getElementById('scanObjectName').textContent;
+    if (obj && obj !== '-' && obj !== 'Unknown') {
+        window.open('https://www.google.com/search?q=' + encodeURIComponent(obj), '_blank');
+    } else {
+        alert('SCAN AN OBJECT FIRST!');
+    }
+}
+
+function liveYouTubeSearch() {
+    const obj = document.getElementById('scanObjectName').textContent;
+    if (obj && obj !== '-' && obj !== 'Unknown') {
+        window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(obj), '_blank');
+    } else {
+        alert('SCAN AN OBJECT FIRST!');
+    }
+}
+
+function liveWikipediaPage() {
+    const obj = document.getElementById('scanObjectName').textContent;
+    if (obj && obj !== '-' && obj !== 'Unknown') {
+        window.open('https://en.wikipedia.org/wiki/' + encodeURIComponent(obj), '_blank');
+    } else {
+        alert('SCAN AN OBJECT FIRST!');
+    }
 }
 
 // ================================================================
@@ -395,16 +443,32 @@ setTimeout(() => {
                 datasets: [{ 
                     label: 'THREATS', 
                     data: [45, 52, 38, 65, 71, 48, 56], 
-                    borderColor: '#1B3A5C',
+                    borderColor: '#00D4FF',
+                    backgroundColor: 'rgba(0, 212, 255, 0.06)',
                     tension: 0.4,
                     fill: true,
-                    pointRadius: 2
+                    pointRadius: 3,
+                    pointBackgroundColor: '#00D4FF'
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } }
+                plugins: { 
+                    legend: { 
+                        display: false
+                    } 
+                },
+                scales: {
+                    x: { 
+                        grid: { display: false, color: 'rgba(255,255,255,0.04)' },
+                        ticks: { color: '#8A9AAA', font: { size: 10 } }
+                    },
+                    y: { 
+                        grid: { color: 'rgba(255,255,255,0.04)' },
+                        ticks: { color: '#8A9AAA', font: { size: 10 } }
+                    }
+                }
             }
         });
 
@@ -414,19 +478,33 @@ setTimeout(() => {
                 labels: ['DDOS', 'PHISHING', 'MALWARE', 'RANSOM', 'OTHER'],
                 datasets: [{
                     data: [30, 25, 20, 15, 10],
-                    backgroundColor: ['#1B3A5C', '#D4A843', '#2E7D32', '#C62828', '#6A7A8A'],
-                    borderWidth: 0
+                    backgroundColor: ['#00D4FF', '#D4A843', '#44DD88', '#FF4444', '#6A7A8A'],
+                    borderWidth: 2,
+                    borderColor: '#0B1A2E'
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } } }
+                cutout: '68%',
+                plugins: { 
+                    legend: { 
+                        position: 'bottom', 
+                        labels: { 
+                            color: '#8A9AAA', 
+                            font: { size: 10 },
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        } 
+                    } 
+                }
             }
         });
-    } catch (e) {}
-}, 500);
+    } catch (e) {
+        console.log('Chart error:', e);
+    }
+}, 600);
 
 // ================================================================
 // 📊 EXPORT
@@ -470,7 +548,8 @@ updateTimeline();
 // 🚀 INIT
 // ================================================================
 
-console.log('%c⚡ MK CYBER HUB v8.1 - OPTIMIZED', 'font-size:20px;color:#1B3A5C;font-weight:900');
-console.log('%c🚀 Fast & Lightweight Version', 'font-size:14px;color:#44DD88');
+console.log('%c⚡ MK CYBER HUB v8.1 - MODERN UI', 'font-size:20px;color:#00D4FF;font-weight:900');
+console.log('%c🎨 Complete UI/UX Redesign', 'font-size:14px;color:#D4A843');
+console.log('%c🚀 Fast & Modern Interface', 'font-size:14px;color:#44DD88');
 
 setTimeout(loadModel, 1500);
