@@ -1,16 +1,13 @@
 from flask import Flask, render_template, jsonify, send_from_directory
 import os
 import random
-from datetime import datetime
 
 app = Flask(__name__)
 
-# ===== HOME =====
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# ===== API - Lightweight =====
 @app.route('/api/stats')
 def stats():
     return jsonify({
@@ -22,21 +19,15 @@ def stats():
 
 @app.route('/api/news')
 def news():
-    news_list = [
-        'Critical zero-day vulnerability discovered in VPN software',
-        'Global cyber attack targets financial institutions',
-        'New AI-powered malware detected across 50+ countries'
-    ]
+    news_list = ['Critical zero-day vulnerability discovered', 'Global cyber attack targets institutions', 'New AI-powered malware detected']
     return jsonify({'news': random.choice(news_list)})
 
 @app.route('/api/map-data')
 def map_data():
     locations = [
         {'lat': 40.7128, 'lng': -74.0060, 'country': '🇺🇸 USA', 'city': 'New York', 'threat': 'DDOS Attack', 'severity': 'high'},
-        {'lat': 28.6139, 'lng': 77.2090, 'country': '🇮🇳 India', 'city': 'Delhi', 'threat': 'Phishing Attack', 'severity': 'medium'},
-        {'lat': 55.7558, 'lng': 37.6173, 'country': '🇷🇺 Russia', 'city': 'Moscow', 'threat': 'Ransomware Attack', 'severity': 'high'},
-        {'lat': 39.9042, 'lng': 116.4074, 'country': '🇨🇳 China', 'city': 'Beijing', 'threat': 'Malware Campaign', 'severity': 'medium'},
-        {'lat': 51.5074, 'lng': -0.1278, 'country': '🇬🇧 UK', 'city': 'London', 'threat': 'DDoS Campaign', 'severity': 'low'}
+        {'lat': 28.6139, 'lng': 77.2090, 'country': '🇮🇳 India', 'city': 'Delhi', 'threat': 'Phishing', 'severity': 'medium'},
+        {'lat': 55.7558, 'lng': 37.6173, 'country': '🇷🇺 Russia', 'city': 'Moscow', 'threat': 'Ransomware', 'severity': 'high'}
     ]
     return jsonify(locations)
 
