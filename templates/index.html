@@ -6,11 +6,12 @@
     <title>MK CYBER HUB</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="header-container">
             <div class="logo">
@@ -28,16 +29,17 @@
         </div>
     </header>
 
+    <!-- ===== MAIN ===== -->
     <main class="main">
 
-        <!-- HERO -->
+        <!-- ===== HERO ===== -->
         <section class="hero">
             <div class="hero-container">
                 <div class="hero-text">
                     <h1>ADVANCED <span class="highlight">CYBER INTELLIGENCE</span></h1>
                     <p class="tagline">🐍 PYTHON · ⚡ FAST · 🛡️ SECURE</p>
-                    <p class="desc">Complete enterprise-grade cyber intelligence platform.</p>
-                    <div class="stats">
+                    <p class="desc">Complete enterprise-grade cyber intelligence platform with real-time AI detection.</p>
+                    <div class="stats" id="statsContainer">
                         <div class="stat">
                             <span class="number" id="totalThreats">12,847</span>
                             <span class="label">TOTAL THREATS</span>
@@ -65,7 +67,7 @@
             </div>
         </section>
 
-        <!-- BANNER -->
+        <!-- ===== BANNER ===== -->
         <section class="banner">
             <span>🏢</span>
             <span>A DIVISION OF</span>
@@ -73,7 +75,7 @@
             <span class="founder">MANOJ MEENA</span>
         </section>
 
-        <!-- AI VISION - LIGHTWEIGHT -->
+        <!-- ===== AI VISION ===== -->
         <section class="section">
             <div class="section-header">
                 <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI VISION ENGINE</h2>
@@ -103,19 +105,40 @@
                     <div class="dash-item"><span class="dash-label">FPS</span><span class="dash-value" id="fps">--</span></div>
                     <div class="dash-item"><span class="dash-label">OBJECTS</span><span class="dash-value" id="objCount">0</span></div>
                     <div class="dash-item"><span class="dash-label">CONFIDENCE</span><span class="dash-value" id="confidence">--%</span></div>
+                    <div class="dash-item"><span class="dash-label">SCANS</span><span class="dash-value" id="dashScans">0</span></div>
+                </div>
+                <div class="scan-results" id="scanResults" style="display:none;">
+                    <div class="scan-header">
+                        <span>📸 SCAN RESULT</span>
+                        <span id="scanStatus">COMPLETE</span>
+                    </div>
+                    <div class="scan-grid">
+                        <img id="scanResultImage" src="" alt="Scan">
+                        <div class="scan-details">
+                            <div class="scan-detail"><strong>OBJECT:</strong> <span id="scanObjectName">-</span></div>
+                            <div class="scan-detail"><strong>CONFIDENCE:</strong> <span id="scanConfidence">--%</span></div>
+                            <div class="scan-detail"><strong>CATEGORY:</strong> <span id="scanCategory">-</span></div>
+                            <div class="scan-detail"><strong>DESCRIPTION:</strong> <span id="scanDescription">-</span></div>
+                            <div class="scan-actions">
+                                <button onclick="liveGoogleSearch()" class="btn outline small"><i class="fab fa-google"></i> GOOGLE</button>
+                                <button onclick="liveYouTubeSearch()" class="btn outline small"><i class="fab fa-youtube"></i> YOUTUBE</button>
+                                <button onclick="liveWikipediaPage()" class="btn outline small"><i class="fab fa-wikipedia-w"></i> WIKI</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- OSINT -->
+        <!-- ===== OSINT ===== -->
         <section class="section">
             <div class="section-header">
                 <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> OSINT SUITE</h2>
-                <span class="badge">4 TOOLS</span>
+                <span class="badge">10 TOOLS</span>
             </div>
             <div class="osint-grid">
                 <div class="card osint-card">
-                    <div class="icon">🔍</div>
+                    <div class="osint-icon">🔍</div>
                     <h3>GOOGLE DORKING</h3>
                     <div class="input-group">
                         <input type="text" id="dorkInput" placeholder="site:example.com">
@@ -124,7 +147,7 @@
                     <div id="dorkResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
-                    <div class="icon">🌐</div>
+                    <div class="osint-icon">🌐</div>
                     <h3>SHODAN</h3>
                     <div class="input-group">
                         <input type="text" id="shodanInput" placeholder="apache port:80">
@@ -133,7 +156,16 @@
                     <div id="shodanResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
-                    <div class="icon">📧</div>
+                    <div class="osint-icon">📡</div>
+                    <h3>CENSYS</h3>
+                    <div class="input-group">
+                        <input type="text" id="censysInput" placeholder="example.com">
+                        <button onclick="runOSINT('censys')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="censysResult" class="result"></div>
+                </div>
+                <div class="card osint-card">
+                    <div class="osint-icon">📧</div>
                     <h3>HIBP</h3>
                     <div class="input-group">
                         <input type="email" id="hibpInput" placeholder="you@example.com">
@@ -142,7 +174,7 @@
                     <div id="hibpResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
-                    <div class="icon">🦠</div>
+                    <div class="osint-icon">🦠</div>
                     <h3>VIRUSTOTAL</h3>
                     <div class="input-group">
                         <input type="text" id="vtInput" placeholder="https://example.com">
@@ -150,18 +182,45 @@
                     </div>
                     <div id="vtResult" class="result"></div>
                 </div>
+                <div class="card osint-card">
+                    <div class="osint-icon">📋</div>
+                    <h3>WHOIS</h3>
+                    <div class="input-group">
+                        <input type="text" id="whoisInput" placeholder="example.com">
+                        <button onclick="runOSINT('whois')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="whoisResult" class="result"></div>
+                </div>
+                <div class="card osint-card">
+                    <div class="osint-icon">🕷️</div>
+                    <h3>SPIDERFOOT</h3>
+                    <div class="input-group">
+                        <input type="text" id="spiderInput" placeholder="target.com">
+                        <button onclick="runOSINT('spider')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="spiderResult" class="result"></div>
+                </div>
+                <div class="card osint-card">
+                    <div class="osint-icon">📜</div>
+                    <h3>WAYBACK</h3>
+                    <div class="input-group">
+                        <input type="text" id="waybackInput" placeholder="example.com">
+                        <button onclick="runOSINT('wayback')" class="btn outline">RUN</button>
+                    </div>
+                    <div id="waybackResult" class="result"></div>
+                </div>
             </div>
         </section>
 
-        <!-- SECURITY -->
+        <!-- ===== SECURITY ===== -->
         <section class="section">
             <div class="section-header">
                 <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> CYBER SECURITY</h2>
-                <span class="badge">4 TOOLS</span>
+                <span class="badge">6 TOOLS</span>
             </div>
-            <div class="grid-2">
+            <div class="security-grid">
                 <div class="card">
-                    <div class="icon">🧠</div>
+                    <div class="card-icon">🧠</div>
                     <h3>AI THREAT ANALYZER</h3>
                     <div class="input-group">
                         <input type="text" id="threatInput" placeholder="IP or Domain">
@@ -170,7 +229,16 @@
                     <div id="threatResult" class="result"></div>
                 </div>
                 <div class="card">
-                    <div class="icon">🔒</div>
+                    <div class="card-icon">🔓</div>
+                    <h3>DARK WEB MONITOR</h3>
+                    <div class="input-group">
+                        <input type="email" id="darkWebInput" placeholder="Enter email">
+                        <button onclick="runSecurity('darkweb')" class="btn secondary">CHECK</button>
+                    </div>
+                    <div id="darkWebResult" class="result"></div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
                     <h3>SSL CHECKER</h3>
                     <div class="input-group">
                         <input type="text" id="sslInput" placeholder="example.com">
@@ -179,7 +247,7 @@
                     <div id="sslResult" class="result"></div>
                 </div>
                 <div class="card">
-                    <div class="icon">⚠️</div>
+                    <div class="card-icon">⚠️</div>
                     <h3>PHISHING DETECTOR</h3>
                     <div class="input-group">
                         <input type="text" id="phishInput" placeholder="URL or Email">
@@ -188,7 +256,7 @@
                     <div id="phishResult" class="result"></div>
                 </div>
                 <div class="card">
-                    <div class="icon">🌐</div>
+                    <div class="card-icon">🌐</div>
                     <h3>IP REPUTATION</h3>
                     <div class="input-group">
                         <input type="text" id="ipInput" placeholder="Enter IP">
@@ -196,17 +264,26 @@
                     </div>
                     <div id="ipResult" class="result"></div>
                 </div>
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>VULNERABILITY SCANNER</h3>
+                    <div class="input-group">
+                        <input type="text" id="vulnInput" placeholder="https://example.com">
+                        <button onclick="runSecurity('vuln')" class="btn primary">SCAN</button>
+                    </div>
+                    <div id="vulnResult" class="result"></div>
+                </div>
             </div>
         </section>
 
-        <!-- THREAT MAP - LIGHTWEIGHT -->
+        <!-- ===== THREAT MAP ===== -->
         <section class="section">
             <div class="section-header">
                 <h2><i class="fas fa-globe-americas" style="color:#00D4FF;"></i> LIVE THREAT MAP</h2>
                 <span class="badge">REAL-TIME</span>
             </div>
-            <div class="card threat-map">
-                <div id="threatMap" style="height:350px;border-radius:10px;"></div>
+            <div class="card map-card">
+                <div id="threatMap" style="height:380px;border-radius:10px;"></div>
                 <div class="map-stats">
                     <div class="map-stat"><span>🇺🇸 US</span><span id="usThreats">2,847</span></div>
                     <div class="map-stat"><span>🇮🇳 IN</span><span id="inThreats">654</span></div>
@@ -221,15 +298,31 @@
             </div>
         </section>
 
-        <!-- NEWS -->
-        <section class="news-ticker">
-            <div class="ticker">
-                <span class="label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
-                <span class="scroll" id="newsTicker">🚨 Loading news...</span>
+        <!-- ===== ANALYTICS ===== -->
+        <section class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line" style="color:#00D4FF;"></i> ANALYTICS</h2>
+                <span class="badge">VISUAL</span>
+            </div>
+            <div class="analytics-grid">
+                <div class="card chart-card"><canvas id="threatChart"></canvas></div>
+                <div class="card chart-card"><canvas id="attackChart"></canvas></div>
+            </div>
+            <div class="export-actions">
+                <button onclick="exportData('csv')" class="btn primary"><i class="fas fa-file-csv"></i> CSV</button>
+                <button onclick="exportData('json')" class="btn outline"><i class="fas fa-file-code"></i> JSON</button>
             </div>
         </section>
 
-        <!-- FOUNDER -->
+        <!-- ===== NEWS ===== -->
+        <section class="news-ticker">
+            <div class="ticker">
+                <span class="ticker-label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
+                <span class="ticker-scroll" id="newsTicker">🚨 Loading news...</span>
+            </div>
+        </section>
+
+        <!-- ===== FOUNDER ===== -->
         <section class="section">
             <div class="card founder-card">
                 <div class="founder-avatar">
@@ -237,14 +330,17 @@
                 </div>
                 <div class="founder-info">
                     <h2>MANOJ MEENA</h2>
-                    <p class="title">FOUNDER, OWNER &amp; CEO — MK GLOBAL NEXUS</p>
-                    <div class="tags">
+                    <p class="founder-title">FOUNDER, OWNER &amp; CEO — MK GLOBAL NEXUS</p>
+                    <div class="founder-tags">
                         <span>🛡️ CYBER CRIME ANALYST</span>
                         <span>📰 INVESTIGATIVE JOURNALIST</span>
                         <span>🔍 DIGITAL FRAUD INVESTIGATOR</span>
                     </div>
-                    <p class="bio"><strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of <strong>MK GLOBAL NEXUS</strong>.</p>
-                    <div class="social">
+                    <p class="founder-bio">
+                        <strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of 
+                        <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.
+                    </p>
+                    <div class="founder-social">
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-github"></i></a>
                         <a href="#"><i class="fab fa-linkedin"></i></a>
@@ -256,12 +352,13 @@
 
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-structure">
-                <span class="parent">🏢 MK GLOBAL NEXUS</span>
+                <span class="footer-parent">🏢 MK GLOBAL NEXUS</span>
                 <span>→</span>
-                <span class="division">⚡ MK CYBER HUB</span>
+                <span class="footer-division">⚡ MK CYBER HUB</span>
             </div>
             <p class="footer-brand">ADVANCED CYBER INTELLIGENCE DIVISION</p>
             <p class="footer-founder">FOUNDER &amp; CEO: MANOJ MEENA</p>
@@ -273,11 +370,11 @@
                 <a href="#"><i class="fas fa-envelope"></i></a>
             </div>
             <div class="footer-copy">© MK GLOBAL NEXUS. ALL RIGHTS RESERVED.</div>
-            <div class="footer-version">VERSION v8.1 — OPTIMIZED</div>
+            <div class="footer-version">VERSION v8.1 — STABLE</div>
         </div>
     </footer>
 
-    <!-- JavaScript - Optimized -->
+    <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
