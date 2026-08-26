@@ -1,5 +1,5 @@
 // ================================================================
-// 🐍 MK CYBER HUB - JavaScript
+// 🐍 MK CYBER HUB - JavaScript (Stable)
 // ================================================================
 
 // ===== GLOBALS =====
@@ -16,37 +16,18 @@ let scanCount = 0;
 
 function toggleTheme() {
     document.body.classList.toggle('light-mode');
-    const icon = document.querySelector('.theme-btn i');
-    if (document.body.classList.contains('light-mode')) {
-        icon.className = 'fas fa-sun';
-        localStorage.setItem('theme', 'light');
-    } else {
-        icon.className = 'fas fa-moon';
-        localStorage.setItem('theme', 'dark');
-    }
+    const btn = document.querySelector('.theme-btn');
+    btn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     if (threatMap) {
         setTimeout(() => threatMap.invalidateSize(), 300);
     }
 }
 
-// Load theme
 if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
-    document.querySelector('.theme-btn i').className = 'fas fa-sun';
+    document.querySelector('.theme-btn').textContent = '☀️';
 }
-
-// ================================================================
-// PRELOADER
-// ================================================================
-
-window.addEventListener('load', () => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        setTimeout(() => {
-            preloader.classList.add('hidden');
-        }, 1000);
-    }
-});
 
 // ================================================================
 // ⏰ CLOCK
@@ -229,7 +210,6 @@ function startDetectionLoop() {
         frames++;
         if (Date.now() - lastFps > 1000) {
             document.getElementById('fps').textContent = frames;
-            document.getElementById('fpsDisplay').textContent = 'FPS: ' + frames;
             frames = 0;
             lastFps = Date.now();
         }
@@ -259,12 +239,12 @@ function startDetectionLoop() {
                     const top = filtered[0];
                     const confidence = Math.round(top.score * 100);
                     document.getElementById('detectedObject').textContent = top.class.toUpperCase();
-                    document.getElementById('detectedConfidence').textContent = 'Confidence: ' + confidence + '%';
+                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: ' + confidence + '%';
                     document.getElementById('confidence').textContent = confidence + '%';
 
                 } else {
-                    document.getElementById('detectedObject').textContent = 'No Object';
-                    document.getElementById('detectedConfidence').textContent = 'Confidence: --%';
+                    document.getElementById('detectedObject').textContent = 'NO OBJECT';
+                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: --%';
                 }
 
             } catch (e) {
@@ -312,7 +292,7 @@ function captureFrame() {
 
     const obj = document.getElementById('detectedObject').textContent;
     document.getElementById('scanObjectName').textContent = obj || 'Unknown';
-    document.getElementById('scanConfidence').textContent = document.getElementById('detectedConfidence').textContent.replace('Confidence: ', '');
+    document.getElementById('scanConfidence').textContent = document.getElementById('detectedConfidence').textContent.replace('CONFIDENCE: ', '');
     document.getElementById('scanCategory').textContent = 'Object';
     document.getElementById('scanDescription').textContent = 'Detected by AI Vision Engine';
 }
@@ -352,8 +332,12 @@ async function runOSINT(tool) {
     const endpoints = {
         'dork': { input: 'dorkInput', result: 'dorkResult', url: '/api/osint/dork' },
         'shodan': { input: 'shodanInput', result: 'shodanResult', url: '/api/osint/shodan' },
+        'censys': { input: 'censysInput', result: 'censysResult', url: '/api/osint/censys' },
         'hibp': { input: 'hibpInput', result: 'hibpResult', url: '/api/osint/hibp' },
-        'virustotal': { input: 'vtInput', result: 'vtResult', url: '/api/osint/virustotal' }
+        'virustotal': { input: 'vtInput', result: 'vtResult', url: '/api/osint/virustotal' },
+        'whois': { input: 'whoisInput', result: 'whoisResult', url: '/api/osint/whois' },
+        'spider': { input: 'spiderInput', result: 'spiderResult', url: '/api/osint/spider' },
+        'wayback': { input: 'waybackInput', result: 'waybackResult', url: '/api/osint/wayback' }
     };
 
     const config = endpoints[tool];
@@ -394,9 +378,11 @@ async function runOSINT(tool) {
 async function runSecurity(tool) {
     const endpoints = {
         'threat': { input: 'threatInput', result: 'threatResult', url: '/api/security/threat' },
+        'darkweb': { input: 'darkWebInput', result: 'darkWebResult', url: '/api/security/darkweb' },
         'ssl': { input: 'sslInput', result: 'sslResult', url: '/api/security/ssl' },
         'phish': { input: 'phishInput', result: 'phishResult', url: '/api/security/phish' },
-        'ip': { input: 'ipInput', result: 'ipResult', url: '/api/security/ip' }
+        'ip': { input: 'ipInput', result: 'ipResult', url: '/api/security/ip' },
+        'vuln': { input: 'vulnInput', result: 'vulnResult', url: '/api/security/vuln' }
     };
 
     const config = endpoints[tool];
@@ -447,27 +433,16 @@ setTimeout(() => {
                     backgroundColor: 'rgba(0, 212, 255, 0.06)',
                     tension: 0.4,
                     fill: true,
-                    pointRadius: 3,
-                    pointBackgroundColor: '#00D4FF'
+                    pointRadius: 2
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { 
-                    legend: { 
-                        display: false
-                    } 
-                },
+                plugins: { legend: { display: false } },
                 scales: {
-                    x: { 
-                        grid: { display: false, color: 'rgba(255,255,255,0.04)' },
-                        ticks: { color: '#8A9AAA', font: { size: 10 } }
-                    },
-                    y: { 
-                        grid: { color: 'rgba(255,255,255,0.04)' },
-                        ticks: { color: '#8A9AAA', font: { size: 10 } }
-                    }
+                    x: { grid: { display: false, color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#8A9AAA', font: { size: 9 } } },
+                    y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#8A9AAA', font: { size: 9 } } }
                 }
             }
         });
@@ -479,8 +454,7 @@ setTimeout(() => {
                 datasets: [{
                     data: [30, 25, 20, 15, 10],
                     backgroundColor: ['#00D4FF', '#D4A843', '#44DD88', '#FF4444', '#6A7A8A'],
-                    borderWidth: 2,
-                    borderColor: '#0B1A2E'
+                    borderWidth: 0
                 }]
             },
             options: {
@@ -492,10 +466,9 @@ setTimeout(() => {
                         position: 'bottom', 
                         labels: { 
                             color: '#8A9AAA', 
-                            font: { size: 10 },
-                            padding: 16,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
+                            font: { size: 9 },
+                            padding: 12,
+                            usePointStyle: true
                         } 
                     } 
                 }
@@ -548,8 +521,7 @@ updateTimeline();
 // 🚀 INIT
 // ================================================================
 
-console.log('%c⚡ MK CYBER HUB v8.1 - MODERN UI', 'font-size:20px;color:#00D4FF;font-weight:900');
-console.log('%c🎨 Complete UI/UX Redesign', 'font-size:14px;color:#D4A843');
-console.log('%c🚀 Fast & Modern Interface', 'font-size:14px;color:#44DD88');
+console.log('%c⚡ MK CYBER HUB v8.1 - STABLE', 'font-size:20px;color:#00D4FF;font-weight:900');
+console.log('%c✅ All Systems Active', 'font-size:14px;color:#44DD88');
 
 setTimeout(loadModel, 1500);
