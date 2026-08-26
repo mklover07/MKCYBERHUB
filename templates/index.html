@@ -113,182 +113,179 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- ===== AI VISION ENGINE - ADVANCED ===== -->
-        <!-- ============================================================ -->
+<!-- ===== AI VISION ENGINE - ADVANCED (FIXED) ===== -->
+<!-- ============================================================ -->
 
-        <section class="section" id="vision">
-            <div class="section-header">
-                <div class="section-title">
-                    <i class="fas fa-eye neon-icon"></i>
-                    <h2>AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ Advanced</span></h2>
-                </div>
-                <span class="section-badge live" id="visionStatus">🟢 LIVE</span>
+<section class="section" id="vision">
+    <div class="section-header">
+        <div class="section-title">
+            <i class="fas fa-eye neon-icon"></i>
+            <h2>AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ Advanced</span></h2>
+        </div>
+        <span class="section-badge live" id="visionStatus">🟢 LIVE</span>
+    </div>
+
+    <div class="card vision-card">
+        <!-- ===== MODES ===== -->
+        <div class="vision-modes">
+            <button class="mode active" onclick="setVisionMode('object')" id="modeObject">
+                <i class="fas fa-cube"></i> Object
+            </button>
+            <button class="mode" onclick="setVisionMode('tracking')" id="modeTracking">
+                <i class="fas fa-crosshairs"></i> Tracking
+            </button>
+            <button class="mode" onclick="setVisionMode('counter')" id="modeCounter">
+                <i class="fas fa-counter"></i> Counter
+            </button>
+            <button class="mode" onclick="setVisionMode('all')" id="modeAll">
+                <i class="fas fa-robot"></i> All
+            </button>
+        </div>
+
+        <!-- ===== CAMERA ===== -->
+        <div class="camera-wrapper">
+            <video id="video" autoplay playsinline muted></video>
+            <canvas id="canvas"></canvas>
+
+            <!-- Status - Top Left -->
+            <div class="camera-status" id="cameraStatus">
+                <span class="dot"></span> <span id="statusText">READY</span>
             </div>
 
-            <div class="card vision-card">
-                <!-- ===== MODES ===== -->
-                <div class="vision-modes">
-                    <button class="mode active" onclick="setVisionMode('object')" id="modeObject">
-                        <i class="fas fa-cube"></i> Object
-                    </button>
-                    <button class="mode" onclick="setVisionMode('tracking')" id="modeTracking">
-                        <i class="fas fa-crosshairs"></i> Tracking
-                    </button>
-                    <button class="mode" onclick="setVisionMode('counter')" id="modeCounter">
-                        <i class="fas fa-counter"></i> Counter
-                    </button>
-                    <button class="mode" onclick="setVisionMode('all')" id="modeAll">
-                        <i class="fas fa-robot"></i> All
-                    </button>
+            <!-- Detection Info - Bottom Center (Small) -->
+            <div class="detection-info" id="detectionInfo">
+                <div class="detection-item">
+                    <span class="detection-icon">🎯</span>
+                    <span id="detectedObject">Detecting...</span>
                 </div>
-
-                <!-- ===== CAMERA ===== -->
-                <div class="camera-wrapper">
-                    <video id="video" autoplay playsinline muted></video>
-                    <canvas id="canvas"></canvas>
-
-                    <!-- Counter Overlay -->
-                   <!-- Counter Overlay - Hidden by default, show only when needed -->
-<div class="counter-overlay" id="counterOverlay" style="display:none;">
-    ...
-</div>
-                            <span class="counter-icon">👤</span>
-                            <span class="counter-label">People</span>
-                            <span class="counter-value" id="peopleCount">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-icon">📱</span>
-                            <span class="counter-label">Devices</span>
-                            <span class="counter-value" id="deviceCount">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-icon">🚗</span>
-                            <span class="counter-label">Vehicles</span>
-                            <span class="counter-value" id="vehicleCount">0</span>
-                        </div>
-                        <div class="counter-item">
-                            <span class="counter-icon">📦</span>
-                            <span class="counter-label">Objects</span>
-                            <span class="counter-value" id="totalCount">0</span>
-                        </div>
-                    </div>
-
-                    <!-- Status -->
-                    <div class="camera-status" id="cameraStatus">
-                        <span class="dot"></span> <span id="statusText">READY</span>
-                    </div>
-
-                    <!-- Detection Info -->
-                    <div class="detection-info" id="detectionInfo">
-                        <div class="detection-item">
-                            <span class="detection-icon">🎯</span>
-                            <span id="detectedObject">Detecting...</span>
-                        </div>
-                        <div class="detection-item">
-                            <span class="detection-icon">📊</span>
-                            <span id="detectedConfidence">Confidence: --%</span>
-                        </div>
-                        <div class="detection-item">
-                            <span class="detection-icon">⚡</span>
-                            <span id="fpsDisplay">FPS: --</span>
-                        </div>
-                        <div class="detection-item">
-                            <span class="detection-icon">📸</span>
-                            <span id="captureCount">Captures: 0</span>
-                        </div>
-                    </div>
-
-                    <!-- Controls -->
-                    <div class="camera-controls-overlay">
-                        <button onclick="startScanner()" class="btn primary">
-                            <i class="fas fa-play"></i> Start
-                        </button>
-                        <button onclick="captureFrame()" class="btn secondary">
-                            <i class="fas fa-camera"></i> Capture
-                        </button>
-                        <button onclick="captureBurst()" class="btn burst">
-                            <i class="fas fa-bolt"></i> Burst
-                        </button>
-                        <button onclick="stopScanner()" class="btn outline">
-                            <i class="fas fa-stop"></i> Stop
-                        </button>
-                        <button onclick="switchCamera()" class="btn outline">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
-                    </div>
+                <div class="detection-item">
+                    <span class="detection-icon">📊</span>
+                    <span id="detectedConfidence">Conf: --%</span>
                 </div>
-
-                <!-- ===== DASHBOARD ===== -->
-                <div class="vision-dashboard">
-                    <div class="dash-item">
-                        <span class="dash-icon">🎯</span>
-                        <span class="dash-label">Objects</span>
-                        <span class="dash-value" id="objCount">0</span>
-                    </div>
-                    <div class="dash-item">
-                        <span class="dash-icon">📊</span>
-                        <span class="dash-label">Confidence</span>
-                        <span class="dash-value" id="confidence">--%</span>
-                    </div>
-                    <div class="dash-item">
-                        <span class="dash-icon">⚡</span>
-                        <span class="dash-label">FPS</span>
-                        <span class="dash-value" id="fps">--</span>
-                    </div>
-                    <div class="dash-item">
-                        <span class="dash-icon">📸</span>
-                        <span class="dash-label">Captures</span>
-                        <span class="dash-value" id="dashScans">0</span>
-                    </div>
-                    <div class="dash-item">
-                        <span class="dash-icon">👤</span>
-                        <span class="dash-label">People</span>
-                        <span class="dash-value" id="dashPeople">0</span>
-                    </div>
-                    <div class="dash-item">
-                        <span class="dash-icon">📦</span>
-                        <span class="dash-label">Total</span>
-                        <span class="dash-value" id="dashTotal">0</span>
-                    </div>
+                <div class="detection-item">
+                    <span class="detection-icon">⚡</span>
+                    <span id="fpsDisplay">FPS: --</span>
                 </div>
-
-                <!-- ===== GALLERY ===== -->
-                <div class="gallery-section">
-                    <div class="gallery-header">
-                        <span>📸 Capture Gallery</span>
-                        <button onclick="clearGallery()" class="btn outline small">Clear All</button>
-                    </div>
-                    <div class="gallery-grid" id="galleryGrid">
-                        <!-- Images appear here -->
-                    </div>
+                <div class="detection-item">
+                    <span class="detection-icon">📸</span>
+                    <span id="captureCount">Captures: 0</span>
                 </div>
+            </div>
 
-                <!-- ===== SCAN RESULT ===== -->
-                <div class="scan-results" id="scanResults" style="display:none;">
-                    <div class="scan-header">
-                        <span>📸 Scan Result</span>
-                        <span id="scanStatus" class="scan-status">Complete</span>
-                    </div>
-                    <div class="scan-grid">
-                        <img id="scanResultImage" src="" alt="Scan">
-                        <div class="scan-details">
-                            <div class="scan-detail"><strong>Object:</strong> <span id="scanObjectName">-</span></div>
-                            <div class="scan-detail"><strong>Confidence:</strong> <span id="scanConfidence">--%</span></div>
-                            <div class="scan-detail"><strong>Category:</strong> <span id="scanCategory">-</span></div>
-                            <div class="scan-detail"><strong>Description:</strong> <span id="scanDescription">-</span></div>
-                            <div class="scan-detail"><strong>Time:</strong> <span id="scanTime">-</span></div>
-                            <div class="scan-actions">
-                                <button onclick="liveGoogleSearch()" class="btn outline small"><i class="fab fa-google"></i> Google</button>
-                                <button onclick="liveYouTubeSearch()" class="btn outline small"><i class="fab fa-youtube"></i> YouTube</button>
-                                <button onclick="liveWikipediaPage()" class="btn outline small"><i class="fab fa-wikipedia-w"></i> Wiki</button>
-                                <button onclick="downloadImage()" class="btn primary small"><i class="fas fa-download"></i> Save</button>
-                            </div>
-                        </div>
+            <!-- Counter Overlay - Small & Hidden by Default -->
+            <div class="counter-overlay" id="counterOverlay" style="display:none;">
+                <div class="counter-item">
+                    <span class="counter-icon">👤</span>
+                    <span class="counter-label">People</span>
+                    <span class="counter-value" id="peopleCount">0</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-icon">📱</span>
+                    <span class="counter-label">Devices</span>
+                    <span class="counter-value" id="deviceCount">0</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-icon">🚗</span>
+                    <span class="counter-label">Vehicles</span>
+                    <span class="counter-value" id="vehicleCount">0</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-icon">📦</span>
+                    <span class="counter-label">Objects</span>
+                    <span class="counter-value" id="totalCount">0</span>
+                </div>
+            </div>
+
+            <!-- Controls - Bottom -->
+            <div class="camera-controls-overlay">
+                <button onclick="startScanner()" class="btn primary">
+                    <i class="fas fa-play"></i> Start
+                </button>
+                <button onclick="captureFrame()" class="btn secondary">
+                    <i class="fas fa-camera"></i> Capture
+                </button>
+                <button onclick="captureBurst()" class="btn burst">
+                    <i class="fas fa-bolt"></i> Burst
+                </button>
+                <button onclick="stopScanner()" class="btn outline">
+                    <i class="fas fa-stop"></i> Stop
+                </button>
+                <button onclick="switchCamera()" class="btn outline">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== DASHBOARD (Below Camera) ===== -->
+        <div class="vision-dashboard">
+            <div class="dash-item">
+                <span class="dash-icon">🎯</span>
+                <span class="dash-label">Objects</span>
+                <span class="dash-value" id="objCount">0</span>
+            </div>
+            <div class="dash-item">
+                <span class="dash-icon">📊</span>
+                <span class="dash-label">Confidence</span>
+                <span class="dash-value" id="confidence">--%</span>
+            </div>
+            <div class="dash-item">
+                <span class="dash-icon">⚡</span>
+                <span class="dash-label">FPS</span>
+                <span class="dash-value" id="fps">--</span>
+            </div>
+            <div class="dash-item">
+                <span class="dash-icon">📸</span>
+                <span class="dash-label">Captures</span>
+                <span class="dash-value" id="dashScans">0</span>
+            </div>
+            <div class="dash-item">
+                <span class="dash-icon">👤</span>
+                <span class="dash-label">People</span>
+                <span class="dash-value" id="dashPeople">0</span>
+            </div>
+            <div class="dash-item">
+                <span class="dash-icon">📦</span>
+                <span class="dash-label">Total</span>
+                <span class="dash-value" id="dashTotal">0</span>
+            </div>
+        </div>
+
+        <!-- ===== GALLERY (Below Dashboard) ===== -->
+        <div class="gallery-section">
+            <div class="gallery-header">
+                <span>📸 Capture Gallery</span>
+                <button onclick="clearGallery()" class="btn outline small">Clear All</button>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Images appear here -->
+            </div>
+        </div>
+
+        <!-- ===== SCAN RESULT (Below Gallery) ===== -->
+        <div class="scan-results" id="scanResults" style="display:none;">
+            <div class="scan-header">
+                <span>📸 Scan Result</span>
+                <span id="scanStatus" class="scan-status">Complete</span>
+            </div>
+            <div class="scan-grid">
+                <img id="scanResultImage" src="" alt="Scan">
+                <div class="scan-details">
+                    <div class="scan-detail"><strong>Object:</strong> <span id="scanObjectName">-</span></div>
+                    <div class="scan-detail"><strong>Confidence:</strong> <span id="scanConfidence">--%</span></div>
+                    <div class="scan-detail"><strong>Category:</strong> <span id="scanCategory">-</span></div>
+                    <div class="scan-detail"><strong>Description:</strong> <span id="scanDescription">-</span></div>
+                    <div class="scan-detail"><strong>Time:</strong> <span id="scanTime">-</span></div>
+                    <div class="scan-actions">
+                        <button onclick="liveGoogleSearch()" class="btn outline small"><i class="fab fa-google"></i> Google</button>
+                        <button onclick="liveYouTubeSearch()" class="btn outline small"><i class="fab fa-youtube"></i> YouTube</button>
+                        <button onclick="liveWikipediaPage()" class="btn outline small"><i class="fab fa-wikipedia-w"></i> Wiki</button>
+                        <button onclick="downloadImage()" class="btn primary small"><i class="fas fa-download"></i> Save</button>
                     </div>
                 </div>
             </div>
-        </section>
-
+        </div>
+    </div>
+</section>
         <!-- ============================================================ -->
         <!-- ===== OSINT SUITE ===== -->
         <!-- ============================================================ -->
