@@ -525,3 +525,131 @@ console.log('%c⚡ MK CYBER HUB v8.1 - STABLE', 'font-size:20px;color:#00D4FF;fo
 console.log('%c✅ All Systems Active', 'font-size:14px;color:#44DD88');
 
 setTimeout(loadModel, 1500);
+// ================================================================
+// 🎯 ADVANCED FEATURES - Add at the end of script.js
+// ================================================================
+
+// ===== OBJECT DATABASE =====
+const OBJECT_DATABASE = {
+    'person': { name: 'Person', icon: '👤', category: 'Human', description: 'A human being - most intelligent species!' },
+    'dog': { name: 'Dog', icon: '🐕', category: 'Animal', description: 'Loyal domesticated carnivore!' },
+    'cat': { name: 'Cat', icon: '🐈', category: 'Animal', description: 'Small carnivorous pet!' },
+    'car': { name: 'Car', icon: '🚗', category: 'Vehicle', description: 'Four-wheeled motor vehicle!' },
+    'laptop': { name: 'Laptop', icon: '💻', category: 'Electronics', description: 'Portable computer!' },
+    'cell phone': { name: 'Phone', icon: '📱', category: 'Electronics', description: 'Communication device!' },
+    'chair': { name: 'Chair', icon: '🪑', category: 'Furniture', description: 'Seat with backrest!' },
+    'book': { name: 'Book', icon: '📚', category: 'Media', description: 'Collection of written pages!' },
+    'bottle': { name: 'Bottle', icon: '🍾', category: 'Container', description: 'Container for liquids!' },
+    'pizza': { name: 'Pizza', icon: '🍕', category: 'Food', description: 'Flat bread with toppings!' },
+    'apple': { name: 'Apple', icon: '🍎', category: 'Fruit', description: 'Sweet edible fruit!' }
+};
+
+function getObjectInfo(name) {
+    if (!name) return { name: 'Unknown', icon: '❓', category: 'Unknown', description: 'Object detected' };
+    const lower = name.toLowerCase();
+    if (OBJECT_DATABASE[lower]) return OBJECT_DATABASE[lower];
+    for (const [key, val] of Object.entries(OBJECT_DATABASE)) {
+        if (lower.includes(key) || key.includes(lower)) return val;
+    }
+    return { name: name, icon: '❓', category: 'Object', description: 'A ' + name + ' detected' };
+}
+
+// ===== COUNTER VARIABLES =====
+let captureCount = 0;
+let galleryImages = [];
+
+// ===== SET VISION MODE =====
+function setVisionMode(mode) {
+    document.querySelectorAll('.vision-modes .mode').forEach(b => b.classList.remove('active'));
+    const map = { 'object': 'modeObject', 'tracking': 'modeTracking', 'counter': 'modeCounter', 'all': 'modeAll' };
+    if (map[mode]) document.getElementById(map[mode]).classList.add('active');
+}
+
+// ===== ENHANCED CAPTURE =====
+const originalCapture = captureFrame;
+captureFrame = function() {
+    if (!running) { alert('START CAMERA FIRST!'); return; }
+    const canvas = document.getElementById('canvas');
+    const imgData = canvas.toDataURL('image/jpeg');
+    
+    // Gallery
+    galleryImages.push(imgData);
+    const grid = document.getElementById('galleryGrid');
+    if (grid) {
+        grid.innerHTML = galleryImages.map((img, i) => 
+            `<img src="${img}" alt="Capture ${i+1}" onclick="viewImage(${i})" style="width:100%;height:80px;object-fit:cover;border-radius:6px;border:2px solid var(--border);cursor:pointer;">`
+        ).join('');
+    }
+    
+    document.getElementById('scanResultImage').src = imgData;
+    document.getElementById('scanResults').style.display = 'block';
+    document.getElementById('scanStatus').textContent = '✅ Complete';
+    document.getElementById('scanTime').textContent = new Date().toLocaleTimeString();
+    
+    captureCount++;
+    document.getElementById('captureCount').textContent = 'Captures: ' + captureCount;
+    document.getElementById('dashScans').textContent = captureCount;
+    
+    const obj = document.getElementById('detectedObject').textContent;
+    const info = getObjectInfo(obj.split('(')[0].trim());
+    document.getElementById('scanObjectName').textContent = info.name;
+    document.getElementById('scanCategory').textContent = info.category;
+    document.getElementById('scanDescription').textContent = info.description;
+};
+
+// ===== VIEW GALLERY IMAGE =====
+function viewImage(index) {
+    if (galleryImages[index]) {
+        document.getElementById('scanResultImage').src = galleryImages[index];
+        document.getElementById('scanResults').style.display = 'block';
+        document.getElementById('scanStatus').textContent = '📷 Gallery Image ' + (index + 1);
+    }
+}
+
+// ===== CLEAR GALLERY =====
+function clearGallery() {
+    if (confirm('Clear all gallery images?')) {
+        galleryImages = [];
+        document.getElementById('galleryGrid').innerHTML = '';
+    }
+}
+
+// ===== BURST CAPTURE =====
+function captureBurst() {
+    if (!running) { alert('START CAMERA FIRST!'); return; }
+    const canvas = document.getElementById('canvas');
+    let count = 0;
+    const maxCount = 5;
+    const burstInterval = setInterval(() => {
+        if (count >= maxCount) { clearInterval(burstInterval); return; }
+        const imgData = canvas.toDataURL('image/jpeg');
+        galleryImages.push(imgData);
+        const grid = document.getElementById('galleryGrid');
+        if (grid) {
+            grid.innerHTML = galleryImages.map((img, i) => 
+                `<img src="${img}" alt="Capture ${i+1}" onclick="viewImage(${i})" style="width:100%;height:80px;object-fit:cover;border-radius:6px;border:2px solid var(--border);cursor:pointer;">`
+            ).join('');
+        }
+        count++;
+        captureCount++;
+        document.getElementById('captureCount').textContent = 'Captures: ' + captureCount;
+        document.getElementById('dashScans').textContent = captureCount;
+    }, 200);
+    setTimeout(() => {
+        document.getElementById('scanResultImage').src = canvas.toDataURL('image/jpeg');
+        document.getElementById('scanResults').style.display = 'block';
+        document.getElementById('scanStatus').textContent = '✅ Burst Complete! (' + maxCount + ' photos)';
+    }, 1000);
+}
+
+// ===== DOWNLOAD IMAGE =====
+function downloadImage() {
+    const img = document.getElementById('scanResultImage');
+    if (!img.src || img.src === '') { alert('No image to download!'); return; }
+    const link = document.createElement('a');
+    link.download = 'MK_Scan_' + Date.now() + '.jpg';
+    link.href = img.src;
+    link.click();
+}
+
+console.log('✅ Advanced Features Loaded');
