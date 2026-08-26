@@ -2,27 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MK CYBER HUB</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>MK CYBER HUB — Advanced Cyber Intelligence</title>
+    
+    <!-- Meta -->
+    <meta name="author" content="MANOJ MEENA, MK GLOBAL NEXUS">
+    <meta name="description" content="MK CYBER HUB — Enterprise Cyber Intelligence Platform">
+    <meta name="theme-color" content="#0B1A2E">
+    
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
+    <!-- ===== PRELOADER ===== -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-text">⚡ MK</div>
+        </div>
+    </div>
+
     <!-- ===== HEADER ===== -->
-    <header class="header">
+    <header class="header glass">
         <div class="header-container">
             <div class="logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">MK <span class="logo-highlight">GLOBAL NEXUS</span></span>
-                <span class="badge">v8.0</span>
-                <span class="divider">|</span>
-                <span class="division">MK CYBER HUB</span>
+                <div class="logo-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand">MK</span>
+                    <span class="sub">CYBER HUB</span>
+                </div>
             </div>
             <div class="header-right">
-                <span class="status">🟢 SECURE</span>
+                <span class="status-badge">
+                    <span class="dot"></span> SECURE
+                </span>
                 <span class="time" id="currentTime">--:--:--</span>
                 <button onclick="toggleTheme()" class="theme-btn">🌙</button>
             </div>
@@ -35,246 +56,274 @@
         <!-- ===== HERO ===== -->
         <section class="hero">
             <div class="hero-container">
-                <div class="hero-text">
-                    <h1>ADVANCED <span class="highlight">CYBER INTELLIGENCE</span></h1>
-                    <p class="tagline">🐍 PYTHON · ⚡ FAST · 🛡️ SECURE</p>
-                    <p class="desc">Complete enterprise-grade cyber intelligence platform with real-time AI detection.</p>
-                    <div class="stats" id="statsContainer">
-                        <div class="stat">
-                            <span class="number" id="totalThreats">12,847</span>
-                            <span class="label">TOTAL THREATS</span>
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-glow">⚡ Enterprise Grade</span>
+                        <span class="badge-text">AI-Powered Cyber Intelligence</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="gradient-text">Advanced</span>
+                        <span class="hero-highlight">Cyber Intelligence</span>
+                    </h1>
+                    <p class="hero-desc">
+                        Real-time AI detection, advanced OSINT, threat monitoring, and cyber security analytics — all in one enterprise platform.
+                    </p>
+                    <div class="hero-stats" id="statsContainer">
+                        <div class="stat-card">
+                            <span class="stat-number" id="totalThreats">12,847</span>
+                            <span class="stat-label">Total Threats</span>
                         </div>
-                        <div class="stat">
-                            <span class="number" id="activeAttacks">342</span>
-                            <span class="label">ACTIVE ATTACKS</span>
+                        <div class="stat-card">
+                            <span class="stat-number" id="activeAttacks">342</span>
+                            <span class="stat-label">Active Attacks</span>
                         </div>
-                        <div class="stat">
-                            <span class="number" id="vulnerabilities">1,204</span>
-                            <span class="label">VULNERABILITIES</span>
+                        <div class="stat-card">
+                            <span class="stat-number" id="vulnerabilities">1,204</span>
+                            <span class="stat-label">Vulnerabilities</span>
                         </div>
-                        <div class="stat">
-                            <span class="number" id="countries">189</span>
-                            <span class="label">COUNTRIES</span>
+                        <div class="stat-card">
+                            <span class="stat-number" id="countries">189</span>
+                            <span class="stat-label">Countries</span>
                         </div>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <div class="globe-icon">
-                        <i class="fas fa-globe-americas"></i>
-                        <span>GLOBAL</span>
+                <div class="hero-visual">
+                    <div class="orb-container">
+                        <div class="orb orb-1"></div>
+                        <div class="orb orb-2"></div>
+                        <div class="orb orb-3"></div>
+                        <div class="orb-center">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>GLOBAL</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ===== BANNER ===== -->
-        <section class="banner">
-            <span>🏢</span>
-            <span>A DIVISION OF</span>
-            <span class="company">MK GLOBAL NEXUS</span>
-            <span class="founder">MANOJ MEENA</span>
+        <section class="brand-banner">
+            <div class="banner-container">
+                <span class="banner-icon">🏢</span>
+                <span class="banner-text">A Division of</span>
+                <span class="banner-company">MK GLOBAL NEXUS</span>
+                <span class="banner-divider">|</span>
+                <span class="banner-founder">MANOJ MEENA</span>
+            </div>
         </section>
 
-       <!-- ===== AI VISION ENGINE - ADVANCED ===== -->
-<section class="section" id="vision">
-    <div class="section-header">
-        <div class="section-title">
-            <i class="fas fa-eye neon-icon"></i>
-            <h2>AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ Advanced</span></h2>
-        </div>
-        <span class="section-badge live" id="visionStatus">🟢 LIVE</span>
-    </div>
-    
-    <div class="card vision-card">
-        <!-- ===== MODES ===== -->
-        <div class="vision-modes">
-            <button class="mode active" onclick="setVisionMode('object')" id="modeObject">
-                <i class="fas fa-cube"></i> Object
-            </button>
-            <button class="mode" onclick="setVisionMode('tracking')" id="modeTracking">
-                <i class="fas fa-crosshairs"></i> Tracking
-            </button>
-            <button class="mode" onclick="setVisionMode('counter')" id="modeCounter">
-                <i class="fas fa-counter"></i> Counter
-            </button>
-            <button class="mode" onclick="setVisionMode('all')" id="modeAll">
-                <i class="fas fa-robot"></i> All
-            </button>
-        </div>
+        <!-- ============================================================ -->
+        <!-- ===== AI VISION ENGINE - ADVANCED ===== -->
+        <!-- ============================================================ -->
 
-        <!-- ===== CAMERA ===== -->
-        <div class="camera-wrapper">
-            <video id="video" autoplay playsinline muted></video>
-            <canvas id="canvas"></canvas>
-            
-            <!-- Object Counter Overlay -->
-            <div class="counter-overlay" id="counterOverlay">
-                <div class="counter-item">
-                    <span class="counter-icon">👤</span>
-                    <span class="counter-label">People</span>
-                    <span class="counter-value" id="peopleCount">0</span>
+        <section class="section" id="vision">
+            <div class="section-header">
+                <div class="section-title">
+                    <i class="fas fa-eye neon-icon"></i>
+                    <h2>AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ Advanced</span></h2>
                 </div>
-                <div class="counter-item">
-                    <span class="counter-icon">📱</span>
-                    <span class="counter-label">Devices</span>
-                    <span class="counter-value" id="deviceCount">0</span>
-                </div>
-                <div class="counter-item">
-                    <span class="counter-icon">🚗</span>
-                    <span class="counter-label">Vehicles</span>
-                    <span class="counter-value" id="vehicleCount">0</span>
-                </div>
-                <div class="counter-item">
-                    <span class="counter-icon">📦</span>
-                    <span class="counter-label">Objects</span>
-                    <span class="counter-value" id="totalCount">0</span>
-                </div>
+                <span class="section-badge live" id="visionStatus">🟢 LIVE</span>
             </div>
 
-            <!-- Status -->
-            <div class="camera-status" id="cameraStatus">
-                <span class="dot"></span> <span id="statusText">READY</span>
-            </div>
-
-            <!-- Detection Info -->
-            <div class="detection-info" id="detectionInfo">
-                <div class="detection-item">
-                    <span class="detection-icon">🎯</span>
-                    <span id="detectedObject">Detecting...</span>
+            <div class="card vision-card">
+                <!-- ===== MODES ===== -->
+                <div class="vision-modes">
+                    <button class="mode active" onclick="setVisionMode('object')" id="modeObject">
+                        <i class="fas fa-cube"></i> Object
+                    </button>
+                    <button class="mode" onclick="setVisionMode('tracking')" id="modeTracking">
+                        <i class="fas fa-crosshairs"></i> Tracking
+                    </button>
+                    <button class="mode" onclick="setVisionMode('counter')" id="modeCounter">
+                        <i class="fas fa-counter"></i> Counter
+                    </button>
+                    <button class="mode" onclick="setVisionMode('all')" id="modeAll">
+                        <i class="fas fa-robot"></i> All
+                    </button>
                 </div>
-                <div class="detection-item">
-                    <span class="detection-icon">📊</span>
-                    <span id="detectedConfidence">Confidence: --%</span>
+
+                <!-- ===== CAMERA ===== -->
+                <div class="camera-wrapper">
+                    <video id="video" autoplay playsinline muted></video>
+                    <canvas id="canvas"></canvas>
+
+                    <!-- Counter Overlay -->
+                    <div class="counter-overlay" id="counterOverlay">
+                        <div class="counter-item">
+                            <span class="counter-icon">👤</span>
+                            <span class="counter-label">People</span>
+                            <span class="counter-value" id="peopleCount">0</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-icon">📱</span>
+                            <span class="counter-label">Devices</span>
+                            <span class="counter-value" id="deviceCount">0</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-icon">🚗</span>
+                            <span class="counter-label">Vehicles</span>
+                            <span class="counter-value" id="vehicleCount">0</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-icon">📦</span>
+                            <span class="counter-label">Objects</span>
+                            <span class="counter-value" id="totalCount">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="camera-status" id="cameraStatus">
+                        <span class="dot"></span> <span id="statusText">READY</span>
+                    </div>
+
+                    <!-- Detection Info -->
+                    <div class="detection-info" id="detectionInfo">
+                        <div class="detection-item">
+                            <span class="detection-icon">🎯</span>
+                            <span id="detectedObject">Detecting...</span>
+                        </div>
+                        <div class="detection-item">
+                            <span class="detection-icon">📊</span>
+                            <span id="detectedConfidence">Confidence: --%</span>
+                        </div>
+                        <div class="detection-item">
+                            <span class="detection-icon">⚡</span>
+                            <span id="fpsDisplay">FPS: --</span>
+                        </div>
+                        <div class="detection-item">
+                            <span class="detection-icon">📸</span>
+                            <span id="captureCount">Captures: 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="camera-controls-overlay">
+                        <button onclick="startScanner()" class="btn primary">
+                            <i class="fas fa-play"></i> Start
+                        </button>
+                        <button onclick="captureFrame()" class="btn secondary">
+                            <i class="fas fa-camera"></i> Capture
+                        </button>
+                        <button onclick="captureBurst()" class="btn burst">
+                            <i class="fas fa-bolt"></i> Burst
+                        </button>
+                        <button onclick="stopScanner()" class="btn outline">
+                            <i class="fas fa-stop"></i> Stop
+                        </button>
+                        <button onclick="switchCamera()" class="btn outline">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="detection-item">
-                    <span class="detection-icon">⚡</span>
-                    <span id="fpsDisplay">FPS: --</span>
+
+                <!-- ===== DASHBOARD ===== -->
+                <div class="vision-dashboard">
+                    <div class="dash-item">
+                        <span class="dash-icon">🎯</span>
+                        <span class="dash-label">Objects</span>
+                        <span class="dash-value" id="objCount">0</span>
+                    </div>
+                    <div class="dash-item">
+                        <span class="dash-icon">📊</span>
+                        <span class="dash-label">Confidence</span>
+                        <span class="dash-value" id="confidence">--%</span>
+                    </div>
+                    <div class="dash-item">
+                        <span class="dash-icon">⚡</span>
+                        <span class="dash-label">FPS</span>
+                        <span class="dash-value" id="fps">--</span>
+                    </div>
+                    <div class="dash-item">
+                        <span class="dash-icon">📸</span>
+                        <span class="dash-label">Captures</span>
+                        <span class="dash-value" id="dashScans">0</span>
+                    </div>
+                    <div class="dash-item">
+                        <span class="dash-icon">👤</span>
+                        <span class="dash-label">People</span>
+                        <span class="dash-value" id="dashPeople">0</span>
+                    </div>
+                    <div class="dash-item">
+                        <span class="dash-icon">📦</span>
+                        <span class="dash-label">Total</span>
+                        <span class="dash-value" id="dashTotal">0</span>
+                    </div>
                 </div>
-                <div class="detection-item">
-                    <span class="detection-icon">📸</span>
-                    <span id="captureCount">Captures: 0</span>
+
+                <!-- ===== GALLERY ===== -->
+                <div class="gallery-section">
+                    <div class="gallery-header">
+                        <span>📸 Capture Gallery</span>
+                        <button onclick="clearGallery()" class="btn outline small">Clear All</button>
+                    </div>
+                    <div class="gallery-grid" id="galleryGrid">
+                        <!-- Images appear here -->
+                    </div>
                 </div>
-            </div>
 
-            <!-- Controls -->
-            <div class="camera-controls-overlay">
-                <button onclick="startScanner()" class="btn primary">
-                    <i class="fas fa-play"></i> Start
-                </button>
-                <button onclick="captureFrame()" class="btn secondary">
-                    <i class="fas fa-camera"></i> Capture
-                </button>
-                <button onclick="captureBurst()" class="btn secondary" style="background:#FF6B6B;">
-                    <i class="fas fa-bolt"></i> Burst
-                </button>
-                <button onclick="stopScanner()" class="btn outline">
-                    <i class="fas fa-stop"></i> Stop
-                </button>
-            </div>
-        </div>
-
-        <!-- ===== DASHBOARD ===== -->
-        <div class="vision-dashboard">
-            <div class="dash-item">
-                <span class="dash-icon">🎯</span>
-                <span class="dash-label">Objects</span>
-                <span class="dash-value" id="objCount">0</span>
-            </div>
-            <div class="dash-item">
-                <span class="dash-icon">📊</span>
-                <span class="dash-label">Confidence</span>
-                <span class="dash-value" id="confidence">--%</span>
-            </div>
-            <div class="dash-item">
-                <span class="dash-icon">⚡</span>
-                <span class="dash-label">FPS</span>
-                <span class="dash-value" id="fps">--</span>
-            </div>
-            <div class="dash-item">
-                <span class="dash-icon">📸</span>
-                <span class="dash-label">Captures</span>
-                <span class="dash-value" id="dashScans">0</span>
-            </div>
-            <div class="dash-item">
-                <span class="dash-icon">👤</span>
-                <span class="dash-label">People</span>
-                <span class="dash-value" id="dashPeople">0</span>
-            </div>
-            <div class="dash-item">
-                <span class="dash-icon">📦</span>
-                <span class="dash-label">Total</span>
-                <span class="dash-value" id="dashTotal">0</span>
-            </div>
-        </div>
-
-        <!-- ===== GALLERY ===== -->
-        <div class="gallery-section" id="gallerySection">
-            <div class="gallery-header">
-                <span>📸 Capture Gallery</span>
-                <button onclick="clearGallery()" class="btn outline small">Clear All</button>
-            </div>
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- Images will appear here -->
-            </div>
-        </div>
-
-        <!-- ===== SCAN RESULT ===== -->
-        <div class="scan-results" id="scanResults" style="display:none;">
-            <div class="scan-header">
-                <span>📸 Scan Result</span>
-                <span id="scanStatus" class="scan-status">Complete</span>
-            </div>
-            <div class="scan-grid">
-                <img id="scanResultImage" src="" alt="Scan">
-                <div class="scan-details">
-                    <div class="scan-detail"><strong>Object:</strong> <span id="scanObjectName">-</span></div>
-                    <div class="scan-detail"><strong>Confidence:</strong> <span id="scanConfidence">--%</span></div>
-                    <div class="scan-detail"><strong>Category:</strong> <span id="scanCategory">-</span></div>
-                    <div class="scan-detail"><strong>Description:</strong> <span id="scanDescription">-</span></div>
-                    <div class="scan-detail"><strong>Time:</strong> <span id="scanTime">-</span></div>
-                    <div class="scan-actions">
-                        <button onclick="liveGoogleSearch()" class="btn outline small"><i class="fab fa-google"></i> Google</button>
-                        <button onclick="liveYouTubeSearch()" class="btn outline small"><i class="fab fa-youtube"></i> YouTube</button>
-                        <button onclick="liveWikipediaPage()" class="btn outline small"><i class="fab fa-wikipedia-w"></i> Wiki</button>
-                        <button onclick="downloadImage()" class="btn primary small"><i class="fas fa-download"></i> Save</button>
+                <!-- ===== SCAN RESULT ===== -->
+                <div class="scan-results" id="scanResults" style="display:none;">
+                    <div class="scan-header">
+                        <span>📸 Scan Result</span>
+                        <span id="scanStatus" class="scan-status">Complete</span>
+                    </div>
+                    <div class="scan-grid">
+                        <img id="scanResultImage" src="" alt="Scan">
+                        <div class="scan-details">
+                            <div class="scan-detail"><strong>Object:</strong> <span id="scanObjectName">-</span></div>
+                            <div class="scan-detail"><strong>Confidence:</strong> <span id="scanConfidence">--%</span></div>
+                            <div class="scan-detail"><strong>Category:</strong> <span id="scanCategory">-</span></div>
+                            <div class="scan-detail"><strong>Description:</strong> <span id="scanDescription">-</span></div>
+                            <div class="scan-detail"><strong>Time:</strong> <span id="scanTime">-</span></div>
+                            <div class="scan-actions">
+                                <button onclick="liveGoogleSearch()" class="btn outline small"><i class="fab fa-google"></i> Google</button>
+                                <button onclick="liveYouTubeSearch()" class="btn outline small"><i class="fab fa-youtube"></i> YouTube</button>
+                                <button onclick="liveWikipediaPage()" class="btn outline small"><i class="fab fa-wikipedia-w"></i> Wiki</button>
+                                <button onclick="downloadImage()" class="btn primary small"><i class="fas fa-download"></i> Save</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-        <!-- ===== OSINT ===== -->
-        <section class="section">
+        <!-- ============================================================ -->
+        <!-- ===== OSINT SUITE ===== -->
+        <!-- ============================================================ -->
+
+        <section class="section" id="osint">
             <div class="section-header">
-                <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> OSINT SUITE</h2>
-                <span class="badge">10 TOOLS</span>
+                <div class="section-title">
+                    <i class="fas fa-tools neon-icon"></i>
+                    <h2>OSINT Suite</h2>
+                </div>
+                <span class="section-badge">8 Tools</span>
             </div>
             <div class="osint-grid">
                 <div class="card osint-card">
                     <div class="osint-icon">🔍</div>
-                    <h3>GOOGLE DORKING</h3>
+                    <h3>Google Dorking</h3>
                     <div class="input-group">
                         <input type="text" id="dorkInput" placeholder="site:example.com">
-                        <button onclick="runOSINT('dork')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('dork')" class="btn outline">Run</button>
                     </div>
                     <div id="dorkResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
                     <div class="osint-icon">🌐</div>
-                    <h3>SHODAN</h3>
+                    <h3>Shodan</h3>
                     <div class="input-group">
                         <input type="text" id="shodanInput" placeholder="apache port:80">
-                        <button onclick="runOSINT('shodan')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('shodan')" class="btn outline">Run</button>
                     </div>
                     <div id="shodanResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
                     <div class="osint-icon">📡</div>
-                    <h3>CENSYS</h3>
+                    <h3>Censys</h3>
                     <div class="input-group">
                         <input type="text" id="censysInput" placeholder="example.com">
-                        <button onclick="runOSINT('censys')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('censys')" class="btn outline">Run</button>
                     </div>
                     <div id="censysResult" class="result"></div>
                 </div>
@@ -283,16 +332,16 @@
                     <h3>HIBP</h3>
                     <div class="input-group">
                         <input type="email" id="hibpInput" placeholder="you@example.com">
-                        <button onclick="runOSINT('hibp')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('hibp')" class="btn outline">Run</button>
                     </div>
                     <div id="hibpResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
                     <div class="osint-icon">🦠</div>
-                    <h3>VIRUSTOTAL</h3>
+                    <h3>VirusTotal</h3>
                     <div class="input-group">
                         <input type="text" id="vtInput" placeholder="https://example.com">
-                        <button onclick="runOSINT('virustotal')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('virustotal')" class="btn outline">Run</button>
                     </div>
                     <div id="vtResult" class="result"></div>
                 </div>
@@ -301,122 +350,143 @@
                     <h3>WHOIS</h3>
                     <div class="input-group">
                         <input type="text" id="whoisInput" placeholder="example.com">
-                        <button onclick="runOSINT('whois')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('whois')" class="btn outline">Run</button>
                     </div>
                     <div id="whoisResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
                     <div class="osint-icon">🕷️</div>
-                    <h3>SPIDERFOOT</h3>
+                    <h3>Spiderfoot</h3>
                     <div class="input-group">
                         <input type="text" id="spiderInput" placeholder="target.com">
-                        <button onclick="runOSINT('spider')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('spider')" class="btn outline">Run</button>
                     </div>
                     <div id="spiderResult" class="result"></div>
                 </div>
                 <div class="card osint-card">
                     <div class="osint-icon">📜</div>
-                    <h3>WAYBACK</h3>
+                    <h3>Wayback</h3>
                     <div class="input-group">
                         <input type="text" id="waybackInput" placeholder="example.com">
-                        <button onclick="runOSINT('wayback')" class="btn outline">RUN</button>
+                        <button onclick="runOSINT('wayback')" class="btn outline">Run</button>
                     </div>
                     <div id="waybackResult" class="result"></div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== SECURITY ===== -->
-        <section class="section">
+        <!-- ============================================================ -->
+        <!-- ===== CYBER SECURITY ===== -->
+        <!-- ============================================================ -->
+
+        <section class="section" id="security">
             <div class="section-header">
-                <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> CYBER SECURITY</h2>
-                <span class="badge">6 TOOLS</span>
+                <div class="section-title">
+                    <i class="fas fa-shield-alt neon-icon"></i>
+                    <h2>Cyber Security</h2>
+                </div>
+                <span class="section-badge">6 Tools</span>
             </div>
             <div class="security-grid">
                 <div class="card">
                     <div class="card-icon">🧠</div>
-                    <h3>AI THREAT ANALYZER</h3>
+                    <h3>AI Threat Analyzer</h3>
                     <div class="input-group">
                         <input type="text" id="threatInput" placeholder="IP or Domain">
-                        <button onclick="runSecurity('threat')" class="btn primary">ANALYZE</button>
+                        <button onclick="runSecurity('threat')" class="btn primary">Analyze</button>
                     </div>
                     <div id="threatResult" class="result"></div>
                 </div>
                 <div class="card">
                     <div class="card-icon">🔓</div>
-                    <h3>DARK WEB MONITOR</h3>
+                    <h3>Dark Web Monitor</h3>
                     <div class="input-group">
                         <input type="email" id="darkWebInput" placeholder="Enter email">
-                        <button onclick="runSecurity('darkweb')" class="btn secondary">CHECK</button>
+                        <button onclick="runSecurity('darkweb')" class="btn secondary">Check</button>
                     </div>
                     <div id="darkWebResult" class="result"></div>
                 </div>
                 <div class="card">
                     <div class="card-icon">🔒</div>
-                    <h3>SSL CHECKER</h3>
+                    <h3>SSL Checker</h3>
                     <div class="input-group">
                         <input type="text" id="sslInput" placeholder="example.com">
-                        <button onclick="runSecurity('ssl')" class="btn secondary">CHECK</button>
+                        <button onclick="runSecurity('ssl')" class="btn secondary">Check</button>
                     </div>
                     <div id="sslResult" class="result"></div>
                 </div>
                 <div class="card">
                     <div class="card-icon">⚠️</div>
-                    <h3>PHISHING DETECTOR</h3>
+                    <h3>Phishing Detector</h3>
                     <div class="input-group">
                         <input type="text" id="phishInput" placeholder="URL or Email">
-                        <button onclick="runSecurity('phish')" class="btn primary">DETECT</button>
+                        <button onclick="runSecurity('phish')" class="btn primary">Detect</button>
                     </div>
                     <div id="phishResult" class="result"></div>
                 </div>
                 <div class="card">
                     <div class="card-icon">🌐</div>
-                    <h3>IP REPUTATION</h3>
+                    <h3>IP Reputation</h3>
                     <div class="input-group">
                         <input type="text" id="ipInput" placeholder="Enter IP">
-                        <button onclick="runSecurity('ip')" class="btn secondary">CHECK</button>
+                        <button onclick="runSecurity('ip')" class="btn secondary">Check</button>
                     </div>
                     <div id="ipResult" class="result"></div>
                 </div>
                 <div class="card">
                     <div class="card-icon">🛡️</div>
-                    <h3>VULNERABILITY SCANNER</h3>
+                    <h3>Vulnerability Scanner</h3>
                     <div class="input-group">
                         <input type="text" id="vulnInput" placeholder="https://example.com">
-                        <button onclick="runSecurity('vuln')" class="btn primary">SCAN</button>
+                        <button onclick="runSecurity('vuln')" class="btn primary">Scan</button>
                     </div>
                     <div id="vulnResult" class="result"></div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== THREAT MAP ===== -->
-        <section class="section">
+        <!-- ============================================================ -->
+        <!-- ===== LIVE THREAT MAP ===== -->
+        <!-- ============================================================ -->
+
+        <section class="section" id="map">
             <div class="section-header">
-                <h2><i class="fas fa-globe-americas" style="color:#00D4FF;"></i> LIVE THREAT MAP</h2>
-                <span class="badge">REAL-TIME</span>
+                <div class="section-title">
+                    <i class="fas fa-globe-americas neon-icon"></i>
+                    <h2>Live Threat Map</h2>
+                </div>
+                <span class="section-badge">Real-Time</span>
             </div>
             <div class="card map-card">
-                <div id="threatMap" style="height:380px;border-radius:10px;"></div>
+                <div id="threatMap" style="height:380px;border-radius:12px;"></div>
                 <div class="map-stats">
                     <div class="map-stat"><span>🇺🇸 US</span><span id="usThreats">2,847</span></div>
                     <div class="map-stat"><span>🇮🇳 IN</span><span id="inThreats">654</span></div>
                     <div class="map-stat"><span>🇷🇺 RU</span><span id="ruThreats">987</span></div>
                     <div class="map-stat"><span>🇨🇳 CN</span><span id="cnThreats">1,234</span></div>
+                    <div class="map-stat"><span>🇬🇧 UK</span><span id="ukThreats">432</span></div>
+                    <div class="map-stat"><span>🇩🇪 DE</span><span id="deThreats">321</span></div>
                 </div>
                 <div class="timeline" id="timeline">
-                    <div class="timeline-item"><span class="time">🔴 JUST NOW</span><span class="event">DDoS Attack — US</span></div>
-                    <div class="timeline-item"><span class="time">🟡 3 MIN AGO</span><span class="event">Phishing — IN</span></div>
-                    <div class="timeline-item"><span class="time">🟢 12 MIN AGO</span><span class="event">Malware — RU</span></div>
+                    <div class="timeline-item"><span class="time">🔴 Just Now</span><span class="event">DDoS Attack — US</span></div>
+                    <div class="timeline-item"><span class="time">🟡 3 min ago</span><span class="event">Phishing — IN</span></div>
+                    <div class="timeline-item"><span class="time">🟢 12 min ago</span><span class="event">Malware — RU</span></div>
+                    <div class="timeline-item"><span class="time">🔵 28 min ago</span><span class="event">Data Breach — UK</span></div>
                 </div>
             </div>
         </section>
 
+        <!-- ============================================================ -->
         <!-- ===== ANALYTICS ===== -->
+        <!-- ============================================================ -->
+
         <section class="section">
             <div class="section-header">
-                <h2><i class="fas fa-chart-line" style="color:#00D4FF;"></i> ANALYTICS</h2>
-                <span class="badge">VISUAL</span>
+                <div class="section-title">
+                    <i class="fas fa-chart-line neon-icon"></i>
+                    <h2>Analytics</h2>
+                </div>
+                <span class="section-badge">Visual</span>
             </div>
             <div class="analytics-grid">
                 <div class="card chart-card"><canvas id="threatChart"></canvas></div>
@@ -428,15 +498,21 @@
             </div>
         </section>
 
-        <!-- ===== NEWS ===== -->
+        <!-- ============================================================ -->
+        <!-- ===== CYBER NEWS ===== -->
+        <!-- ============================================================ -->
+
         <section class="news-ticker">
             <div class="ticker">
-                <span class="ticker-label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
+                <span class="ticker-label"><i class="fas fa-bolt"></i> Cyber News</span>
                 <span class="ticker-scroll" id="newsTicker">🚨 Loading news...</span>
             </div>
         </section>
 
+        <!-- ============================================================ -->
         <!-- ===== FOUNDER ===== -->
+        <!-- ============================================================ -->
+
         <section class="section">
             <div class="card founder-card">
                 <div class="founder-avatar">
@@ -444,15 +520,17 @@
                 </div>
                 <div class="founder-info">
                     <h2>MANOJ MEENA</h2>
-                    <p class="founder-title">FOUNDER, OWNER &amp; CEO — MK GLOBAL NEXUS</p>
+                    <p class="founder-title">Founder, Owner &amp; CEO — MK Global Nexus</p>
                     <div class="founder-tags">
-                        <span>🛡️ CYBER CRIME ANALYST</span>
-                        <span>📰 INVESTIGATIVE JOURNALIST</span>
-                        <span>🔍 DIGITAL FRAUD INVESTIGATOR</span>
+                        <span>🛡️ Cyber Crime Analyst</span>
+                        <span>📰 Investigative Journalist</span>
+                        <span>🔍 Digital Fraud Investigator</span>
+                        <span>⚕️ Healthcare Professional</span>
+                        <span>🎓 B.Sc. Nursing</span>
                     </div>
                     <p class="founder-bio">
-                        <strong>MANOJ MEENA</strong> is the <strong>FOUNDER, OWNER &amp; CEO</strong> of 
-                        <strong>MK GLOBAL NEXUS</strong>, a professional cyber intelligence organization.
+                        <strong>MANOJ MEENA</strong> is the <strong>Founder, Owner &amp; CEO</strong> of 
+                        <strong>MK Global Nexus</strong>, a professional cyber intelligence organization.
                     </p>
                     <div class="founder-social">
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -469,26 +547,26 @@
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-structure">
-                <span class="footer-parent">🏢 MK GLOBAL NEXUS</span>
-                <span>→</span>
-                <span class="footer-division">⚡ MK CYBER HUB</span>
+            <div class="footer-branding">
+                <span class="footer-logo">⚡ MK GLOBAL NEXUS</span>
+                <span class="footer-divider">→</span>
+                <span class="footer-division">MK CYBER HUB</span>
             </div>
-            <p class="footer-brand">ADVANCED CYBER INTELLIGENCE DIVISION</p>
-            <p class="footer-founder">FOUNDER &amp; CEO: MANOJ MEENA</p>
-            <p class="footer-motto">TECHNOLOGY WITH INTEGRITY. INTELLIGENCE WITH PURPOSE.</p>
+            <p class="footer-tagline">Advanced Cyber Intelligence Division</p>
+            <p class="footer-founder">Founder &amp; CEO: MANOJ MEENA</p>
+            <p class="footer-motto">Technology with Integrity. Intelligence with Purpose.</p>
             <div class="footer-social">
                 <a href="#"><i class="fab fa-twitter"></i></a>
                 <a href="#"><i class="fab fa-github"></i></a>
                 <a href="#"><i class="fab fa-linkedin"></i></a>
                 <a href="#"><i class="fas fa-envelope"></i></a>
             </div>
-            <div class="footer-copy">© MK GLOBAL NEXUS. ALL RIGHTS RESERVED.</div>
-            <div class="footer-version">VERSION v8.1 — STABLE</div>
+            <div class="footer-copy">© MK Global Nexus. All Rights Reserved.</div>
+            <div class="footer-version">Version v8.1 — Advanced</div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- ===== JAVASCRIPT ===== -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
