@@ -1,5 +1,5 @@
 // ================================================================
-// 🐍 MK CYBER HUB - Complete JavaScript v8.2 (FIXED)
+// 🐍 MK CYBER HUB - Complete JavaScript v8.2
 // ================================================================
 
 // ===== GLOBALS =====
@@ -206,15 +206,10 @@ const OBJECT_DATABASE = {
 function getObjectInfo(name) {
     if (!name) return { name: 'Unknown', icon: '❓', category: 'Unknown', description: 'Object detected by AI' };
     const lower = name.toLowerCase();
-    
-    // Exact match
     if (OBJECT_DATABASE[lower]) return OBJECT_DATABASE[lower];
-    
-    // Partial match
     for (const [key, val] of Object.entries(OBJECT_DATABASE)) {
         if (lower.includes(key) || key.includes(lower)) return val;
     }
-    
     return { name: name.charAt(0).toUpperCase() + name.slice(1), icon: '🔍', category: 'Object', description: 'A ' + name + ' detected by AI Vision' };
 }
 
@@ -247,7 +242,6 @@ function setVisionMode(mode) {
     const map = { 'object': 'modeObject', 'tracking': 'modeTracking', 'counter': 'modeCounter', 'all': 'modeAll' };
     if (map[mode]) document.getElementById(map[mode]).classList.add('active');
     
-    // Show/Hide Counter Overlay
     const counterOverlay = document.getElementById('counterOverlay');
     if (mode === 'counter' || mode === 'all') {
         counterOverlay.style.display = 'block';
@@ -352,7 +346,6 @@ function startDetectionLoop() {
                 animalCount = 0;
                 foodCount = 0;
                 
-                // Colors for different categories
                 const colors = {
                     'person': '#00D4FF',
                     'device': '#D4A843',
@@ -364,21 +357,19 @@ function startDetectionLoop() {
                     'other': '#8A9AAA'
                 };
 
-                // Draw all detected objects
                 filtered.forEach((p) => {
                     const category = getCategory(p.class);
                     const color = colors[category] || colors['other'];
                     const info = getObjectInfo(p.class);
                     const confidence = Math.round(p.score * 100);
                     
-                    // Count
                     if (category === 'person') peopleCount++;
                     else if (category === 'device') deviceCount++;
                     else if (category === 'vehicle') vehicleCount++;
                     else if (category === 'animal') animalCount++;
                     else if (category === 'food') foodCount++;
                     
-                    // ==== Draw Bounding Box ====
+                    // Draw Bounding Box
                     ctx.strokeStyle = color;
                     ctx.lineWidth = 2.5;
                     ctx.shadowColor = color;
@@ -386,24 +377,19 @@ function startDetectionLoop() {
                     ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
                     ctx.shadowBlur = 0;
                     
-                    // ==== Draw Label ====
+                    // Draw Label
                     const label = info.icon + ' ' + p.class.toUpperCase() + ' (' + confidence + '%)';
                     ctx.font = 'bold 12px Inter, sans-serif';
                     const metrics = ctx.measureText(label);
-                    const textWidth = metrics.width;
-                    
-                    // Label Background
                     ctx.fillStyle = 'rgba(0,0,0,0.75)';
                     ctx.shadowBlur = 20;
                     ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                    ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 24, textWidth + 16, 24);
+                    ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 24, metrics.width + 16, 24);
                     ctx.shadowBlur = 0;
-                    
-                    // Label Text
                     ctx.fillStyle = color;
                     ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 5);
                     
-                    // ==== Category Badge ====
+                    // Category Badge
                     const badgeColors = {
                         'person': '#00D4FF',
                         'device': '#D4A843',
@@ -420,7 +406,7 @@ function startDetectionLoop() {
                     ctx.font = '8px Inter, sans-serif';
                     ctx.fillText(category.toUpperCase(), p.bbox[0] + p.bbox[2] - 60, p.bbox[1] + p.bbox[3] + 15);
                     
-                    // ==== Tracking ID ====
+                    // Tracking ID
                     if (visionMode === 'tracking' || visionMode === 'all') {
                         const id = p.class + '_' + Math.round(p.bbox[0]) + '_' + Math.round(p.bbox[1]);
                         if (!trackedObjects[id]) {
@@ -438,7 +424,6 @@ function startDetectionLoop() {
 
                 totalCount = filtered.length;
                 
-                // ==== Update UI ====
                 document.getElementById('objCount').textContent = totalCount;
                 document.getElementById('dashTotal').textContent = totalCount;
                 document.getElementById('dashPeople').textContent = peopleCount;
@@ -446,8 +431,10 @@ function startDetectionLoop() {
                 document.getElementById('peopleCount').textContent = peopleCount;
                 document.getElementById('deviceCount').textContent = deviceCount;
                 document.getElementById('vehicleCount').textContent = vehicleCount;
+                document.getElementById('animalCount').textContent = animalCount;
+                document.getElementById('foodCount').textContent = foodCount;
+                document.getElementById('totalCount').textContent = totalCount;
                 
-                // Update detection info
                 if (filtered.length > 0) {
                     const top = filtered[0];
                     const info = getObjectInfo(top.class);
@@ -457,13 +444,11 @@ function startDetectionLoop() {
                     document.getElementById('detectedConfidence').textContent = 'Conf: ' + confidence + '%';
                     document.getElementById('confidence').textContent = confidence + '%';
                     
-                    // Auto-update scan details
                     document.getElementById('scanObjectName').textContent = info.name;
                     document.getElementById('scanCategory').textContent = info.category;
                     document.getElementById('scanDescription').textContent = info.description;
                     document.getElementById('scanConfidence').textContent = confidence + '%';
                     
-                    // Detection History
                     if (detectionHistory.length === 0 || detectionHistory[detectionHistory.length-1].name !== info.name) {
                         detectionHistory.push({
                             name: info.name,
@@ -751,9 +736,8 @@ window.addEventListener('load', () => {
 // 🚀 INIT
 // ================================================================
 
-console.log('%c⚡ MK CYBER HUB v8.2 - ALL OBJECTS DETECTION', 'font-size:20px;color:#00D4FF;font-weight:900');
-console.log('🎯 80+ Objects Support - COCO-SSD Model');
-console.log('📸 Categories: Person, Vehicle, Animal, Food, Electronics, Furniture, Sports, etc.');
+console.log('%c⚡ MK CYBER HUB v8.2 - 80+ OBJECTS DETECTION', 'font-size:20px;color:#00D4FF;font-weight:900');
+console.log('🎯 Categories: Person, Vehicle, Animal, Food, Electronics, Furniture, Sports, etc.');
 console.log('✅ All Systems Active');
 
 setTimeout(loadModel, 1500);
