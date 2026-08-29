@@ -1,5 +1,5 @@
 // ================================================================
-// 🐍 MK CYBER HUB - SIMPLIFIED WORKING SCANNER
+// 🐍 MK CYBER HUB - WORKING SCANNER
 // ================================================================
 
 // ===== GLOBALS =====
@@ -7,23 +7,6 @@ let model = null;
 let stream = null;
 let running = false;
 let interval = null;
-let scanCount = 0;
-
-// ================================================================
-// 🌙 THEME
-// ================================================================
-
-function toggleTheme() {
-    document.body.classList.toggle('light-mode');
-    const btn = document.querySelector('.theme-btn');
-    btn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
-    localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
-}
-
-if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-mode');
-    document.querySelector('.theme-btn').textContent = '☀️';
-}
 
 // ================================================================
 // ⏰ CLOCK
@@ -62,233 +45,143 @@ async function fetchNews() {
     } catch (e) {}
 }
 
-setInterval(fetchStats, 15000);
-setInterval(fetchNews, 30000);
 fetchStats();
 fetchNews();
+setInterval(fetchStats, 15000);
+setInterval(fetchNews, 30000);
 
 // ================================================================
-// 🎯 AI VISION - SIMPLIFIED WORKING
+// 🎯 AI VISION - WORKING
 // ================================================================
 
-// ===== OBJECT DATABASE =====
-const OBJECT_DATABASE = {
-    'person': { name: 'Person', icon: '👤', category: 'Human', description: 'A human being' },
-    'dog': { name: 'Dog', icon: '🐕', category: 'Animal', description: 'Loyal domesticated carnivore' },
-    'cat': { name: 'Cat', icon: '🐈', category: 'Animal', description: 'Small carnivorous pet' },
-    'car': { name: 'Car', icon: '🚗', category: 'Vehicle', description: 'Four-wheeled motor vehicle' },
-    'laptop': { name: 'Laptop', icon: '💻', category: 'Electronics', description: 'Portable computer' },
-    'cell phone': { name: 'Phone', icon: '📱', category: 'Electronics', description: 'Communication device' },
-    'chair': { name: 'Chair', icon: '🪑', category: 'Furniture', description: 'Seat with backrest' },
-    'book': { name: 'Book', icon: '📚', category: 'Media', description: 'Collection of written pages' },
-    'bottle': { name: 'Bottle', icon: '🍾', category: 'Container', description: 'Container for liquids' },
-    'pizza': { name: 'Pizza', icon: '🍕', category: 'Food', description: 'Flat bread with toppings' }
-};
-
-function getObjectInfo(name) {
-    if (!name) return { name: 'Unknown', icon: '❓', category: 'Object', description: 'Object detected' };
-    const lower = name.toLowerCase();
-    if (OBJECT_DATABASE[lower]) return OBJECT_DATABASE[lower];
-    for (const [key, val] of Object.entries(OBJECT_DATABASE)) {
-        if (lower.includes(key) || key.includes(lower)) return val;
-    }
-    return { name: name, icon: '🔍', category: 'Object', description: 'A ' + name + ' detected' };
-}
-
-// ===== LOAD MODEL =====
 async function loadModel() {
     try {
-        console.log('⏳ Loading COCO-SSD Model...');
+        document.getElementById('aiStatus').textContent = 'Loading...';
         if (typeof cocoSsd !== 'undefined') {
             model = await cocoSsd.load();
-            console.log('✅ COCO-SSD Model Loaded Successfully!');
-            document.getElementById('detectedAI').textContent = '🧠 AI READY';
+            document.getElementById('aiStatus').textContent = '✅ Ready';
+            console.log('✅ COCO-SSD Loaded');
             return true;
-        } else {
-            console.error('❌ COCO-SSD library not found!');
-            document.getElementById('detectedAI').textContent = '❌ AI NOT LOADED';
-            return false;
         }
+        document.getElementById('aiStatus').textContent = '❌ Failed';
+        return false;
     } catch (e) {
-        console.error('❌ Model Load Error:', e);
-        document.getElementById('detectedAI').textContent = '❌ AI ERROR';
+        document.getElementById('aiStatus').textContent = '❌ Error';
+        console.error('Model load error:', e);
         return false;
     }
 }
 
-// ===== START SCANNER =====
 async function startScanner() {
     const video = document.getElementById('video');
     const status = document.getElementById('cameraStatus');
-    const statusText = document.getElementById('statusText');
 
     try {
-        // Check if model is loaded
         if (!model) {
             status.innerHTML = '⏳ LOADING AI...';
-            statusText.textContent = 'LOADING AI';
-            const loaded = await loadModel();
-            if (!loaded) {
+            await loadModel();
+            if (!model) {
                 status.innerHTML = '❌ AI FAILED';
-                statusText.textContent = 'AI FAILED';
                 return;
             }
         }
 
-        // Stop existing stream
         if (stream) {
             stream.getTracks().forEach(t => t.stop());
             stream = null;
         }
 
-        // Request Camera
         status.innerHTML = '📷 CAMERA...';
-        statusText.textContent = 'STARTING CAMERA';
-        
-        const constraints = {
-            video: {
-                facingMode: 'environment',
-                width: { ideal: 640 },
-                height: { ideal: 480 }
-            },
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } },
             audio: false
-        };
+        });
 
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = stream;
-        video.setAttribute('playsinline', true);
-        
-        // Wait for video to be ready
         await video.play();
-        
-        // Check if video is playing
-        if (video.videoWidth === 0 || video.videoHeight === 0) {
-            throw new Error('Video not ready');
-        }
 
         running = true;
-        status.innerHTML = '<span class="dot"></span> LIVE SCANNING';
-        statusText.textContent = 'LIVE';
-        document.getElementById('visionStatus').textContent = '🟢 LIVE';
-        
-        console.log('✅ Camera started: ' + video.videoWidth + 'x' + video.videoHeight);
-        
-        // Start detection
+        status.innerHTML = '<span class="dot"></span> LIVE';
         startDetectionLoop();
 
     } catch (e) {
-        console.error('❌ Camera Error:', e);
         status.innerHTML = '❌ ' + e.message;
-        statusText.textContent = 'ERROR';
-        running = false;
+        console.error('Camera error:', e);
     }
 }
 
-// ===== DETECTION LOOP =====
 function startDetectionLoop() {
     if (interval) clearInterval(interval);
-    
+
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    
+
     let frames = 0;
     let lastFps = Date.now();
 
     interval = setInterval(async () => {
-        // Check if should continue
-        if (!running || !video || video.paused || video.ended) {
-            return;
-        }
-        
-        // Check video size
-        if (video.videoWidth === 0 || video.videoHeight === 0) {
-            return;
-        }
+        if (!running || !video || video.paused) return;
+        if (video.videoWidth === 0) return;
 
-        // Setup canvas
         const w = video.videoWidth;
         const h = video.videoHeight;
         canvas.width = w;
         canvas.height = h;
         ctx.clearRect(0, 0, w, h);
 
-        // FPS
         frames++;
         if (Date.now() - lastFps > 1000) {
             document.getElementById('fps').textContent = frames;
-            document.getElementById('fpsDisplay').textContent = 'FPS: ' + frames;
             frames = 0;
             lastFps = Date.now();
         }
 
-        // Run detection
-        if (model && running) {
+        if (model) {
             try {
                 const predictions = await model.detect(video);
                 const filtered = predictions.filter(p => p.score > 0.4);
-                
+
                 document.getElementById('objCount').textContent = filtered.length;
-                
+
                 if (filtered.length > 0) {
-                    // Draw boxes
                     filtered.forEach(p => {
-                        // Bounding box
                         ctx.strokeStyle = '#00D4FF';
                         ctx.lineWidth = 2;
                         ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
-                        
-                        // Label
-                        const confidence = Math.round(p.score * 100);
-                        const label = p.class.toUpperCase() + ' (' + confidence + '%)';
+
+                        const label = p.class.toUpperCase() + ' (' + Math.round(p.score * 100) + '%)';
                         ctx.font = 'bold 12px Inter, sans-serif';
                         const metrics = ctx.measureText(label);
-                        
-                        // Background
                         ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                        ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 24, metrics.width + 16, 24);
-                        
-                        // Text
+                        ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 22, metrics.width + 16, 22);
                         ctx.fillStyle = '#00D4FF';
-                        ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 5);
+                        ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 4);
                     });
-                    
-                    // Update UI with top detection
+
                     const top = filtered[0];
-                    const info = getObjectInfo(top.class);
                     const confidence = Math.round(top.score * 100);
-                    
-                    document.getElementById('detectedObject').textContent = info.icon + ' ' + info.name + ' (' + confidence + '%)';
-                    document.getElementById('detectedConfidence').textContent = 'Conf: ' + confidence + '%';
+                    document.getElementById('detectedObject').textContent = '🔍 ' + top.class.toUpperCase();
+                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: ' + confidence + '%';
                     document.getElementById('confidence').textContent = confidence + '%';
-                    
-                    // Update scan details
-                    document.getElementById('scanObjectName').textContent = info.name;
-                    document.getElementById('scanCategory').textContent = info.category;
-                    document.getElementById('scanDescription').textContent = info.description;
-                    document.getElementById('scanConfidence').textContent = confidence + '%';
-                    
+
                 } else {
-                    document.getElementById('detectedObject').textContent = '🔍 No Object';
-                    document.getElementById('detectedConfidence').textContent = 'Conf: --%';
+                    document.getElementById('detectedObject').textContent = '🔍 NO OBJECT';
+                    document.getElementById('detectedConfidence').textContent = 'CONFIDENCE: --%';
                     document.getElementById('confidence').textContent = '--%';
                 }
-                
+
             } catch (e) {
                 console.error('Detection error:', e);
             }
         }
-        
-    }, 200); // 200ms = 5 FPS
+
+    }, 200);
 }
 
-// ===== STOP SCANNER =====
 function stopScanner() {
     running = false;
-    if (interval) {
-        clearInterval(interval);
-        interval = null;
-    }
+    if (interval) clearInterval(interval);
     if (stream) {
         stream.getTracks().forEach(t => t.stop());
         stream = null;
@@ -299,100 +192,12 @@ function stopScanner() {
         video.pause();
     }
     document.getElementById('cameraStatus').innerHTML = '<span class="dot"></span> STOPPED';
-    document.getElementById('visionStatus').textContent = '⏸️ PAUSED';
-    document.getElementById('statusText').textContent = 'STOPPED';
-    console.log('⏹️ Scanner stopped');
 }
 
-// ===== SWITCH CAMERA =====
 function switchCamera() {
     if (running) {
         stopScanner();
         setTimeout(startScanner, 500);
-    }
-}
-
-// ===== CAPTURE FRAME =====
-function captureFrame() {
-    if (!running) {
-        alert('START CAMERA FIRST!');
-        return;
-    }
-    
-    const canvas = document.getElementById('canvas');
-    const imgData = canvas.toDataURL('image/jpeg');
-    
-    document.getElementById('scanResultImage').src = imgData;
-    document.getElementById('scanResults').style.display = 'block';
-    document.getElementById('scanStatus').textContent = '✅ Complete';
-    document.getElementById('scanTime').textContent = new Date().toLocaleTimeString();
-    
-    scanCount++;
-    document.getElementById('captureCount').textContent = 'Captures: ' + scanCount;
-    document.getElementById('dashScans').textContent = scanCount;
-    
-    // Gallery
-    const grid = document.getElementById('galleryGrid');
-    if (grid) {
-        const img = document.createElement('img');
-        img.src = imgData;
-        img.onclick = function() { viewCapture(this.src); };
-        grid.appendChild(img);
-    }
-}
-
-function viewCapture(src) {
-    document.getElementById('scanResultImage').src = src;
-    document.getElementById('scanResults').style.display = 'block';
-    document.getElementById('scanStatus').textContent = '📷 Gallery View';
-}
-
-function clearGallery() {
-    if (confirm('Clear all gallery images?')) {
-        document.getElementById('galleryGrid').innerHTML = '';
-    }
-}
-
-function downloadImage() {
-    const img = document.getElementById('scanResultImage');
-    if (!img.src || img.src === '') {
-        alert('No image to download!');
-        return;
-    }
-    const link = document.createElement('a');
-    link.download = 'MK_Scan_' + Date.now() + '.jpg';
-    link.href = img.src;
-    link.click();
-}
-
-// ================================================================
-// 🌐 LIVE SEARCH
-// ================================================================
-
-function liveGoogleSearch() {
-    const obj = document.getElementById('scanObjectName').textContent;
-    if (obj && obj !== '-' && obj !== 'Unknown') {
-        window.open('https://www.google.com/search?q=' + encodeURIComponent(obj), '_blank');
-    } else {
-        alert('SCAN AN OBJECT FIRST!');
-    }
-}
-
-function liveYouTubeSearch() {
-    const obj = document.getElementById('scanObjectName').textContent;
-    if (obj && obj !== '-' && obj !== 'Unknown') {
-        window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(obj), '_blank');
-    } else {
-        alert('SCAN AN OBJECT FIRST!');
-    }
-}
-
-function liveWikipediaPage() {
-    const obj = document.getElementById('scanObjectName').textContent;
-    if (obj && obj !== '-' && obj !== 'Unknown') {
-        window.open('https://en.wikipedia.org/wiki/' + encodeURIComponent(obj), '_blank');
-    } else {
-        alert('SCAN AN OBJECT FIRST!');
     }
 }
 
@@ -401,24 +206,25 @@ function liveWikipediaPage() {
 // ================================================================
 
 async function runOSINT(tool) {
-    const endpoints = {
+    const configs = {
         'dork': { input: 'dorkInput', result: 'dorkResult', url: '/api/osint/dork' },
-        'shodan': { input: 'shodanInput', result: 'shodanResult', url: '/api/osint/shodan' },
-        'hibp': { input: 'hibpInput', result: 'hibpResult', url: '/api/osint/hibp' },
-        'virustotal': { input: 'vtInput', result: 'vtResult', url: '/api/osint/virustotal' }
+        'shodan': { input: 'shodanInput', result: 'shodanResult', url: '/api/osint/shodan' }
     };
-    const config = endpoints[tool];
+    const config = configs[tool];
     if (!config) return;
+
     const input = document.getElementById(config.input);
     const result = document.getElementById(config.result);
     const query = input.value.trim() || 'example';
+
     result.innerHTML = '🔍 SCANNING...';
     result.className = 'result';
+
     try {
         const res = await fetch(config.url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: query, email: query, url: query })
+            body: JSON.stringify({ query: query })
         });
         const data = await res.json();
         if (data.status === 'success') {
@@ -439,28 +245,29 @@ async function runOSINT(tool) {
 // ================================================================
 
 async function runSecurity(tool) {
-    const endpoints = {
+    const configs = {
         'threat': { input: 'threatInput', result: 'threatResult', url: '/api/security/threat' },
-        'ssl': { input: 'sslInput', result: 'sslResult', url: '/api/security/ssl' },
-        'phish': { input: 'phishInput', result: 'phishResult', url: '/api/security/phish' },
-        'ip': { input: 'ipInput', result: 'ipResult', url: '/api/security/ip' }
+        'ssl': { input: 'sslInput', result: 'sslResult', url: '/api/security/ssl' }
     };
-    const config = endpoints[tool];
+    const config = configs[tool];
     if (!config) return;
+
     const input = document.getElementById(config.input);
     const result = document.getElementById(config.result);
     const query = input.value.trim() || 'target';
+
     result.innerHTML = '🛡️ ANALYZING...';
     result.className = 'result';
+
     try {
         const res = await fetch(config.url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ target: query, domain: query, input: query, ip: query })
+            body: JSON.stringify({ target: query, domain: query })
         });
         const data = await res.json();
         if (data.status === 'success') {
-            result.innerHTML = `✅ ${data.message || data.risk || 'Complete'}`;
+            result.innerHTML = `✅ ${data.message || 'Complete'}`;
             result.className = 'result success';
         } else {
             result.innerHTML = '❌ Error';
@@ -473,83 +280,10 @@ async function runSecurity(tool) {
 }
 
 // ================================================================
-// 📊 CHARTS
-// ================================================================
-
-setTimeout(() => {
-    try {
-        new Chart(document.getElementById('threatChart'), {
-            type: 'line',
-            data: {
-                labels: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-                datasets: [{
-                    label: 'THREATS',
-                    data: [45, 52, 38, 65, 71, 48, 56],
-                    borderColor: '#00D4FF',
-                    backgroundColor: 'rgba(0, 212, 255, 0.06)',
-                    tension: 0.4,
-                    fill: true,
-                    pointRadius: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { grid: { display: false }, ticks: { color: '#8A9AAA', font: { size: 9 } } },
-                    y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#8A9AAA', font: { size: 9 } } }
-                }
-            }
-        });
-        new Chart(document.getElementById('attackChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['DDOS', 'PHISHING', 'MALWARE', 'RANSOM', 'OTHER'],
-                datasets: [{
-                    data: [30, 25, 20, 15, 10],
-                    backgroundColor: ['#00D4FF', '#D4A843', '#44DD88', '#FF4444', '#6A7A8A'],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '68%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { color: '#8A9AAA', font: { size: 9 }, padding: 12, usePointStyle: true }
-                    }
-                }
-            }
-        });
-    } catch (e) {}
-}, 600);
-
-// ================================================================
-// 📊 EXPORT
-// ================================================================
-
-async function exportData(format) {
-    try {
-        if (format === 'csv') {
-            window.open('/api/export/csv', '_blank');
-        } else if (format === 'json') {
-            window.open('/api/export/json', '_blank');
-        }
-    } catch (e) {
-        alert('Export error');
-    }
-}
-
-// ================================================================
 // 🚀 INIT
 // ================================================================
 
-console.log('%c⚡ MK CYBER HUB v8.2 - WORKING SCANNER', 'font-size:20px;color:#00D4FF;font-weight:900');
-console.log('📸 Camera Scanner Ready');
-console.log('✅ Click START AI to begin');
+console.log('%c⚡ MK CYBER HUB v8.2 - WORKING', 'font-size:20px;color:#00D4FF;font-weight:900');
+console.log('📸 Click START AI to begin scanning');
 
-// Load model on page load
 setTimeout(loadModel, 1000);
