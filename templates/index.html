@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
+    <!-- HEADER -->
     <header class="header">
         <div class="container">
             <div class="logo">
@@ -18,22 +18,21 @@
                 <span class="logo-text">MK <span class="highlight">CYBER HUB</span></span>
             </div>
             <div class="header-right">
-                <span class="status" id="statusBadge">🟢 SECURE</span>
+                <span class="status">🟢 SECURE</span>
                 <span class="time" id="currentTime">--:--:--</span>
             </div>
         </div>
     </header>
 
-    <!-- ===== MAIN ===== -->
+    <!-- MAIN -->
     <main>
 
-        <!-- ===== HERO ===== -->
+        <!-- HERO -->
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
                     <h1>ADVANCED <span class="highlight">CYBER INTELLIGENCE</span></h1>
                     <p class="subtitle">Real-time AI Detection · OSINT · Threat Monitoring</p>
-                    <p class="desc">Complete enterprise-grade cyber intelligence platform.</p>
                     <div class="stats">
                         <div class="stat">
                             <span class="number" id="totalThreats">12,847</span>
@@ -62,7 +61,7 @@
             </div>
         </section>
 
-        <!-- ===== BANNER ===== -->
+        <!-- BANNER -->
         <section class="banner">
             <div class="container">
                 <span>🏢 A DIVISION OF</span>
@@ -71,45 +70,34 @@
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== AI VISION - FIXED ===== -->
-        <!-- ============================================================ -->
-
+        <!-- ===== AI VISION - SIMPLE WORKING ===== -->
         <section class="section">
             <div class="container">
-                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ 80+ Objects</span></h2>
+                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI Vision Engine</h2>
                 
                 <div class="card">
+                    <!-- Camera -->
                     <div class="camera-wrapper">
-                        
-                        <!-- Video & Canvas -->
                         <video id="video" autoplay playsinline muted></video>
                         <canvas id="canvas"></canvas>
                         
-                        <!-- Camera Status -->
                         <div class="camera-status" id="cameraStatus">
-                            <span class="dot"></span> <span id="statusText">READY</span>
+                            <span class="dot"></span> READY
                         </div>
                         
-                        <!-- Detection Info - सभी IDs सही हैं -->
-                        <div class="detection-info">
-                            <span id="detectedObject">🔍 DETECTING...</span>
-                            <span id="detectedConfidence">Conf: --%</span>
-                            <span id="fpsDisplay">FPS: --</span>
-                            <span id="captureCount">Captures: 0</span>
-                        </div>
-                        
-                        <!-- Controls -->
                         <div class="controls">
                             <button onclick="startScanner()" class="btn primary">▶ START</button>
-                            <button onclick="captureFrame()" class="btn secondary">📸 CAPTURE</button>
                             <button onclick="stopScanner()" class="btn danger">⏹ STOP</button>
                             <button onclick="switchCamera()" class="btn secondary">🔄 SWITCH</button>
                         </div>
                         
+                        <div class="detection-info">
+                            <span id="detectedObject">🔍 DETECTING...</span>
+                            <span id="detectedConfidence">Conf: --%</span>
+                        </div>
                     </div>
                     
-                    <!-- ===== DASHBOARD - सभी IDs सही हैं ===== -->
+                    <!-- Dashboard -->
                     <div class="dashboard">
                         <div class="dash-item">
                             <span class="dash-label">Objects</span>
@@ -124,53 +112,15 @@
                             <span class="dash-value" id="fps">--</span>
                         </div>
                         <div class="dash-item">
-                            <span class="dash-label">Captures</span>
-                            <span class="dash-value" id="dashScans">0</span>
-                        </div>
-                        <div class="dash-item">
                             <span class="dash-label">AI Status</span>
                             <span class="dash-value" id="aiStatus" style="font-size:12px;">Loading...</span>
                         </div>
                     </div>
-                    
-                    <!-- ===== GALLERY ===== -->
-                    <div class="gallery-section">
-                        <div class="gallery-header">
-                            <span>📸 Gallery</span>
-                            <button onclick="clearGallery()" class="btn danger small">Clear</button>
-                        </div>
-                        <div class="gallery-grid" id="galleryGrid"></div>
-                    </div>
-                    
-                    <!-- ===== SCAN RESULT ===== -->
-                    <div class="scan-results" id="scanResults" style="display:none;">
-                        <div class="scan-header">
-                            <span>📸 Scan Result</span>
-                            <span id="scanStatus" class="scan-status">Complete</span>
-                        </div>
-                        <div class="scan-grid">
-                            <img id="scanResultImage" src="" alt="Scan">
-                            <div class="scan-details">
-                                <div class="scan-detail"><strong>Object:</strong> <span id="scanObjectName">-</span></div>
-                                <div class="scan-detail"><strong>Confidence:</strong> <span id="scanConfidence">--%</span></div>
-                                <div class="scan-detail"><strong>Category:</strong> <span id="scanCategory">-</span></div>
-                                <div class="scan-detail"><strong>Description:</strong> <span id="scanDescription">-</span></div>
-                                <div class="scan-detail"><strong>Time:</strong> <span id="scanTime">-</span></div>
-                                <div class="scan-actions">
-                                    <button onclick="liveGoogleSearch()" class="btn primary small">🔍 Google</button>
-                                    <button onclick="liveYouTubeSearch()" class="btn primary small">▶ YouTube</button>
-                                    <button onclick="liveWikipediaPage()" class="btn primary small">📖 Wiki</button>
-                                    <button onclick="downloadImage()" class="btn secondary small">💾 Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
                 </div>
             </div>
         </section>
 
-        <!-- ===== OSINT ===== -->
+        <!-- OSINT -->
         <section class="section">
             <div class="container">
                 <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> OSINT Suite</h2>
@@ -179,7 +129,7 @@
                         <h3>🔍 Google Dorking</h3>
                         <div class="input-group">
                             <input type="text" id="dorkInput" placeholder="site:example.com">
-                            <button onclick="runOSINT('dork')" class="btn primary">RUN</button>
+                            <button onclick="runDork()" class="btn primary">RUN</button>
                         </div>
                         <div id="dorkResult" class="result"></div>
                     </div>
@@ -187,7 +137,7 @@
                         <h3>🌐 Shodan</h3>
                         <div class="input-group">
                             <input type="text" id="shodanInput" placeholder="apache port:80">
-                            <button onclick="runOSINT('shodan')" class="btn primary">RUN</button>
+                            <button onclick="runShodan()" class="btn primary">RUN</button>
                         </div>
                         <div id="shodanResult" class="result"></div>
                     </div>
@@ -195,7 +145,7 @@
             </div>
         </section>
 
-        <!-- ===== SECURITY ===== -->
+        <!-- SECURITY -->
         <section class="section">
             <div class="container">
                 <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> Cyber Security</h2>
@@ -204,7 +154,7 @@
                         <h3>🧠 AI Threat Analyzer</h3>
                         <div class="input-group">
                             <input type="text" id="threatInput" placeholder="IP or Domain">
-                            <button onclick="runSecurity('threat')" class="btn primary">ANALYZE</button>
+                            <button onclick="runThreat()" class="btn primary">ANALYZE</button>
                         </div>
                         <div id="threatResult" class="result"></div>
                     </div>
@@ -212,7 +162,7 @@
                         <h3>🔒 SSL Checker</h3>
                         <div class="input-group">
                             <input type="text" id="sslInput" placeholder="example.com">
-                            <button onclick="runSecurity('ssl')" class="btn primary">CHECK</button>
+                            <button onclick="runSSL()" class="btn primary">CHECK</button>
                         </div>
                         <div id="sslResult" class="result"></div>
                     </div>
@@ -220,7 +170,7 @@
             </div>
         </section>
 
-        <!-- ===== NEWS ===== -->
+        <!-- NEWS -->
         <section class="section">
             <div class="container">
                 <div class="news-ticker">
@@ -230,15 +180,15 @@
             </div>
         </section>
 
-        <!-- ===== FOUNDER ===== -->
+        <!-- FOUNDER -->
         <section class="section">
             <div class="container">
                 <div class="card founder">
-                    <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="MANOJ MEENA">
+                    <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="MANOJ MEENA" onerror="this.src='https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=1B3A5C&color=fff&bold=true'">
                     <div class="founder-info">
                         <h2>MANOJ MEENA</h2>
                         <p class="title">Founder, Owner &amp; CEO — MK Global Nexus</p>
-                        <p class="bio"><strong>MANOJ MEENA</strong> is the <strong>Founder, Owner &amp; CEO</strong> of <strong>MK Global Nexus</strong>, a professional cyber intelligence organization.</p>
+                        <p class="bio"><strong>MANOJ MEENA</strong> is the <strong>Founder, Owner &amp; CEO</strong> of <strong>MK Global Nexus</strong>.</p>
                         <div class="social">
                             <a href="#"><i class="fab fa-twitter"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
@@ -252,17 +202,16 @@
 
     </main>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <p>⚡ MK GLOBAL NEXUS → MK CYBER HUB</p>
             <p class="motto">Technology with Integrity. Intelligence with Purpose.</p>
             <p class="copy">© MK Global Nexus. All Rights Reserved.</p>
-            <p class="version">Version 8.3 — Advanced</p>
         </div>
     </footer>
 
-    <!-- ===== JAVASCRIPT ===== -->
+    <!-- JAVASCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
