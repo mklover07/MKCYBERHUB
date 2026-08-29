@@ -5,22 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>MK CYBER HUB — Advanced Cyber Intelligence</title>
     
-    <!-- Meta -->
     <meta name="author" content="MANOJ MEENA, MK GLOBAL NEXUS">
     <meta name="description" content="MK CYBER HUB — Enterprise Cyber Intelligence Platform">
     <meta name="theme-color" content="#0B1A2E">
     
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <!-- ===== PRELOADER ===== -->
+    <!-- PRELOADER -->
     <div class="preloader" id="preloader">
         <div class="loader">
             <div class="loader-ring"></div>
@@ -28,35 +24,28 @@
         </div>
     </div>
 
-    <!-- ===== HEADER ===== -->
+    <!-- HEADER -->
     <header class="header glass">
         <div class="header-container">
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-shield-halved"></i>
-                </div>
+                <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
                 <div class="logo-text">
                     <span class="brand">MK</span>
                     <span class="sub">CYBER HUB</span>
                 </div>
             </div>
             <div class="header-right">
-                <span class="status-badge">
-                    <span class="dot"></span> SECURE
-                </span>
+                <span class="status-badge"><span class="dot"></span> SECURE</span>
                 <span class="time" id="currentTime">--:--:--</span>
                 <button onclick="toggleTheme()" class="theme-btn">🌙</button>
             </div>
         </div>
     </header>
 
-    <!-- ===== MAIN ===== -->
+    <!-- MAIN -->
     <main class="main">
 
-        <!-- ============================================================ -->
-        <!-- ===== HERO ===== -->
-        <!-- ============================================================ -->
-
+        <!-- HERO -->
         <section class="hero">
             <div class="hero-container">
                 <div class="hero-content">
@@ -68,10 +57,8 @@
                         <span class="gradient-text">Advanced</span>
                         <span class="hero-highlight">Cyber Intelligence</span>
                     </h1>
-                    <p class="hero-desc">
-                        Real-time AI detection, advanced OSINT, threat monitoring, and cyber security analytics — all in one enterprise platform.
-                    </p>
-                    <div class="hero-stats" id="statsContainer">
+                    <p class="hero-desc">Real-time AI detection, advanced OSINT, threat monitoring, and cyber security analytics.</p>
+                    <div class="hero-stats">
                         <div class="stat-card">
                             <span class="stat-number" id="totalThreats">12,847</span>
                             <span class="stat-label">Total Threats</span>
@@ -104,10 +91,7 @@
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== BRAND BANNER ===== -->
-        <!-- ============================================================ -->
-
+        <!-- BANNER -->
         <section class="brand-banner">
             <div class="banner-container">
                 <span class="banner-icon">🏢</span>
@@ -119,23 +103,26 @@
         </section>
 
         <!-- ============================================================ -->
-        <!-- ===== AI VISION ENGINE - ADVANCED (FIXED OVERLAY) ===== -->
+        <!-- AI VISION ENGINE - COMPLETE FIXED -->
         <!-- ============================================================ -->
 
         <section class="section" id="vision">
             <div class="section-header">
                 <div class="section-title">
                     <i class="fas fa-eye neon-icon"></i>
-                    <h2>AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ Advanced</span></h2>
+                    <h2>AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ 80+ Objects</span></h2>
                 </div>
                 <span class="section-badge live" id="visionStatus">🟢 LIVE</span>
             </div>
 
             <div class="card vision-card">
 
-                <!-- ===== MODES ===== -->
+                <!-- Modes -->
                 <div class="vision-modes">
-                    <button class="mode active" onclick="setVisionMode('object')" id="modeObject">
+                    <button class="mode active" onclick="setVisionMode('all')" id="modeAll">
+                        <i class="fas fa-robot"></i> All Objects
+                    </button>
+                    <button class="mode" onclick="setVisionMode('object')" id="modeObject">
                         <i class="fas fa-cube"></i> Object
                     </button>
                     <button class="mode" onclick="setVisionMode('tracking')" id="modeTracking">
@@ -144,25 +131,21 @@
                     <button class="mode" onclick="setVisionMode('counter')" id="modeCounter">
                         <i class="fas fa-counter"></i> Counter
                     </button>
-                    <button class="mode" onclick="setVisionMode('all')" id="modeAll">
-                        <i class="fas fa-robot"></i> All
-                    </button>
                 </div>
 
-                <!-- ===== CAMERA WRAPPER ===== -->
+                <!-- CAMERA WRAPPER -->
                 <div class="camera-wrapper">
 
-                    <!-- Video & Canvas -->
                     <video id="video" autoplay playsinline muted></video>
                     <canvas id="canvas"></canvas>
 
-                    <!-- ===== CAMERA STATUS - Top Left ===== -->
+                    <!-- Camera Status -->
                     <div class="camera-status" id="cameraStatus">
                         <span class="dot"></span>
                         <span id="statusText">READY</span>
                     </div>
 
-                    <!-- ===== DETECTION INFO - Bottom Center (Small) ===== -->
+                    <!-- Detection Info -->
                     <div class="detection-info" id="detectionInfo">
                         <div class="detection-item">
                             <span class="detection-icon">🎯</span>
@@ -182,7 +165,7 @@
                         </div>
                     </div>
 
-                    <!-- ===== COUNTER OVERLAY - Right Side (Hidden by default) ===== -->
+                    <!-- Counter Overlay -->
                     <div class="counter-overlay" id="counterOverlay" style="display:none;">
                         <div class="counter-item">
                             <span class="counter-icon">👤</span>
@@ -200,13 +183,23 @@
                             <span class="counter-value" id="vehicleCount">0</span>
                         </div>
                         <div class="counter-item">
+                            <span class="counter-icon">🐾</span>
+                            <span class="counter-label">Animals</span>
+                            <span class="counter-value" id="animalCount">0</span>
+                        </div>
+                        <div class="counter-item">
+                            <span class="counter-icon">🍕</span>
+                            <span class="counter-label">Food</span>
+                            <span class="counter-value" id="foodCount">0</span>
+                        </div>
+                        <div class="counter-item">
                             <span class="counter-icon">📦</span>
-                            <span class="counter-label">Objects</span>
+                            <span class="counter-label">Total</span>
                             <span class="counter-value" id="totalCount">0</span>
                         </div>
                     </div>
 
-                    <!-- ===== CONTROLS - Bottom Center ===== -->
+                    <!-- Controls -->
                     <div class="camera-controls-overlay">
                         <button onclick="startScanner()" class="btn primary">
                             <i class="fas fa-play"></i> Start
@@ -226,9 +219,8 @@
                     </div>
 
                 </div>
-                <!-- ===== END CAMERA WRAPPER ===== -->
 
-                <!-- ===== VISION DASHBOARD (Below Camera) ===== -->
+                <!-- DASHBOARD -->
                 <div class="vision-dashboard">
                     <div class="dash-item">
                         <span class="dash-icon">🎯</span>
@@ -262,18 +254,16 @@
                     </div>
                 </div>
 
-                <!-- ===== GALLERY (Below Dashboard) ===== -->
+                <!-- GALLERY -->
                 <div class="gallery-section">
                     <div class="gallery-header">
                         <span>📸 Capture Gallery</span>
                         <button onclick="clearGallery()" class="btn outline small">Clear All</button>
                     </div>
-                    <div class="gallery-grid" id="galleryGrid">
-                        <!-- Images appear here dynamically -->
-                    </div>
+                    <div class="gallery-grid" id="galleryGrid"></div>
                 </div>
 
-                <!-- ===== SCAN RESULT (Below Gallery) ===== -->
+                <!-- SCAN RESULT -->
                 <div class="scan-results" id="scanResults" style="display:none;">
                     <div class="scan-header">
                         <span>📸 Scan Result</span>
@@ -298,13 +288,9 @@
                 </div>
 
             </div>
-            <!-- ===== END VISION CARD ===== -->
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== OSINT SUITE ===== -->
-        <!-- ============================================================ -->
-
+        <!-- OSINT -->
         <section class="section" id="osint">
             <div class="section-header">
                 <div class="section-title">
@@ -314,7 +300,6 @@
                 <span class="section-badge">8 Tools</span>
             </div>
             <div class="osint-grid">
-
                 <div class="card osint-card">
                     <div class="osint-icon">🔍</div>
                     <h3>Google Dorking</h3>
@@ -324,7 +309,6 @@
                     </div>
                     <div id="dorkResult" class="result"></div>
                 </div>
-
                 <div class="card osint-card">
                     <div class="osint-icon">🌐</div>
                     <h3>Shodan</h3>
@@ -334,7 +318,6 @@
                     </div>
                     <div id="shodanResult" class="result"></div>
                 </div>
-
                 <div class="card osint-card">
                     <div class="osint-icon">📡</div>
                     <h3>Censys</h3>
@@ -344,7 +327,6 @@
                     </div>
                     <div id="censysResult" class="result"></div>
                 </div>
-
                 <div class="card osint-card">
                     <div class="osint-icon">📧</div>
                     <h3>HIBP</h3>
@@ -354,7 +336,6 @@
                     </div>
                     <div id="hibpResult" class="result"></div>
                 </div>
-
                 <div class="card osint-card">
                     <div class="osint-icon">🦠</div>
                     <h3>VirusTotal</h3>
@@ -364,7 +345,6 @@
                     </div>
                     <div id="vtResult" class="result"></div>
                 </div>
-
                 <div class="card osint-card">
                     <div class="osint-icon">📋</div>
                     <h3>WHOIS</h3>
@@ -374,7 +354,6 @@
                     </div>
                     <div id="whoisResult" class="result"></div>
                 </div>
-
                 <div class="card osint-card">
                     <div class="osint-icon">🕷️</div>
                     <h3>Spiderfoot</h3>
@@ -384,7 +363,6 @@
                     </div>
                     <div id="spiderResult" class="result"></div>
                 </div>
-
                 <div class="card osint-card">
                     <div class="osint-icon">📜</div>
                     <h3>Wayback</h3>
@@ -394,14 +372,10 @@
                     </div>
                     <div id="waybackResult" class="result"></div>
                 </div>
-
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== CYBER SECURITY ===== -->
-        <!-- ============================================================ -->
-
+        <!-- SECURITY -->
         <section class="section" id="security">
             <div class="section-header">
                 <div class="section-title">
@@ -411,7 +385,6 @@
                 <span class="section-badge">6 Tools</span>
             </div>
             <div class="security-grid">
-
                 <div class="card">
                     <div class="card-icon">🧠</div>
                     <h3>AI Threat Analyzer</h3>
@@ -421,7 +394,6 @@
                     </div>
                     <div id="threatResult" class="result"></div>
                 </div>
-
                 <div class="card">
                     <div class="card-icon">🔓</div>
                     <h3>Dark Web Monitor</h3>
@@ -431,7 +403,6 @@
                     </div>
                     <div id="darkWebResult" class="result"></div>
                 </div>
-
                 <div class="card">
                     <div class="card-icon">🔒</div>
                     <h3>SSL Checker</h3>
@@ -441,7 +412,6 @@
                     </div>
                     <div id="sslResult" class="result"></div>
                 </div>
-
                 <div class="card">
                     <div class="card-icon">⚠️</div>
                     <h3>Phishing Detector</h3>
@@ -451,7 +421,6 @@
                     </div>
                     <div id="phishResult" class="result"></div>
                 </div>
-
                 <div class="card">
                     <div class="card-icon">🌐</div>
                     <h3>IP Reputation</h3>
@@ -461,7 +430,6 @@
                     </div>
                     <div id="ipResult" class="result"></div>
                 </div>
-
                 <div class="card">
                     <div class="card-icon">🛡️</div>
                     <h3>Vulnerability Scanner</h3>
@@ -471,14 +439,10 @@
                     </div>
                     <div id="vulnResult" class="result"></div>
                 </div>
-
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== LIVE THREAT MAP ===== -->
-        <!-- ============================================================ -->
-
+        <!-- THREAT MAP -->
         <section class="section" id="map">
             <div class="section-header">
                 <div class="section-title">
@@ -501,15 +465,11 @@
                     <div class="timeline-item"><span class="time">🔴 Just Now</span><span class="event">DDoS Attack — US</span></div>
                     <div class="timeline-item"><span class="time">🟡 3 min ago</span><span class="event">Phishing — IN</span></div>
                     <div class="timeline-item"><span class="time">🟢 12 min ago</span><span class="event">Malware — RU</span></div>
-                    <div class="timeline-item"><span class="time">🔵 28 min ago</span><span class="event">Data Breach — UK</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== ANALYTICS ===== -->
-        <!-- ============================================================ -->
-
+        <!-- ANALYTICS -->
         <section class="section">
             <div class="section-header">
                 <div class="section-title">
@@ -528,10 +488,7 @@
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== CYBER NEWS ===== -->
-        <!-- ============================================================ -->
-
+        <!-- NEWS -->
         <section class="news-ticker">
             <div class="ticker">
                 <span class="ticker-label"><i class="fas fa-bolt"></i> Cyber News</span>
@@ -539,10 +496,7 @@
             </div>
         </section>
 
-        <!-- ============================================================ -->
-        <!-- ===== FOUNDER ===== -->
-        <!-- ============================================================ -->
-
+        <!-- FOUNDER -->
         <section class="section">
             <div class="card founder-card">
                 <div class="founder-avatar">
@@ -574,10 +528,7 @@
 
     </main>
 
-    <!-- ============================================================ -->
-    <!-- ===== FOOTER ===== -->
-    <!-- ============================================================ -->
-
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-branding">
@@ -595,25 +546,15 @@
                 <a href="#"><i class="fas fa-envelope"></i></a>
             </div>
             <div class="footer-copy">© MK Global Nexus. All Rights Reserved.</div>
-            <div class="footer-version">Version v8.1 — Advanced</div>
+            <div class="footer-version">Version v8.2 — 80+ Objects</div>
         </div>
     </footer>
 
-    <!-- ============================================================ -->
-    <!-- ===== JAVASCRIPT ===== -->
-    <!-- ============================================================ -->
-
-    <!-- Chart.js -->
+    <!-- JAVASCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- TensorFlow.js for AI -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
-    
-    <!-- Leaflet.js for Map -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
-    <!-- Main Script -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
