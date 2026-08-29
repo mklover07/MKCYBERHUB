@@ -71,27 +71,45 @@
             </div>
         </section>
 
-        <!-- ===== AI VISION ===== -->
+        <!-- ============================================================ -->
+        <!-- ===== AI VISION - FIXED ===== -->
+        <!-- ============================================================ -->
+
         <section class="section">
             <div class="container">
-                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI Vision Engine</h2>
+                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI Vision Engine <span style="font-size:12px;color:#44DD88;">⚡ 80+ Objects</span></h2>
+                
                 <div class="card">
                     <div class="camera-wrapper">
+                        
+                        <!-- Video & Canvas -->
                         <video id="video" autoplay playsinline muted></video>
                         <canvas id="canvas"></canvas>
+                        
+                        <!-- Camera Status -->
                         <div class="camera-status" id="cameraStatus">
-                            <span class="dot"></span> READY
+                            <span class="dot"></span> <span id="statusText">READY</span>
                         </div>
+                        
+                        <!-- Detection Info - सभी IDs सही हैं -->
+                        <div class="detection-info">
+                            <span id="detectedObject">🔍 DETECTING...</span>
+                            <span id="detectedConfidence">Conf: --%</span>
+                            <span id="fpsDisplay">FPS: --</span>
+                            <span id="captureCount">Captures: 0</span>
+                        </div>
+                        
+                        <!-- Controls -->
                         <div class="controls">
                             <button onclick="startScanner()" class="btn primary">▶ START</button>
+                            <button onclick="captureFrame()" class="btn secondary">📸 CAPTURE</button>
                             <button onclick="stopScanner()" class="btn danger">⏹ STOP</button>
                             <button onclick="switchCamera()" class="btn secondary">🔄 SWITCH</button>
                         </div>
-                        <div class="detection-info">
-                            <span id="detectedObject">🔍 DETECTING...</span>
-                            <span id="detectedConfidence">CONFIDENCE: --%</span>
-                        </div>
+                        
                     </div>
+                    
+                    <!-- ===== DASHBOARD - सभी IDs सही हैं ===== -->
                     <div class="dashboard">
                         <div class="dash-item">
                             <span class="dash-label">Objects</span>
@@ -106,10 +124,48 @@
                             <span class="dash-value" id="fps">--</span>
                         </div>
                         <div class="dash-item">
+                            <span class="dash-label">Captures</span>
+                            <span class="dash-value" id="dashScans">0</span>
+                        </div>
+                        <div class="dash-item">
                             <span class="dash-label">AI Status</span>
                             <span class="dash-value" id="aiStatus" style="font-size:12px;">Loading...</span>
                         </div>
                     </div>
+                    
+                    <!-- ===== GALLERY ===== -->
+                    <div class="gallery-section">
+                        <div class="gallery-header">
+                            <span>📸 Gallery</span>
+                            <button onclick="clearGallery()" class="btn danger small">Clear</button>
+                        </div>
+                        <div class="gallery-grid" id="galleryGrid"></div>
+                    </div>
+                    
+                    <!-- ===== SCAN RESULT ===== -->
+                    <div class="scan-results" id="scanResults" style="display:none;">
+                        <div class="scan-header">
+                            <span>📸 Scan Result</span>
+                            <span id="scanStatus" class="scan-status">Complete</span>
+                        </div>
+                        <div class="scan-grid">
+                            <img id="scanResultImage" src="" alt="Scan">
+                            <div class="scan-details">
+                                <div class="scan-detail"><strong>Object:</strong> <span id="scanObjectName">-</span></div>
+                                <div class="scan-detail"><strong>Confidence:</strong> <span id="scanConfidence">--%</span></div>
+                                <div class="scan-detail"><strong>Category:</strong> <span id="scanCategory">-</span></div>
+                                <div class="scan-detail"><strong>Description:</strong> <span id="scanDescription">-</span></div>
+                                <div class="scan-detail"><strong>Time:</strong> <span id="scanTime">-</span></div>
+                                <div class="scan-actions">
+                                    <button onclick="liveGoogleSearch()" class="btn primary small">🔍 Google</button>
+                                    <button onclick="liveYouTubeSearch()" class="btn primary small">▶ YouTube</button>
+                                    <button onclick="liveWikipediaPage()" class="btn primary small">📖 Wiki</button>
+                                    <button onclick="downloadImage()" class="btn secondary small">💾 Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </section>
@@ -202,7 +258,7 @@
             <p>⚡ MK GLOBAL NEXUS → MK CYBER HUB</p>
             <p class="motto">Technology with Integrity. Intelligence with Purpose.</p>
             <p class="copy">© MK Global Nexus. All Rights Reserved.</p>
-            <p class="version">Version 8.2 — Stable</p>
+            <p class="version">Version 8.3 — Advanced</p>
         </div>
     </footer>
 
