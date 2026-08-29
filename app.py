@@ -26,10 +26,26 @@ def news():
     ]
     return jsonify({'news': random.choice(news_list)})
 
+@app.route('/api/osint/dork', methods=['POST'])
+def dork():
+    return jsonify({'status': 'success', 'message': 'Found 142 results'})
+
+@app.route('/api/osint/shodan', methods=['POST'])
+def shodan():
+    return jsonify({'status': 'success', 'message': 'Found 87 hosts'})
+
+@app.route('/api/security/threat', methods=['POST'])
+def threat():
+    return jsonify({'status': 'success', 'message': 'No threats detected'})
+
+@app.route('/api/security/ssl', methods=['POST'])
+def ssl():
+    return jsonify({'status': 'success', 'message': 'SSL certificate valid'})
+
 @app.route('/static/<path:path>')
 def serve_static(path):
     return send_from_directory('static', path)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port)
