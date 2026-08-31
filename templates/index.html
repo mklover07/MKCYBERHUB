@@ -1,497 +1,589 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-  <meta
-    name="theme-color"
-    content="#07111f"
-  >
+    <meta
+        name="description"
+        content="MK Cyber Hub — Defensive cyber intelligence and investigation workspace."
+    >
 
-  <meta
-    name="description"
-    content="MK Cyber Hub — defensive cyber intelligence workspace."
-  >
+    <meta
+        name="theme-color"
+        content="#07111f"
+    >
 
-  <title>MK CYBER HUB | Security Workspace</title>
+    <title>MK Cyber Hub | Security Workspace</title>
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
+    <link
+        rel="manifest"
+        href="/manifest.json"
+    >
 
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/style.css') }}"
-  >
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
 </head>
 
 <body>
 
-  <div class="shell">
+<div class="shell">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
 
     <header class="topbar">
 
-      <a
-        class="brand"
-        href="/"
-        aria-label="MK Cyber Hub home"
-      >
-        <span class="brand-mark">MK</span>
-
-        <span>
-          CYBER <b>HUB</b>
-        </span>
-      </a>
-
-      <div class="top-actions">
-
-        <span class="pill good">
-          <i></i>
-          SYSTEM HARDENED
-        </span>
-
-        <span
-          id="clock"
-          class="clock"
+        <a
+            href="/"
+            class="brand"
+            aria-label="MK Cyber Hub Home"
         >
-          --:--:--
-        </span>
+            <span class="brand-mark">
+                MK
+            </span>
 
-      </div>
+            <span>
+                MK <b>CYBER</b> HUB
+            </span>
+        </a>
+
+
+        <div class="top-actions">
+
+            <span class="pill">
+                <i></i>
+                SYSTEM ONLINE
+            </span>
+
+            <span
+                class="clock"
+                id="liveClock"
+            >
+                --:--:--
+            </span>
+
+        </div>
 
     </header>
 
 
+    <!-- =========================
+         HERO
+    ========================== -->
+
     <main>
 
-      <section class="hero">
+        <section class="hero">
 
-        <div class="hero-copy">
+            <div class="hero-copy">
 
-          <div class="eyebrow">
-            DEFENSIVE CYBER INTELLIGENCE
-          </div>
+                <div class="eyebrow">
+                    CYBER INTELLIGENCE • DIGITAL SECURITY
+                </div>
 
-          <h1>
-            Security tools built for
-            <span>clarity.</span>
-          </h1>
+                <h1>
+                    Investigate.
+                    <span>Analyze.</span>
+                    Protect.
+                </h1>
 
-          <p>
-            Validate indicators, review security posture,
-            and work from one controlled dashboard.
-            This build performs local validation by default
-            and does not claim live threat data.
-          </p>
-
-          <div class="hero-buttons">
-
-            <a
-              class="btn primary"
-              href="#workspace"
-            >
-              Open Workspace
-            </a>
-
-            <a
-              class="btn ghost"
-              href="#security"
-            >
-              Security Profile
-            </a>
-
-          </div>
-
-        </div>
+                <p>
+                    A focused security workspace for cyber
+                    intelligence, digital investigation,
+                    threat analysis and security awareness.
+                </p>
 
 
-        <div class="hero-panel">
+                <div class="hero-buttons">
 
-          <div class="radar">
+                    <a
+                        href="#workspace"
+                        class="btn primary"
+                    >
+                        Open Workspace
+                    </a>
 
-            <span></span>
+                    <a
+                        href="#tools"
+                        class="btn ghost"
+                    >
+                        Explore Tools
+                    </a>
 
-            <b>
-              LOCAL<br>
-              ANALYSIS
-            </b>
-
-          </div>
-
-          <div class="hero-meta">
-
-            <span>API</span>
-            <strong>Protected</strong>
-
-            <span>RATE LIMIT</span>
-            <strong>30/min</strong>
-
-            <span>DEPENDENCIES</span>
-            <strong>Minimal</strong>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <section
-        class="metrics"
-        id="security"
-      >
-
-        <article>
-          <span>MODULES</span>
-          <strong id="modules">8</strong>
-          <small>workspace modules</small>
-        </article>
-
-        <article>
-          <span>API ENDPOINTS</span>
-          <strong id="endpoints">6</strong>
-          <small>validated routes</small>
-        </article>
-
-        <article>
-          <span>SECURITY</span>
-          <strong>HARDENED</strong>
-          <small>headers + validation</small>
-        </article>
-
-        <article>
-          <span>DATA MODE</span>
-          <strong>LOCAL</strong>
-          <small>no live target contact</small>
-        </article>
-
-      </section>
-
-
-      <section
-        class="section"
-        id="workspace"
-      >
-
-        <div class="section-head">
-
-          <div>
-
-            <div class="eyebrow">
-              INVESTIGATION WORKSPACE
-            </div>
-
-            <h2>
-              Indicator Analyzer
-            </h2>
-
-          </div>
-
-          <span class="tag">
-            SAFE MODE
-          </span>
-
-        </div>
-
-
-        <div class="workspace-grid">
-
-          <div class="card analyzer">
-
-            <label for="target">
-              Domain / IP / URL
-            </label>
-
-            <div class="input-row">
-
-              <input
-                id="target"
-                maxlength="253"
-                autocomplete="off"
-                placeholder="example.com or 203.0.113.10"
-              >
-
-              <button
-                class="btn primary"
-                id="analyzeBtn"
-              >
-                Analyze
-              </button>
+                </div>
 
             </div>
 
-            <p class="hint">
-              Syntax validation only.
-              No connection is made to the submitted target.
-            </p>
 
-            <div
-              id="result"
-              class="result neutral"
-            >
-              Ready for analysis.
+            <aside class="hero-panel">
+
+                <div class="radar">
+
+                    <span></span>
+
+                    <b>
+                        MK<br>
+                        INTELLIGENCE
+                    </b>
+
+                </div>
+
+
+                <div class="hero-meta">
+
+                    <span>NETWORK</span>
+                    <strong>MONITORED</strong>
+
+                    <span>THREAT ENGINE</span>
+                    <strong>READY</strong>
+
+                    <span>WORKSPACE</span>
+                    <strong>SECURE</strong>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+
+        <!-- =========================
+             METRICS
+        ========================== -->
+
+        <section class="metrics">
+
+            <article>
+                <span>STATUS</span>
+                <strong>ONLINE</strong>
+                <small>Core application</small>
+            </article>
+
+            <article>
+                <span>SECURITY</span>
+                <strong>HARDENED</strong>
+                <small>Dependency controlled</small>
+            </article>
+
+            <article>
+                <span>WORKSPACE</span>
+                <strong>ACTIVE</strong>
+                <small>Investigation ready</small>
+            </article>
+
+            <article>
+                <span>MODE</span>
+                <strong>DEFENSIVE</strong>
+                <small>Authorized research</small>
+            </article>
+
+        </section>
+
+
+        <!-- =========================
+             WORKSPACE
+        ========================== -->
+
+        <section
+            class="section"
+            id="workspace"
+        >
+
+            <div class="section-head">
+
+                <div>
+                    <div class="eyebrow">
+                        INVESTIGATION
+                    </div>
+
+                    <h2>
+                        Intelligence Workspace
+                    </h2>
+                </div>
+
+                <span class="tag">
+                    DEFENSIVE MODE
+                </span>
+
             </div>
 
-          </div>
+
+            <div class="workspace-grid">
+
+                <div class="card analyzer">
+
+                    <label for="targetInput">
+                        Target / Indicator
+                    </label>
 
 
-          <div class="card checklist">
+                    <div class="input-row">
 
-            <h3>
-              Security controls
-            </h3>
+                        <input
+                            id="targetInput"
+                            type="text"
+                            placeholder="Enter domain, IP or URL"
+                            autocomplete="off"
+                        >
 
-            <ul>
+                        <button
+                            id="analyzeBtn"
+                            class="btn primary"
+                            type="button"
+                        >
+                            Analyze
+                        </button>
 
-              <li>
-                <span>✓</span>
-                Strict input limits
-              </li>
-
-              <li>
-                <span>✓</span>
-                Security response headers
-              </li>
-
-              <li>
-                <span>✓</span>
-                API rate limiting
-              </li>
-
-              <li>
-                <span>✓</span>
-                Minimal dependency surface
-              </li>
-
-              <li>
-                <span>✓</span>
-                Generic error responses
-              </li>
-
-            </ul>
-
-          </div>
-
-        </div>
-
-      </section>
+                    </div>
 
 
-      <section class="section">
+                    <p class="hint">
+                        Use only systems, domains and data
+                        you are authorized to investigate.
+                    </p>
 
-        <div class="section-head">
 
-          <div>
+                    <div
+                        id="analysisResult"
+                        class="result"
+                    >
+                        Ready for analysis.
+                    </div>
 
-            <div class="eyebrow">
-              OSINT UTILITIES
+                </div>
+
+
+                <aside class="card checklist">
+
+                    <h3>
+                        Investigation Checklist
+                    </h3>
+
+                    <ul>
+
+                        <li>
+                            <span>01</span>
+                            Preserve available evidence
+                        </li>
+
+                        <li>
+                            <span>02</span>
+                            Validate indicators
+                        </li>
+
+                        <li>
+                            <span>03</span>
+                            Correlate intelligence
+                        </li>
+
+                        <li>
+                            <span>04</span>
+                            Document findings
+                        </li>
+
+                    </ul>
+
+                </aside>
+
             </div>
 
-            <h2>
-              Research tools
-            </h2>
-
-          </div>
-
-        </div>
+        </section>
 
 
-        <div class="cards-3">
+        <!-- =========================
+             TOOLS
+        ========================== -->
 
-          <article class="card tool">
+        <section
+            class="section"
+            id="tools"
+        >
 
-            <div class="icon">◉</div>
+            <div class="section-head">
 
-            <h3>
-              Target Validator
-            </h3>
+                <div>
+                    <div class="eyebrow">
+                        SECURITY TOOLKIT
+                    </div>
 
-            <p>
-              Check whether a domain, IP, or HTTP/HTTPS URL
-              has valid syntax before using it in an
-              authorized workflow.
-            </p>
+                    <h2>
+                        Investigation Modules
+                    </h2>
+                </div>
 
-            <button
-              class="text-btn"
-              data-focus="#target"
-            >
-              Use analyzer →
-            </button>
-
-          </article>
-
-
-          <article class="card tool">
-
-            <div class="icon">⌁</div>
-
-            <h3>
-              Case Notes
-            </h3>
-
-            <p>
-              Keep investigation notes locally in your
-              browser. No server-side case content is stored
-              by this build.
-            </p>
-
-            <button
-              class="text-btn"
-              id="notesBtn"
-            >
-              Open notes →
-            </button>
-
-          </article>
-
-
-          <article class="card tool">
-
-            <div class="icon">✓</div>
-
-            <h3>
-              Security Checklist
-            </h3>
-
-            <p>
-              Review dependency, API, input-validation,
-              headers, and deployment hardening before
-              publishing.
-            </p>
-
-            <button
-              class="text-btn"
-              data-focus="#security"
-            >
-              Review controls →
-            </button>
-
-          </article>
-
-        </div>
-
-      </section>
-
-
-      <section class="section">
-
-        <div class="section-head">
-
-          <div>
-
-            <div class="eyebrow">
-              SECURITY BRIEF
             </div>
 
-            <h2>
-              Operational guidance
-            </h2>
 
-          </div>
-
-        </div>
-
-        <div
-          id="briefs"
-          class="briefs"
-        ></div>
-
-      </section>
+            <div class="cards-3">
 
 
-      <section
-        class="section notes"
-        id="notes"
-      >
+                <article class="card tool">
 
-        <div class="section-head">
+                    <div class="icon">
+                        OS
+                    </div>
 
-          <div>
+                    <h3>
+                        OSINT
+                    </h3>
 
-            <div class="eyebrow">
-              LOCAL CASE NOTES
+                    <p>
+                        Organize publicly available
+                        information for lawful research
+                        and intelligence analysis.
+                    </p>
+
+                    <button
+                        class="text-btn"
+                        type="button"
+                        data-module="OSINT"
+                    >
+                        Open Module →
+                    </button>
+
+                </article>
+
+
+                <article class="card tool">
+
+                    <div class="icon">
+                        NT
+                    </div>
+
+                    <h3>
+                        Network Intelligence
+                    </h3>
+
+                    <p>
+                        Analyze network indicators,
+                        infrastructure relationships
+                        and defensive security signals.
+                    </p>
+
+                    <button
+                        class="text-btn"
+                        type="button"
+                        data-module="Network Intelligence"
+                    >
+                        Open Module →
+                    </button>
+
+                </article>
+
+
+                <article class="card tool">
+
+                    <div class="icon">
+                        TI
+                    </div>
+
+                    <h3>
+                        Threat Intelligence
+                    </h3>
+
+                    <p>
+                        Structure threat indicators and
+                        security observations for
+                        investigation workflows.
+                    </p>
+
+                    <button
+                        class="text-btn"
+                        type="button"
+                        data-module="Threat Intelligence"
+                    >
+                        Open Module →
+                    </button>
+
+                </article>
+
             </div>
 
-            <h2>
-              Investigation notebook
-            </h2>
-
-          </div>
-
-          <button
-            class="btn ghost"
-            id="clearNotes"
-          >
-            Clear
-          </button>
-
-        </div>
+        </section>
 
 
-        <textarea
-          id="caseNotes"
-          maxlength="10000"
-          placeholder="Write authorized investigation notes here..."
-        ></textarea>
+        <!-- =========================
+             SECURITY BRIEF
+        ========================== -->
+
+        <section class="section">
+
+            <div class="section-head">
+
+                <div>
+                    <div class="eyebrow">
+                        SECURITY BRIEF
+                    </div>
+
+                    <h2>
+                        Operational Principles
+                    </h2>
+                </div>
+
+            </div>
 
 
-        <div class="save-line">
+            <div class="briefs">
 
-          <span id="saveState">
-            Saved locally in this browser.
-          </span>
+                <div class="brief">
+                    <b>
+                        Evidence before assumptions
+                    </b>
 
-          <button
-            class="btn primary"
-            id="saveNotes"
-          >
-            Save notes
-          </button>
+                    <span>
+                        PRINCIPLE 01
+                    </span>
+                </div>
 
-        </div>
 
-      </section>
+                <div class="brief">
+                    <b>
+                        Verify indicators from multiple sources
+                    </b>
+
+                    <span>
+                        PRINCIPLE 02
+                    </span>
+                </div>
+
+
+                <div class="brief">
+                    <b>
+                        Protect sensitive investigation data
+                    </b>
+
+                    <span>
+                        PRINCIPLE 03
+                    </span>
+                </div>
+
+
+                <div class="brief">
+                    <b>
+                        Operate only within authorized scope
+                    </b>
+
+                    <span>
+                        PRINCIPLE 04
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             NOTES
+        ========================== -->
+
+        <section class="section notes">
+
+            <div class="section-head">
+
+                <div>
+                    <div class="eyebrow">
+                        PRIVATE WORKSPACE
+                    </div>
+
+                    <h2>
+                        Investigation Notes
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <textarea
+                id="investigationNotes"
+                placeholder="Write investigation notes here..."
+                spellcheck="false"
+            ></textarea>
+
+
+            <div class="save-line">
+
+                <span id="saveStatus">
+                    Notes are stored locally in this browser.
+                </span>
+
+                <button
+                    id="clearNotes"
+                    class="btn ghost"
+                    type="button"
+                >
+                    Clear Notes
+                </button>
+
+            </div>
+
+        </section>
 
     </main>
 
 
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
     <footer>
 
-      <div>
-        <strong>MK CYBER HUB</strong>
-        <span>Defensive intelligence workspace</span>
-      </div>
+        <div>
 
-      <span>
-        © 2026 • Security by design
-      </span>
+            <strong>
+                MK CYBER HUB
+            </strong>
+
+            <span>
+                Defensive Cyber Intelligence Workspace
+            </span>
+
+        </div>
+
+
+        <div>
+            <span>
+                Authorized security research only.
+            </span>
+
+            <span>
+                © 2026 MK Global Nexus
+            </span>
+        </div>
 
     </footer>
 
-  </div>
+</div>
 
 
-  <script
+<script
     src="{{ url_for('static', filename='js/app.js') }}"
-  ></script>
+    defer
+></script>
 
 </body>
 </html>
