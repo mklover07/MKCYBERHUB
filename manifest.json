@@ -1,0 +1,17 @@
+{
+  "name": "MK Cyber Hub",
+  "short_name": "MK Cyber Hub",
+  "description": "Defensive cyber intelligence and investigation workspace.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": [
+    "security",
+    "productivity",
+    "utilities"
+  ],
+  "icons": []
+}
