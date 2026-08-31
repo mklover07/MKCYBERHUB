@@ -1,220 +1,497 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MK CYBER HUB</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="theme-color"
+    content="#07111f"
+  >
+
+  <meta
+    name="description"
+    content="MK Cyber Hub — defensive cyber intelligence workspace."
+  >
+
+  <title>MK CYBER HUB | Security Workspace</title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}"
+  >
 </head>
+
 <body>
 
-    <!-- HEADER -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">MK <span class="highlight">CYBER HUB</span></span>
-            </div>
-            <div class="header-right">
-                <span class="status">🟢 SECURE</span>
-                <span class="time" id="currentTime">--:--:--</span>
-            </div>
-        </div>
+  <div class="shell">
+
+    <header class="topbar">
+
+      <a
+        class="brand"
+        href="/"
+        aria-label="MK Cyber Hub home"
+      >
+        <span class="brand-mark">MK</span>
+
+        <span>
+          CYBER <b>HUB</b>
+        </span>
+      </a>
+
+      <div class="top-actions">
+
+        <span class="pill good">
+          <i></i>
+          SYSTEM HARDENED
+        </span>
+
+        <span
+          id="clock"
+          class="clock"
+        >
+          --:--:--
+        </span>
+
+      </div>
+
     </header>
 
-    <!-- MAIN -->
+
     <main>
 
-        <!-- HERO -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1>ADVANCED <span class="highlight">CYBER INTELLIGENCE</span></h1>
-                    <p class="subtitle">Real-time AI Detection · OSINT · Threat Monitoring</p>
-                    <div class="stats">
-                        <div class="stat">
-                            <span class="number" id="totalThreats">12,847</span>
-                            <span class="label">Total Threats</span>
-                        </div>
-                        <div class="stat">
-                            <span class="number" id="activeAttacks">342</span>
-                            <span class="label">Active Attacks</span>
-                        </div>
-                        <div class="stat">
-                            <span class="number" id="vulnerabilities">1,204</span>
-                            <span class="label">Vulnerabilities</span>
-                        </div>
-                        <div class="stat">
-                            <span class="number" id="countries">189</span>
-                            <span class="label">Countries</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="globe">
-                        <i class="fas fa-globe-americas"></i>
-                        <span>GLOBAL</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <section class="hero">
 
-        <!-- BANNER -->
-        <section class="banner">
-            <div class="container">
-                <span>🏢 A DIVISION OF</span>
-                <span class="company">MK GLOBAL NEXUS</span>
-                <span class="founder">— MANOJ MEENA</span>
-            </div>
-        </section>
+        <div class="hero-copy">
 
-        <!-- ===== AI VISION - SIMPLE WORKING ===== -->
-        <section class="section">
-            <div class="container">
-                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI Vision Engine</h2>
-                
-                <div class="card">
-                    <!-- Camera -->
-                    <div class="camera-wrapper">
-                        <video id="video" autoplay playsinline muted></video>
-                        <canvas id="canvas"></canvas>
-                        
-                        <div class="camera-status" id="cameraStatus">
-                            <span class="dot"></span> READY
-                        </div>
-                        
-                        <div class="controls">
-                            <button onclick="startScanner()" class="btn primary">▶ START</button>
-                            <button onclick="stopScanner()" class="btn danger">⏹ STOP</button>
-                            <button onclick="switchCamera()" class="btn secondary">🔄 SWITCH</button>
-                        </div>
-                        
-                        <div class="detection-info">
-                            <span id="detectedObject">🔍 DETECTING...</span>
-                            <span id="detectedConfidence">Conf: --%</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Dashboard -->
-                    <div class="dashboard">
-                        <div class="dash-item">
-                            <span class="dash-label">Objects</span>
-                            <span class="dash-value" id="objCount">0</span>
-                        </div>
-                        <div class="dash-item">
-                            <span class="dash-label">Confidence</span>
-                            <span class="dash-value" id="confidence">--%</span>
-                        </div>
-                        <div class="dash-item">
-                            <span class="dash-label">FPS</span>
-                            <span class="dash-value" id="fps">--</span>
-                        </div>
-                        <div class="dash-item">
-                            <span class="dash-label">AI Status</span>
-                            <span class="dash-value" id="aiStatus" style="font-size:12px;">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+          <div class="eyebrow">
+            DEFENSIVE CYBER INTELLIGENCE
+          </div>
 
-        <!-- OSINT -->
-        <section class="section">
-            <div class="container">
-                <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> OSINT Suite</h2>
-                <div class="grid-2">
-                    <div class="card">
-                        <h3>🔍 Google Dorking</h3>
-                        <div class="input-group">
-                            <input type="text" id="dorkInput" placeholder="site:example.com">
-                            <button onclick="runDork()" class="btn primary">RUN</button>
-                        </div>
-                        <div id="dorkResult" class="result"></div>
-                    </div>
-                    <div class="card">
-                        <h3>🌐 Shodan</h3>
-                        <div class="input-group">
-                            <input type="text" id="shodanInput" placeholder="apache port:80">
-                            <button onclick="runShodan()" class="btn primary">RUN</button>
-                        </div>
-                        <div id="shodanResult" class="result"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+          <h1>
+            Security tools built for
+            <span>clarity.</span>
+          </h1>
 
-        <!-- SECURITY -->
-        <section class="section">
-            <div class="container">
-                <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> Cyber Security</h2>
-                <div class="grid-2">
-                    <div class="card">
-                        <h3>🧠 AI Threat Analyzer</h3>
-                        <div class="input-group">
-                            <input type="text" id="threatInput" placeholder="IP or Domain">
-                            <button onclick="runThreat()" class="btn primary">ANALYZE</button>
-                        </div>
-                        <div id="threatResult" class="result"></div>
-                    </div>
-                    <div class="card">
-                        <h3>🔒 SSL Checker</h3>
-                        <div class="input-group">
-                            <input type="text" id="sslInput" placeholder="example.com">
-                            <button onclick="runSSL()" class="btn primary">CHECK</button>
-                        </div>
-                        <div id="sslResult" class="result"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
+          <p>
+            Validate indicators, review security posture,
+            and work from one controlled dashboard.
+            This build performs local validation by default
+            and does not claim live threat data.
+          </p>
 
-        <!-- NEWS -->
-        <section class="section">
-            <div class="container">
-                <div class="news-ticker">
-                    <span class="label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
-                    <span class="scroll" id="newsTicker">🚨 Loading news...</span>
-                </div>
-            </div>
-        </section>
+          <div class="hero-buttons">
 
-        <!-- FOUNDER -->
-        <section class="section">
-            <div class="container">
-                <div class="card founder">
-                    <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="MANOJ MEENA" onerror="this.src='https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=1B3A5C&color=fff&bold=true'">
-                    <div class="founder-info">
-                        <h2>MANOJ MEENA</h2>
-                        <p class="title">Founder, Owner &amp; CEO — MK Global Nexus</p>
-                        <p class="bio"><strong>MANOJ MEENA</strong> is the <strong>Founder, Owner &amp; CEO</strong> of <strong>MK Global Nexus</strong>.</p>
-                        <div class="social">
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="fas fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
+            <a
+              class="btn primary"
+              href="#workspace"
+            >
+              Open Workspace
+            </a>
+
+            <a
+              class="btn ghost"
+              href="#security"
+            >
+              Security Profile
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-panel">
+
+          <div class="radar">
+
+            <span></span>
+
+            <b>
+              LOCAL<br>
+              ANALYSIS
+            </b>
+
+          </div>
+
+          <div class="hero-meta">
+
+            <span>API</span>
+            <strong>Protected</strong>
+
+            <span>RATE LIMIT</span>
+            <strong>30/min</strong>
+
+            <span>DEPENDENCIES</span>
+            <strong>Minimal</strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section
+        class="metrics"
+        id="security"
+      >
+
+        <article>
+          <span>MODULES</span>
+          <strong id="modules">8</strong>
+          <small>workspace modules</small>
+        </article>
+
+        <article>
+          <span>API ENDPOINTS</span>
+          <strong id="endpoints">6</strong>
+          <small>validated routes</small>
+        </article>
+
+        <article>
+          <span>SECURITY</span>
+          <strong>HARDENED</strong>
+          <small>headers + validation</small>
+        </article>
+
+        <article>
+          <span>DATA MODE</span>
+          <strong>LOCAL</strong>
+          <small>no live target contact</small>
+        </article>
+
+      </section>
+
+
+      <section
+        class="section"
+        id="workspace"
+      >
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="eyebrow">
+              INVESTIGATION WORKSPACE
             </div>
-        </section>
+
+            <h2>
+              Indicator Analyzer
+            </h2>
+
+          </div>
+
+          <span class="tag">
+            SAFE MODE
+          </span>
+
+        </div>
+
+
+        <div class="workspace-grid">
+
+          <div class="card analyzer">
+
+            <label for="target">
+              Domain / IP / URL
+            </label>
+
+            <div class="input-row">
+
+              <input
+                id="target"
+                maxlength="253"
+                autocomplete="off"
+                placeholder="example.com or 203.0.113.10"
+              >
+
+              <button
+                class="btn primary"
+                id="analyzeBtn"
+              >
+                Analyze
+              </button>
+
+            </div>
+
+            <p class="hint">
+              Syntax validation only.
+              No connection is made to the submitted target.
+            </p>
+
+            <div
+              id="result"
+              class="result neutral"
+            >
+              Ready for analysis.
+            </div>
+
+          </div>
+
+
+          <div class="card checklist">
+
+            <h3>
+              Security controls
+            </h3>
+
+            <ul>
+
+              <li>
+                <span>✓</span>
+                Strict input limits
+              </li>
+
+              <li>
+                <span>✓</span>
+                Security response headers
+              </li>
+
+              <li>
+                <span>✓</span>
+                API rate limiting
+              </li>
+
+              <li>
+                <span>✓</span>
+                Minimal dependency surface
+              </li>
+
+              <li>
+                <span>✓</span>
+                Generic error responses
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="eyebrow">
+              OSINT UTILITIES
+            </div>
+
+            <h2>
+              Research tools
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="cards-3">
+
+          <article class="card tool">
+
+            <div class="icon">◉</div>
+
+            <h3>
+              Target Validator
+            </h3>
+
+            <p>
+              Check whether a domain, IP, or HTTP/HTTPS URL
+              has valid syntax before using it in an
+              authorized workflow.
+            </p>
+
+            <button
+              class="text-btn"
+              data-focus="#target"
+            >
+              Use analyzer →
+            </button>
+
+          </article>
+
+
+          <article class="card tool">
+
+            <div class="icon">⌁</div>
+
+            <h3>
+              Case Notes
+            </h3>
+
+            <p>
+              Keep investigation notes locally in your
+              browser. No server-side case content is stored
+              by this build.
+            </p>
+
+            <button
+              class="text-btn"
+              id="notesBtn"
+            >
+              Open notes →
+            </button>
+
+          </article>
+
+
+          <article class="card tool">
+
+            <div class="icon">✓</div>
+
+            <h3>
+              Security Checklist
+            </h3>
+
+            <p>
+              Review dependency, API, input-validation,
+              headers, and deployment hardening before
+              publishing.
+            </p>
+
+            <button
+              class="text-btn"
+              data-focus="#security"
+            >
+              Review controls →
+            </button>
+
+          </article>
+
+        </div>
+
+      </section>
+
+
+      <section class="section">
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="eyebrow">
+              SECURITY BRIEF
+            </div>
+
+            <h2>
+              Operational guidance
+            </h2>
+
+          </div>
+
+        </div>
+
+        <div
+          id="briefs"
+          class="briefs"
+        ></div>
+
+      </section>
+
+
+      <section
+        class="section notes"
+        id="notes"
+      >
+
+        <div class="section-head">
+
+          <div>
+
+            <div class="eyebrow">
+              LOCAL CASE NOTES
+            </div>
+
+            <h2>
+              Investigation notebook
+            </h2>
+
+          </div>
+
+          <button
+            class="btn ghost"
+            id="clearNotes"
+          >
+            Clear
+          </button>
+
+        </div>
+
+
+        <textarea
+          id="caseNotes"
+          maxlength="10000"
+          placeholder="Write authorized investigation notes here..."
+        ></textarea>
+
+
+        <div class="save-line">
+
+          <span id="saveState">
+            Saved locally in this browser.
+          </span>
+
+          <button
+            class="btn primary"
+            id="saveNotes"
+          >
+            Save notes
+          </button>
+
+        </div>
+
+      </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <p>⚡ MK GLOBAL NEXUS → MK CYBER HUB</p>
-            <p class="motto">Technology with Integrity. Intelligence with Purpose.</p>
-            <p class="copy">© MK Global Nexus. All Rights Reserved.</p>
-        </div>
+
+    <footer>
+
+      <div>
+        <strong>MK CYBER HUB</strong>
+        <span>Defensive intelligence workspace</span>
+      </div>
+
+      <span>
+        © 2026 • Security by design
+      </span>
+
     </footer>
 
-    <!-- JAVASCRIPT -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </div>
+
+
+  <script
+    src="{{ url_for('static', filename='js/app.js') }}"
+  ></script>
 
 </body>
 </html>
