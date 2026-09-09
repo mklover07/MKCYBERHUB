@@ -20,28 +20,28 @@ def stats():
 @app.route('/api/news')
 def news():
     news_list = [
-        '⚡ CRITICAL ZERO-DAY DISCOVERED IN VPN SOFTWARE',
-        '🌐 GLOBAL CYBER ATTACK TARGETS FINANCIAL INSTITUTIONS',
-        '🤖 AI-POWERED MALWARE DETECTED ACROSS 50+ COUNTRIES',
-        '💀 RANSOMWARE GANG LEAKS 2TB CORPORATE DATA'
+        'Critical zero-day vulnerability discovered in VPN software',
+        'Global cyber attack targets financial institutions',
+        'New AI-powered malware detected across 50+ countries',
+        'Ransomware gang leaks 2TB of corporate data'
     ]
     return jsonify({'news': random.choice(news_list)})
 
 @app.route('/api/osint/dork', methods=['POST'])
 def dork():
-    return jsonify({'status': 'success', 'message': '🔍 142 VULNERABILITIES FOUND'})
+    return jsonify({'status': 'success', 'message': '✅ Found 142 results'})
 
 @app.route('/api/osint/shodan', methods=['POST'])
 def shodan():
-    return jsonify({'status': 'success', 'message': '🌐 87 HOSTS IDENTIFIED'})
+    return jsonify({'status': 'success', 'message': '✅ Found 87 hosts'})
 
 @app.route('/api/security/threat', methods=['POST'])
 def threat():
-    return jsonify({'status': 'success', 'message': '🛡️ THREAT LEVEL: LOW'})
+    return jsonify({'status': 'success', 'message': '🛡️ Threat Level: LOW'})
 
 @app.route('/api/security/ssl', methods=['POST'])
 def ssl():
-    return jsonify({'status': 'success', 'message': '🔒 SSL CERTIFICATE: VALID'})
+    return jsonify({'status': 'success', 'message': '🔒 SSL Certificate: VALID'})
 
 @app.route('/static/<path:path>')
 def serve_static(path):
