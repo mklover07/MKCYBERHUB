@@ -1,5 +1,5 @@
 // ================================================================
-// 🚀 MK CYBER HUB - SCI-FI SCANNER
+// 🚀 MK CYBER HUB - MODERN SCANNER v10.0
 // ================================================================
 
 let model = null;
@@ -7,7 +7,19 @@ let stream = null;
 let running = false;
 let interval = null;
 
-// ===== CLOCK =====
+// ================================================================
+// 🔄 PRELOADER
+// ================================================================
+
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) setTimeout(() => preloader.classList.add('hidden'), 800);
+});
+
+// ================================================================
+// ⏰ CLOCK
+// ================================================================
+
 function updateClock() {
     const now = new Date();
     const el = document.getElementById('currentTime');
@@ -20,7 +32,31 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// ===== FETCH STATS =====
+// ================================================================
+// 🌙 THEME
+// ================================================================
+
+function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    const icon = document.querySelector('.theme-btn i');
+    if (document.body.classList.contains('light-mode')) {
+        icon.className = 'fas fa-sun';
+        localStorage.setItem('theme', 'light');
+    } else {
+        icon.className = 'fas fa-moon';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    document.querySelector('.theme-btn i').className = 'fas fa-sun';
+}
+
+// ================================================================
+// 📊 FETCH STATS
+// ================================================================
+
 async function fetchStats() {
     try {
         const res = await fetch('/api/stats');
@@ -48,44 +84,41 @@ fetchNews();
 setInterval(fetchStats, 15000);
 setInterval(fetchNews, 30000);
 
-// ===== THEME TOGGLE =====
-function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
-}
+// ================================================================
+// 🎯 AI VISION
+// ================================================================
 
-// ===== LOAD MODEL =====
 async function loadModel() {
     try {
         const status = document.getElementById('aiStatus');
-        if (status) status.textContent = 'LOADING...';
+        if (status) status.textContent = 'Loading...';
         
         if (typeof cocoSsd !== 'undefined') {
             model = await cocoSsd.load();
-            if (status) status.textContent = '🟢 ONLINE (80+)';
+            if (status) status.textContent = '✅ Ready';
             console.log('✅ COCO-SSD Loaded');
             return true;
         }
-        if (status) status.textContent = '❌ OFFLINE';
+        if (status) status.textContent = '❌ Failed';
         return false;
     } catch (e) {
         const status = document.getElementById('aiStatus');
-        if (status) status.textContent = '⚠️ ERROR';
+        if (status) status.textContent = '❌ Error';
         console.error('Model load error:', e);
         return false;
     }
 }
 
-// ===== START SCANNER =====
 async function startScanner() {
     const video = document.getElementById('video');
     const status = document.getElementById('cameraStatus');
 
     try {
         if (!model) {
-            if (status) status.innerHTML = '<span class="pulse-dot"></span> INITIALIZING...';
+            if (status) status.innerHTML = '<span class="dot"></span> Loading AI...';
             await loadModel();
             if (!model) {
-                if (status) status.innerHTML = '<span class="pulse-dot"></span> FAILED';
+                if (status) status.innerHTML = '<span class="dot"></span> AI Failed';
                 return;
             }
         }
@@ -95,7 +128,7 @@ async function startScanner() {
             stream = null;
         }
 
-        if (status) status.innerHTML = '<span class="pulse-dot"></span> CAMERA ONLINE';
+        if (status) status.innerHTML = '<span class="dot"></span> Starting Camera...';
         stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } },
             audio: false
@@ -105,7 +138,9 @@ async function startScanner() {
         await video.play();
 
         running = true;
-        if (status) status.innerHTML = '<span class="pulse-dot"></span> SCANNING';
+        if (status) status.innerHTML = '<span class="dot"></span> Live Scanning';
+        document.getElementById('visionStatus').textContent = '🟢 Live';
+        document.getElementById('statusText').textContent = 'Live';
         startDetectionLoop();
 
     } catch (e) {
@@ -114,7 +149,6 @@ async function startScanner() {
     }
 }
 
-// ===== DETECTION LOOP =====
 function startDetectionLoop() {
     if (interval) clearInterval(interval);
 
@@ -156,9 +190,9 @@ function startDetectionLoop() {
 
                 if (filtered.length > 0) {
                     filtered.forEach(p => {
-                        // Neon Box
+                        // Box
                         ctx.shadowColor = '#00D4FF';
-                        ctx.shadowBlur = 15;
+                        ctx.shadowBlur = 10;
                         ctx.strokeStyle = '#00D4FF';
                         ctx.lineWidth = 2;
                         ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
@@ -166,15 +200,11 @@ function startDetectionLoop() {
 
                         // Label
                         const label = p.class.toUpperCase() + ' (' + Math.round(p.score * 100) + '%)';
-                        ctx.font = 'bold 13px Rajdhani, sans-serif';
+                        ctx.font = 'bold 12px Inter, sans-serif';
                         const metrics = ctx.measureText(label);
                         
                         ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                        ctx.shadowColor = '#00D4FF';
-                        ctx.shadowBlur = 10;
-                        ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 26, metrics.width + 18, 26);
-                        ctx.shadowBlur = 0;
-                        
+                        ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 24, metrics.width + 16, 24);
                         ctx.fillStyle = '#00D4FF';
                         ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 6);
                     });
@@ -184,20 +214,20 @@ function startDetectionLoop() {
                     const confidence = Math.round(top.score * 100);
                     
                     const detectedEl = document.getElementById('detectedObject');
-                    if (detectedEl) detectedEl.textContent = '🔍 ' + top.class.toUpperCase();
+                    if (detectedEl) detectedEl.textContent = '🎯 ' + top.class.toUpperCase();
                     
                     const confEl = document.getElementById('detectedConfidence');
-                    if (confEl) confEl.textContent = 'CONF: ' + confidence + '%';
+                    if (confEl) confEl.textContent = 'Conf: ' + confidence + '%';
                     
                     const confDash = document.getElementById('confidence');
                     if (confDash) confDash.textContent = confidence + '%';
 
                 } else {
                     const detectedEl = document.getElementById('detectedObject');
-                    if (detectedEl) detectedEl.textContent = '🔍 NO TARGET';
+                    if (detectedEl) detectedEl.textContent = '🔍 No Object';
                     
                     const confEl = document.getElementById('detectedConfidence');
-                    if (confEl) confEl.textContent = 'CONF: --%';
+                    if (confEl) confEl.textContent = 'Conf: --%';
                     
                     const confDash = document.getElementById('confidence');
                     if (confDash) confDash.textContent = '--%';
@@ -211,7 +241,6 @@ function startDetectionLoop() {
     }, 200);
 }
 
-// ===== STOP SCANNER =====
 function stopScanner() {
     running = false;
     if (interval) {
@@ -228,10 +257,11 @@ function stopScanner() {
         video.pause();
     }
     const status = document.getElementById('cameraStatus');
-    if (status) status.innerHTML = '<span class="pulse-dot"></span> OFFLINE';
+    if (status) status.innerHTML = '<span class="dot"></span> Stopped';
+    document.getElementById('visionStatus').textContent = '⏸️ Paused';
+    document.getElementById('statusText').textContent = 'Stopped';
 }
 
-// ===== SWITCH CAMERA =====
 function switchCamera() {
     if (running) {
         stopScanner();
@@ -239,13 +269,16 @@ function switchCamera() {
     }
 }
 
-// ===== OSINT FUNCTIONS =====
+// ================================================================
+// 🔍 OSINT FUNCTIONS
+// ================================================================
+
 async function runDork() {
     const input = document.getElementById('dorkInput');
     const result = document.getElementById('dorkResult');
     const query = input ? input.value.trim() : 'example';
     if (result) {
-        result.innerHTML = '🔍 SCANNING...';
+        result.innerHTML = '🔍 Scanning...';
         result.className = 'result';
     }
     try {
@@ -261,7 +294,7 @@ async function runDork() {
         }
     } catch (e) {
         if (result) {
-            result.innerHTML = '❌ ERROR';
+            result.innerHTML = '❌ Error';
             result.className = 'result error';
         }
     }
@@ -272,7 +305,7 @@ async function runShodan() {
     const result = document.getElementById('shodanResult');
     const query = input ? input.value.trim() : 'example';
     if (result) {
-        result.innerHTML = '🌐 SCANNING...';
+        result.innerHTML = '🌐 Scanning...';
         result.className = 'result';
     }
     try {
@@ -288,19 +321,22 @@ async function runShodan() {
         }
     } catch (e) {
         if (result) {
-            result.innerHTML = '❌ ERROR';
+            result.innerHTML = '❌ Error';
             result.className = 'result error';
         }
     }
 }
 
-// ===== SECURITY FUNCTIONS =====
+// ================================================================
+// 🛡️ SECURITY FUNCTIONS
+// ================================================================
+
 async function runThreat() {
     const input = document.getElementById('threatInput');
     const result = document.getElementById('threatResult');
     const query = input ? input.value.trim() : 'target';
     if (result) {
-        result.innerHTML = '🛡️ ANALYZING...';
+        result.innerHTML = '🛡️ Analyzing...';
         result.className = 'result';
     }
     try {
@@ -316,7 +352,7 @@ async function runThreat() {
         }
     } catch (e) {
         if (result) {
-            result.innerHTML = '❌ ERROR';
+            result.innerHTML = '❌ Error';
             result.className = 'result error';
         }
     }
@@ -327,7 +363,7 @@ async function runSSL() {
     const result = document.getElementById('sslResult');
     const query = input ? input.value.trim() : 'example.com';
     if (result) {
-        result.innerHTML = '🔒 CHECKING...';
+        result.innerHTML = '🔒 Checking...';
         result.className = 'result';
     }
     try {
@@ -343,14 +379,17 @@ async function runSSL() {
         }
     } catch (e) {
         if (result) {
-            result.innerHTML = '❌ ERROR';
+            result.innerHTML = '❌ Error';
             result.className = 'result error';
         }
     }
 }
 
-// ===== INIT =====
-console.log('%c🚀 MK CYBER HUB - SCI-FI EDITION v9.0', 'font-size:24px;color:#00D4FF;font-weight:900;font-family:Orbitron');
-console.log('%c⚡ SYSTEM ONLINE - READY TO SCAN', 'font-size:14px;color:#00FF88');
+// ================================================================
+// 🚀 INIT
+// ================================================================
+
+console.log('%c🚀 MK CYBER HUB v10.0 - MODERN UI', 'font-size:20px;color:#00D4FF;font-weight:900');
+console.log('%c⚡ Glassmorphism • Smooth Animations • Gradient UI', 'font-size:14px;color:#D4A843');
 
 setTimeout(loadModel, 1000);
