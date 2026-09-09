@@ -2,588 +2,277 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="description"
-        content="MK Cyber Hub — Defensive cyber intelligence and investigation workspace."
-    >
-
-    <meta
-        name="theme-color"
-        content="#07111f"
-    >
-
-    <title>MK Cyber Hub | Security Workspace</title>
-
-    <link
-        rel="manifest"
-        href="/manifest.json"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK CYBER HUB — SCI-FI EDITION</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<div class="shell">
+    <!-- ===== HOLOGRAPHIC GRID BACKGROUND ===== -->
+    <div class="grid-bg"></div>
+    <div class="scanline"></div>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-
-    <header class="topbar">
-
-        <a
-            href="/"
-            class="brand"
-            aria-label="MK Cyber Hub Home"
-        >
-            <span class="brand-mark">
-                MK
-            </span>
-
-            <span>
-                MK <b>CYBER</b> HUB
-            </span>
-        </a>
-
-
-        <div class="top-actions">
-
-            <span class="pill">
-                <i></i>
-                SYSTEM ONLINE
-            </span>
-
-            <span
-                class="clock"
-                id="liveClock"
-            >
-                --:--:--
-            </span>
-
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand">MK</span>
+                    <span class="sub">CYBER HUB</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status-badge">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">SYSTEM ACTIVE</span>
+                </div>
+                <div class="time" id="currentTime">--:--:--</div>
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
         </div>
-
     </header>
 
-
-    <!-- =========================
-         HERO
-    ========================== -->
-
+    <!-- ===== MAIN ===== -->
     <main>
 
+        <!-- ===== HERO ===== -->
         <section class="hero">
-
-            <div class="hero-copy">
-
-                <div class="eyebrow">
-                    CYBER INTELLIGENCE • DIGITAL SECURITY
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="glitch-text" data-text="⚡ ENTERPRISE GRADE">⚡ ENTERPRISE GRADE</span>
+                        <span class="badge-divider">|</span>
+                        <span class="badge-text">AI-POWERED CYBER INTELLIGENCE</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="gradient-text">ADVANCED</span>
+                        <span class="hero-highlight glitch-text" data-text="CYBER INTELLIGENCE">CYBER INTELLIGENCE</span>
+                    </h1>
+                    <p class="hero-desc">
+                        <span class="typing-text">REAL-TIME AI DETECTION · ADVANCED OSINT · THREAT MONITORING</span>
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-card hologram">
+                            <span class="stat-number" id="totalThreats">12,847</span>
+                            <span class="stat-label">TOTAL THREATS</span>
+                            <div class="stat-bar"></div>
+                        </div>
+                        <div class="stat-card hologram">
+                            <span class="stat-number" id="activeAttacks">342</span>
+                            <span class="stat-label">ACTIVE ATTACKS</span>
+                            <div class="stat-bar"></div>
+                        </div>
+                        <div class="stat-card hologram">
+                            <span class="stat-number" id="vulnerabilities">1,204</span>
+                            <span class="stat-label">VULNERABILITIES</span>
+                            <div class="stat-bar"></div>
+                        </div>
+                        <div class="stat-card hologram">
+                            <span class="stat-number" id="countries">189</span>
+                            <span class="stat-label">COUNTRIES</span>
+                            <div class="stat-bar"></div>
+                        </div>
+                    </div>
                 </div>
-
-                <h1>
-                    Investigate.
-                    <span>Analyze.</span>
-                    Protect.
-                </h1>
-
-                <p>
-                    A focused security workspace for cyber
-                    intelligence, digital investigation,
-                    threat analysis and security awareness.
-                </p>
-
-
-                <div class="hero-buttons">
-
-                    <a
-                        href="#workspace"
-                        class="btn primary"
-                    >
-                        Open Workspace
-                    </a>
-
-                    <a
-                        href="#tools"
-                        class="btn ghost"
-                    >
-                        Explore Tools
-                    </a>
-
+                <div class="hero-visual">
+                    <div class="orb-container">
+                        <div class="orb orb-1"></div>
+                        <div class="orb orb-2"></div>
+                        <div class="orb orb-3"></div>
+                        <div class="orb-center">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>GLOBAL</span>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
-
-            <aside class="hero-panel">
-
-                <div class="radar">
-
-                    <span></span>
-
-                    <b>
-                        MK<br>
-                        INTELLIGENCE
-                    </b>
-
-                </div>
-
-
-                <div class="hero-meta">
-
-                    <span>NETWORK</span>
-                    <strong>MONITORED</strong>
-
-                    <span>THREAT ENGINE</span>
-                    <strong>READY</strong>
-
-                    <span>WORKSPACE</span>
-                    <strong>SECURE</strong>
-
-                </div>
-
-            </aside>
-
         </section>
 
-
-        <!-- =========================
-             METRICS
-        ========================== -->
-
-        <section class="metrics">
-
-            <article>
-                <span>STATUS</span>
-                <strong>ONLINE</strong>
-                <small>Core application</small>
-            </article>
-
-            <article>
-                <span>SECURITY</span>
-                <strong>HARDENED</strong>
-                <small>Dependency controlled</small>
-            </article>
-
-            <article>
-                <span>WORKSPACE</span>
-                <strong>ACTIVE</strong>
-                <small>Investigation ready</small>
-            </article>
-
-            <article>
-                <span>MODE</span>
-                <strong>DEFENSIVE</strong>
-                <small>Authorized research</small>
-            </article>
-
+        <!-- ===== BANNER ===== -->
+        <section class="banner hologram">
+            <div class="container">
+                <span class="banner-icon">🏢</span>
+                <span>A DIVISION OF</span>
+                <span class="company">MK GLOBAL NEXUS</span>
+                <span class="banner-divider">◆</span>
+                <span class="founder">MANOJ MEENA</span>
+            </div>
         </section>
 
-
-        <!-- =========================
-             WORKSPACE
-        ========================== -->
-
-        <section
-            class="section"
-            id="workspace"
-        >
-
-            <div class="section-head">
-
-                <div>
-                    <div class="eyebrow">
-                        INVESTIGATION
-                    </div>
-
-                    <h2>
-                        Intelligence Workspace
-                    </h2>
+        <!-- ===== AI VISION ===== -->
+        <section class="section" id="vision">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-eye neon-icon"></i> AI VISION ENGINE</h2>
+                    <span class="section-badge live">🟢 ONLINE</span>
                 </div>
-
-                <span class="tag">
-                    DEFENSIVE MODE
-                </span>
-
-            </div>
-
-
-            <div class="workspace-grid">
-
-                <div class="card analyzer">
-
-                    <label for="targetInput">
-                        Target / Indicator
-                    </label>
-
-
-                    <div class="input-row">
-
-                        <input
-                            id="targetInput"
-                            type="text"
-                            placeholder="Enter domain, IP or URL"
-                            autocomplete="off"
-                        >
-
-                        <button
-                            id="analyzeBtn"
-                            class="btn primary"
-                            type="button"
-                        >
-                            Analyze
-                        </button>
-
+                
+                <div class="card glass-card">
+                    <div class="camera-wrapper">
+                        <video id="video" autoplay playsinline muted></video>
+                        <canvas id="canvas"></canvas>
+                        
+                        <div class="camera-status" id="cameraStatus">
+                            <span class="pulse-dot"></span>
+                            <span id="statusText">STANDBY</span>
+                        </div>
+                        
+                        <div class="controls">
+                            <button onclick="startScanner()" class="btn neon-btn">
+                                <i class="fas fa-play"></i> INITIATE
+                            </button>
+                            <button onclick="stopScanner()" class="btn neon-btn danger">
+                                <i class="fas fa-stop"></i> TERMINATE
+                            </button>
+                            <button onclick="switchCamera()" class="btn neon-btn secondary">
+                                <i class="fas fa-sync-alt"></i> SWITCH
+                            </button>
+                        </div>
+                        
+                        <div class="detection-info hologram">
+                            <span id="detectedObject">🔍 SCANNING...</span>
+                            <span id="detectedConfidence">CONFIDENCE: --%</span>
+                            <span id="fpsDisplay">FPS: --</span>
+                        </div>
                     </div>
-
-
-                    <p class="hint">
-                        Use only systems, domains and data
-                        you are authorized to investigate.
-                    </p>
-
-
-                    <div
-                        id="analysisResult"
-                        class="result"
-                    >
-                        Ready for analysis.
+                    
+                    <div class="dashboard">
+                        <div class="dash-item hologram">
+                            <span class="dash-label">OBJECTS</span>
+                            <span class="dash-value" id="objCount">0</span>
+                        </div>
+                        <div class="dash-item hologram">
+                            <span class="dash-label">CONFIDENCE</span>
+                            <span class="dash-value" id="confidence">--%</span>
+                        </div>
+                        <div class="dash-item hologram">
+                            <span class="dash-label">FPS</span>
+                            <span class="dash-value" id="fps">--</span>
+                        </div>
+                        <div class="dash-item hologram">
+                            <span class="dash-label">AI STATUS</span>
+                            <span class="dash-value" id="aiStatus" style="font-size:12px;">LOADING...</span>
+                        </div>
                     </div>
-
                 </div>
-
-
-                <aside class="card checklist">
-
-                    <h3>
-                        Investigation Checklist
-                    </h3>
-
-                    <ul>
-
-                        <li>
-                            <span>01</span>
-                            Preserve available evidence
-                        </li>
-
-                        <li>
-                            <span>02</span>
-                            Validate indicators
-                        </li>
-
-                        <li>
-                            <span>03</span>
-                            Correlate intelligence
-                        </li>
-
-                        <li>
-                            <span>04</span>
-                            Document findings
-                        </li>
-
-                    </ul>
-
-                </aside>
-
             </div>
-
         </section>
 
-
-        <!-- =========================
-             TOOLS
-        ========================== -->
-
-        <section
-            class="section"
-            id="tools"
-        >
-
-            <div class="section-head">
-
-                <div>
-                    <div class="eyebrow">
-                        SECURITY TOOLKIT
-                    </div>
-
-                    <h2>
-                        Investigation Modules
-                    </h2>
-                </div>
-
-            </div>
-
-
-            <div class="cards-3">
-
-
-                <article class="card tool">
-
-                    <div class="icon">
-                        OS
-                    </div>
-
-                    <h3>
-                        OSINT
-                    </h3>
-
-                    <p>
-                        Organize publicly available
-                        information for lawful research
-                        and intelligence analysis.
-                    </p>
-
-                    <button
-                        class="text-btn"
-                        type="button"
-                        data-module="OSINT"
-                    >
-                        Open Module →
-                    </button>
-
-                </article>
-
-
-                <article class="card tool">
-
-                    <div class="icon">
-                        NT
-                    </div>
-
-                    <h3>
-                        Network Intelligence
-                    </h3>
-
-                    <p>
-                        Analyze network indicators,
-                        infrastructure relationships
-                        and defensive security signals.
-                    </p>
-
-                    <button
-                        class="text-btn"
-                        type="button"
-                        data-module="Network Intelligence"
-                    >
-                        Open Module →
-                    </button>
-
-                </article>
-
-
-                <article class="card tool">
-
-                    <div class="icon">
-                        TI
-                    </div>
-
-                    <h3>
-                        Threat Intelligence
-                    </h3>
-
-                    <p>
-                        Structure threat indicators and
-                        security observations for
-                        investigation workflows.
-                    </p>
-
-                    <button
-                        class="text-btn"
-                        type="button"
-                        data-module="Threat Intelligence"
-                    >
-                        Open Module →
-                    </button>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             SECURITY BRIEF
-        ========================== -->
-
+        <!-- ===== OSINT ===== -->
         <section class="section">
-
-            <div class="section-head">
-
-                <div>
-                    <div class="eyebrow">
-                        SECURITY BRIEF
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools neon-icon"></i> OSINT SUITE</h2>
+                    <span class="section-badge">ACTIVE</span>
+                </div>
+                <div class="grid-2">
+                    <div class="card glass-card">
+                        <h3><i class="fas fa-search"></i> GOOGLE DORKING</h3>
+                        <div class="input-group">
+                            <input type="text" id="dorkInput" placeholder="TARGET: example.com" class="neon-input">
+                            <button onclick="runDork()" class="btn neon-btn">EXECUTE</button>
+                        </div>
+                        <div id="dorkResult" class="result hologram"></div>
                     </div>
-
-                    <h2>
-                        Operational Principles
-                    </h2>
+                    <div class="card glass-card">
+                        <h3><i class="fas fa-globe"></i> SHODAN</h3>
+                        <div class="input-group">
+                            <input type="text" id="shodanInput" placeholder="QUERY: apache port:80" class="neon-input">
+                            <button onclick="runShodan()" class="btn neon-btn">EXECUTE</button>
+                        </div>
+                        <div id="shodanResult" class="result hologram"></div>
+                    </div>
                 </div>
-
             </div>
-
-
-            <div class="briefs">
-
-                <div class="brief">
-                    <b>
-                        Evidence before assumptions
-                    </b>
-
-                    <span>
-                        PRINCIPLE 01
-                    </span>
-                </div>
-
-
-                <div class="brief">
-                    <b>
-                        Verify indicators from multiple sources
-                    </b>
-
-                    <span>
-                        PRINCIPLE 02
-                    </span>
-                </div>
-
-
-                <div class="brief">
-                    <b>
-                        Protect sensitive investigation data
-                    </b>
-
-                    <span>
-                        PRINCIPLE 03
-                    </span>
-                </div>
-
-
-                <div class="brief">
-                    <b>
-                        Operate only within authorized scope
-                    </b>
-
-                    <span>
-                        PRINCIPLE 04
-                    </span>
-                </div>
-
-            </div>
-
         </section>
 
-
-        <!-- =========================
-             NOTES
-        ========================== -->
-
-        <section class="section notes">
-
-            <div class="section-head">
-
-                <div>
-                    <div class="eyebrow">
-                        PRIVATE WORKSPACE
-                    </div>
-
-                    <h2>
-                        Investigation Notes
-                    </h2>
+        <!-- ===== SECURITY ===== -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-shield-alt neon-icon"></i> CYBER SECURITY</h2>
+                    <span class="section-badge">PROTECTED</span>
                 </div>
-
+                <div class="grid-2">
+                    <div class="card glass-card">
+                        <h3><i class="fas fa-brain"></i> AI THREAT ANALYZER</h3>
+                        <div class="input-group">
+                            <input type="text" id="threatInput" placeholder="TARGET: IP or Domain" class="neon-input">
+                            <button onclick="runThreat()" class="btn neon-btn">ANALYZE</button>
+                        </div>
+                        <div id="threatResult" class="result hologram"></div>
+                    </div>
+                    <div class="card glass-card">
+                        <h3><i class="fas fa-lock"></i> SSL CHECKER</h3>
+                        <div class="input-group">
+                            <input type="text" id="sslInput" placeholder="DOMAIN: example.com" class="neon-input">
+                            <button onclick="runSSL()" class="btn neon-btn">CHECK</button>
+                        </div>
+                        <div id="sslResult" class="result hologram"></div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-
-            <textarea
-                id="investigationNotes"
-                placeholder="Write investigation notes here..."
-                spellcheck="false"
-            ></textarea>
-
-
-            <div class="save-line">
-
-                <span id="saveStatus">
-                    Notes are stored locally in this browser.
-                </span>
-
-                <button
-                    id="clearNotes"
-                    class="btn ghost"
-                    type="button"
-                >
-                    Clear Notes
-                </button>
-
+        <!-- ===== NEWS ===== -->
+        <section class="section">
+            <div class="container">
+                <div class="news-ticker hologram">
+                    <span class="label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
+                    <span class="scroll" id="newsTicker">🚀 LOADING INTELLIGENCE...</span>
+                </div>
             </div>
+        </section>
 
+        <!-- ===== FOUNDER ===== -->
+        <section class="section">
+            <div class="container">
+                <div class="card glass-card founder">
+                    <div class="founder-avatar hologram-border">
+                        <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="MANOJ MEENA" onerror="this.src='https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=0B1A2E&color=00D4FF&bold=true'">
+                    </div>
+                    <div class="founder-info">
+                        <h2 class="glitch-text" data-text="MANOJ MEENA">MANOJ MEENA</h2>
+                        <p class="title">FOUNDER &amp; CEO — MK GLOBAL NEXUS</p>
+                        <p class="bio">PIONEER IN CYBER INTELLIGENCE · DIGITAL FRAUD INVESTIGATOR · CYBER CRIME ANALYST</p>
+                        <div class="social">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
 
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
-    <footer>
-
-        <div>
-
-            <strong>
-                MK CYBER HUB
-            </strong>
-
-            <span>
-                Defensive Cyber Intelligence Workspace
-            </span>
-
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">
+                <span>⚡ MK GLOBAL NEXUS</span>
+                <span class="footer-divider">◆</span>
+                <span>MK CYBER HUB</span>
+            </div>
+            <p class="motto">TECHNOLOGY WITH INTEGRITY. INTELLIGENCE WITH PURPOSE.</p>
+            <p class="copy">© MK GLOBAL NEXUS — ALL RIGHTS RESERVED</p>
+            <p class="version">VERSION 9.0 — SCI-FI EDITION</p>
         </div>
-
-
-        <div>
-            <span>
-                Authorized security research only.
-            </span>
-
-            <span>
-                © 2026 MK Global Nexus
-            </span>
-        </div>
-
     </footer>
 
-</div>
-
-
-<script
-    src="{{ url_for('static', filename='js/app.js') }}"
-    defer
-></script>
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>
