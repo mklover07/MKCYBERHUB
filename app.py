@@ -22,26 +22,9 @@ def news():
     news_list = [
         'Critical zero-day vulnerability discovered in VPN software',
         'Global cyber attack targets financial institutions',
-        'New AI-powered malware detected across 50+ countries',
-        'Ransomware gang leaks 2TB of corporate data'
+        'New AI-powered malware detected across 50+ countries'
     ]
     return jsonify({'news': random.choice(news_list)})
-
-@app.route('/api/osint/dork', methods=['POST'])
-def dork():
-    return jsonify({'status': 'success', 'message': '✅ Found 142 results'})
-
-@app.route('/api/osint/shodan', methods=['POST'])
-def shodan():
-    return jsonify({'status': 'success', 'message': '✅ Found 87 hosts'})
-
-@app.route('/api/security/threat', methods=['POST'])
-def threat():
-    return jsonify({'status': 'success', 'message': '🛡️ Threat Level: LOW'})
-
-@app.route('/api/security/ssl', methods=['POST'])
-def ssl():
-    return jsonify({'status': 'success', 'message': '🔒 SSL Certificate: VALID'})
 
 @app.route('/static/<path:path>')
 def serve_static(path):
