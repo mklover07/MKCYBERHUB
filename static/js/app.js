@@ -1,478 +1,356 @@
-"use strict";
+// ================================================================
+// 🚀 MK CYBER HUB - SCI-FI SCANNER
+// ================================================================
 
-/*
- * MK Cyber Hub
- * Frontend interaction layer
- *
- * Defensive / authorized security research only.
- */
+let model = null;
+let stream = null;
+let running = false;
+let interval = null;
 
-
-/* =========================
-   LIVE CLOCK
-========================= */
-
-const liveClock = document.getElementById("liveClock");
-
+// ===== CLOCK =====
 function updateClock() {
-    if (!liveClock) return;
-
     const now = new Date();
-
-    liveClock.textContent = now.toLocaleTimeString(
-        [],
-        {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false
-        }
-    );
+    const el = document.getElementById('currentTime');
+    if (el) {
+        el.textContent = String(now.getHours()).padStart(2, '0') + ':' +
+                         String(now.getMinutes()).padStart(2, '0') + ':' +
+                         String(now.getSeconds()).padStart(2, '0');
+    }
 }
-
 updateClock();
-
 setInterval(updateClock, 1000);
 
+// ===== FETCH STATS =====
+async function fetchStats() {
+    try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        const ids = ['totalThreats', 'activeAttacks', 'vulnerabilities', 'countries'];
+        const vals = [data.threats, data.attacks, data.vulnerabilities, data.countries];
+        ids.forEach((id, i) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = vals[i]?.toLocaleString() || '0';
+        });
+    } catch (e) {}
+}
 
-/* =========================
-   TARGET ANALYZER
-========================= */
+async function fetchNews() {
+    try {
+        const res = await fetch('/api/news');
+        const data = await res.json();
+        const el = document.getElementById('newsTicker');
+        if (el) el.innerHTML = `<span>🚨 ${data.news}</span>`;
+    } catch (e) {}
+}
 
-const targetInput = document.getElementById("targetInput");
-const analyzeBtn = document.getElementById("analyzeBtn");
-const analysisResult = document.getElementById("analysisResult");
+fetchStats();
+fetchNews();
+setInterval(fetchStats, 15000);
+setInterval(fetchNews, 30000);
 
+// ===== THEME TOGGLE =====
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+}
 
-function classifyTarget(value) {
-
-    const target = value.trim();
-
-    if (!target) {
-        return {
-            type: "EMPTY",
-            message: "Please enter a domain, IP address or URL."
-        };
+// ===== LOAD MODEL =====
+async function loadModel() {
+    try {
+        const status = document.getElementById('aiStatus');
+        if (status) status.textContent = 'LOADING...';
+        
+        if (typeof cocoSsd !== 'undefined') {
+            model = await cocoSsd.load();
+            if (status) status.textContent = '🟢 ONLINE (80+)';
+            console.log('✅ COCO-SSD Loaded');
+            return true;
+        }
+        if (status) status.textContent = '❌ OFFLINE';
+        return false;
+    } catch (e) {
+        const status = document.getElementById('aiStatus');
+        if (status) status.textContent = '⚠️ ERROR';
+        console.error('Model load error:', e);
+        return false;
     }
+}
 
-
-    /*
-     * IPv4 format validation
-     */
-
-    const ipv4Pattern =
-        /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)$/;
-
-
-    if (ipv4Pattern.test(target)) {
-        return {
-            type: "IP",
-            message: "IPv4 indicator detected."
-        };
-    }
-
-
-    /*
-     * URL validation
-     */
+// ===== START SCANNER =====
+async function startScanner() {
+    const video = document.getElementById('video');
+    const status = document.getElementById('cameraStatus');
 
     try {
-
-        const url =
-            target.startsWith("http://") ||
-            target.startsWith("https://")
-                ? new URL(target)
-                : new URL(`https://${target}`);
-
-
-        if (url.hostname) {
-            return {
-                type: "DOMAIN",
-                message:
-                    `Domain/URL indicator detected: ${url.hostname}`
-            };
-        }
-
-    } catch (error) {
-        // Continue with generic indicator classification.
-    }
-
-
-    /*
-     * Generic indicator
-     */
-
-    if (
-        /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(target)
-    ) {
-        return {
-            type: "DOMAIN",
-            message:
-                `Domain indicator detected: ${target}`
-        };
-    }
-
-
-    return {
-        type: "INDICATOR",
-        message:
-            "Input received. Validate the indicator before investigation."
-    };
-}
-
-
-function runAnalysis() {
-
-    if (!analysisResult || !targetInput) return;
-
-
-    const value = targetInput.value;
-
-    const result = classifyTarget(value);
-
-
-    analysisResult.classList.remove(
-        "good",
-        "bad"
-    );
-
-
-    if (result.type === "EMPTY") {
-
-        analysisResult.classList.add("bad");
-
-        analysisResult.innerHTML =
-            "<strong>Input required.</strong> " +
-            result.message;
-
-        return;
-    }
-
-
-    analysisResult.classList.add("good");
-
-
-    analysisResult.innerHTML =
-        `<strong>${result.type}</strong> ${result.message}`;
-}
-
-
-if (analyzeBtn) {
-
-    analyzeBtn.addEventListener(
-        "click",
-        runAnalysis
-    );
-
-}
-
-
-if (targetInput) {
-
-    targetInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Enter") {
-                runAnalysis();
+        if (!model) {
+            if (status) status.innerHTML = '<span class="pulse-dot"></span> INITIALIZING...';
+            await loadModel();
+            if (!model) {
+                if (status) status.innerHTML = '<span class="pulse-dot"></span> FAILED';
+                return;
             }
-
-        }
-    );
-
-}
-
-
-/* =========================
-   INVESTIGATION NOTES
-========================= */
-
-const notes =
-    document.getElementById("investigationNotes");
-
-const saveStatus =
-    document.getElementById("saveStatus");
-
-const clearNotes =
-    document.getElementById("clearNotes");
-
-
-const NOTES_KEY =
-    "mk_cyber_hub_investigation_notes";
-
-
-function loadNotes() {
-
-    if (!notes) return;
-
-    try {
-
-        const saved =
-            localStorage.getItem(NOTES_KEY);
-
-        if (saved !== null) {
-
-            notes.value = saved;
-
-            if (saveStatus) {
-                saveStatus.textContent =
-                    "Saved notes restored from this browser.";
-            }
-
         }
 
-    } catch (error) {
-
-        if (saveStatus) {
-            saveStatus.textContent =
-                "Local storage is unavailable.";
+        if (stream) {
+            stream.getTracks().forEach(t => t.stop());
+            stream = null;
         }
 
+        if (status) status.innerHTML = '<span class="pulse-dot"></span> CAMERA ONLINE';
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } },
+            audio: false
+        });
+
+        video.srcObject = stream;
+        await video.play();
+
+        running = true;
+        if (status) status.innerHTML = '<span class="pulse-dot"></span> SCANNING';
+        startDetectionLoop();
+
+    } catch (e) {
+        if (status) status.innerHTML = '⚠️ ' + e.message;
+        console.error('Camera error:', e);
     }
 }
 
+// ===== DETECTION LOOP =====
+function startDetectionLoop() {
+    if (interval) clearInterval(interval);
 
-function saveNotes() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-    if (!notes) return;
+    let frameCount = 0;
+    let lastFpsTime = Date.now();
 
-    try {
+    interval = setInterval(async () => {
+        if (!running || !video || video.paused) return;
+        if (video.videoWidth === 0) return;
 
-        localStorage.setItem(
-            NOTES_KEY,
-            notes.value
-        );
+        const w = video.videoWidth;
+        const h = video.videoHeight;
+        canvas.width = w;
+        canvas.height = h;
+        ctx.clearRect(0, 0, w, h);
 
-
-        if (saveStatus) {
-
-            saveStatus.textContent =
-                "Notes saved locally.";
-
+        // FPS
+        frameCount++;
+        if (Date.now() - lastFpsTime > 1000) {
+            const fpsEl = document.getElementById('fps');
+            if (fpsEl) fpsEl.textContent = frameCount;
+            const fpsDisplay = document.getElementById('fpsDisplay');
+            if (fpsDisplay) fpsDisplay.textContent = 'FPS: ' + frameCount;
+            frameCount = 0;
+            lastFpsTime = Date.now();
         }
 
-    } catch (error) {
+        if (model) {
+            try {
+                const predictions = await model.detect(video);
+                const filtered = predictions.filter(p => p.score > 0.35);
 
-        if (saveStatus) {
+                const objCount = document.getElementById('objCount');
+                if (objCount) objCount.textContent = filtered.length;
 
-            saveStatus.textContent =
-                "Unable to save notes.";
+                if (filtered.length > 0) {
+                    filtered.forEach(p => {
+                        // Neon Box
+                        ctx.shadowColor = '#00D4FF';
+                        ctx.shadowBlur = 15;
+                        ctx.strokeStyle = '#00D4FF';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
+                        ctx.shadowBlur = 0;
 
-        }
-
-    }
-}
-
-
-function clearInvestigationNotes() {
-
-    if (!notes) return;
-
-
-    notes.value = "";
-
-
-    try {
-
-        localStorage.removeItem(
-            NOTES_KEY
-        );
-
-
-        if (saveStatus) {
-
-            saveStatus.textContent =
-                "Investigation notes cleared.";
-
-        }
-
-    } catch (error) {
-
-        if (saveStatus) {
-
-            saveStatus.textContent =
-                "Unable to clear local notes.";
-
-        }
-
-    }
-}
-
-
-loadNotes();
-
-
-if (notes) {
-
-    /*
-     * Save after the user stops typing
-     * for a short period.
-     */
-
-    let saveTimer;
-
-
-    notes.addEventListener(
-        "input",
-        function () {
-
-            clearTimeout(saveTimer);
-
-            saveTimer = setTimeout(
-                saveNotes,
-                500
-            );
-
-        }
-    );
-
-}
-
-
-if (clearNotes) {
-
-    clearNotes.addEventListener(
-        "click",
-        clearInvestigationNotes
-    );
-
-}
-
-
-/* =========================
-   MODULE BUTTONS
-========================= */
-
-const moduleButtons =
-    document.querySelectorAll(
-        "[data-module]"
-    );
-
-
-moduleButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const moduleName =
-                    button.dataset.module;
-
-
-                if (analysisResult) {
-
-                    analysisResult.classList.remove(
-                        "bad"
-                    );
-
-                    analysisResult.classList.add(
-                        "good"
-                    );
-
-
-                    analysisResult.innerHTML =
-                        `<strong>${moduleName}</strong> ` +
-                        "Module selected. " +
-                        "Use authorized data for further analysis.";
-
-                }
-
-
-                /*
-                 * Bring the workspace into view.
-                 */
-
-                const workspace =
-                    document.getElementById(
-                        "workspace"
-                    );
-
-
-                if (workspace) {
-
-                    workspace.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
+                        // Label
+                        const label = p.class.toUpperCase() + ' (' + Math.round(p.score * 100) + '%)';
+                        ctx.font = 'bold 13px Rajdhani, sans-serif';
+                        const metrics = ctx.measureText(label);
+                        
+                        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                        ctx.shadowColor = '#00D4FF';
+                        ctx.shadowBlur = 10;
+                        ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 26, metrics.width + 18, 26);
+                        ctx.shadowBlur = 0;
+                        
+                        ctx.fillStyle = '#00D4FF';
+                        ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 6);
                     });
 
+                    // Update UI
+                    const top = filtered[0];
+                    const confidence = Math.round(top.score * 100);
+                    
+                    const detectedEl = document.getElementById('detectedObject');
+                    if (detectedEl) detectedEl.textContent = '🔍 ' + top.class.toUpperCase();
+                    
+                    const confEl = document.getElementById('detectedConfidence');
+                    if (confEl) confEl.textContent = 'CONF: ' + confidence + '%';
+                    
+                    const confDash = document.getElementById('confidence');
+                    if (confDash) confDash.textContent = confidence + '%';
+
+                } else {
+                    const detectedEl = document.getElementById('detectedObject');
+                    if (detectedEl) detectedEl.textContent = '🔍 NO TARGET';
+                    
+                    const confEl = document.getElementById('detectedConfidence');
+                    if (confEl) confEl.textContent = 'CONF: --%';
+                    
+                    const confDash = document.getElementById('confidence');
+                    if (confDash) confDash.textContent = '--%';
                 }
 
+            } catch (e) {
+                console.error('Detection error:', e);
             }
-        );
-
-    }
-);
-
-
-/* =========================
-   SERVICE HEALTH CHECK
-========================= */
-
-async function checkServiceHealth() {
-
-    try {
-
-        const response =
-            await fetch(
-                "/health",
-                {
-                    method: "GET",
-                    headers: {
-                        "Accept": "application/json"
-                    },
-                    cache: "no-store"
-                }
-            );
-
-
-        if (!response.ok) {
-            throw new Error(
-                `HTTP ${response.status}`
-            );
         }
 
-
-        const data =
-            await response.json();
-
-
-        if (
-            data &&
-            data.status === "online"
-        ) {
-
-            document.body.dataset.apiStatus =
-                "online";
-
-        }
-
-    } catch (error) {
-
-        document.body.dataset.apiStatus =
-            "offline";
-
-    }
-
+    }, 200);
 }
 
+// ===== STOP SCANNER =====
+function stopScanner() {
+    running = false;
+    if (interval) {
+        clearInterval(interval);
+        interval = null;
+    }
+    if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+    }
+    const video = document.getElementById('video');
+    if (video) {
+        video.srcObject = null;
+        video.pause();
+    }
+    const status = document.getElementById('cameraStatus');
+    if (status) status.innerHTML = '<span class="pulse-dot"></span> OFFLINE';
+}
 
-checkServiceHealth();
+// ===== SWITCH CAMERA =====
+function switchCamera() {
+    if (running) {
+        stopScanner();
+        setTimeout(startScanner, 500);
+    }
+}
 
+// ===== OSINT FUNCTIONS =====
+async function runDork() {
+    const input = document.getElementById('dorkInput');
+    const result = document.getElementById('dorkResult');
+    const query = input ? input.value.trim() : 'example';
+    if (result) {
+        result.innerHTML = '🔍 SCANNING...';
+        result.className = 'result';
+    }
+    try {
+        const res = await fetch('/api/osint/dork', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: query })
+        });
+        const data = await res.json();
+        if (result) {
+            result.innerHTML = `✅ ${data.message}`;
+            result.className = 'result success';
+        }
+    } catch (e) {
+        if (result) {
+            result.innerHTML = '❌ ERROR';
+            result.className = 'result error';
+        }
+    }
+}
 
-/* =========================
-   CONSOLE BRANDING
-========================= */
+async function runShodan() {
+    const input = document.getElementById('shodanInput');
+    const result = document.getElementById('shodanResult');
+    const query = input ? input.value.trim() : 'example';
+    if (result) {
+        result.innerHTML = '🌐 SCANNING...';
+        result.className = 'result';
+    }
+    try {
+        const res = await fetch('/api/osint/shodan', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: query })
+        });
+        const data = await res.json();
+        if (result) {
+            result.innerHTML = `✅ ${data.message}`;
+            result.className = 'result success';
+        }
+    } catch (e) {
+        if (result) {
+            result.innerHTML = '❌ ERROR';
+            result.className = 'result error';
+        }
+    }
+}
 
-console.log(
-    "%cMK CYBER HUB",
-    "font-size:18px;font-weight:800;"
-);
+// ===== SECURITY FUNCTIONS =====
+async function runThreat() {
+    const input = document.getElementById('threatInput');
+    const result = document.getElementById('threatResult');
+    const query = input ? input.value.trim() : 'target';
+    if (result) {
+        result.innerHTML = '🛡️ ANALYZING...';
+        result.className = 'result';
+    }
+    try {
+        const res = await fetch('/api/security/threat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ target: query })
+        });
+        const data = await res.json();
+        if (result) {
+            result.innerHTML = `✅ ${data.message}`;
+            result.className = 'result success';
+        }
+    } catch (e) {
+        if (result) {
+            result.innerHTML = '❌ ERROR';
+            result.className = 'result error';
+        }
+    }
+}
 
-console.log(
-    "Defensive cyber intelligence workspace."
-);
+async function runSSL() {
+    const input = document.getElementById('sslInput');
+    const result = document.getElementById('sslResult');
+    const query = input ? input.value.trim() : 'example.com';
+    if (result) {
+        result.innerHTML = '🔒 CHECKING...';
+        result.className = 'result';
+    }
+    try {
+        const res = await fetch('/api/security/ssl', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ domain: query })
+        });
+        const data = await res.json();
+        if (result) {
+            result.innerHTML = `✅ ${data.message}`;
+            result.className = 'result success';
+        }
+    } catch (e) {
+        if (result) {
+            result.innerHTML = '❌ ERROR';
+            result.className = 'result error';
+        }
+    }
+}
 
-console.log(
-    "Use only for authorized security research."
-);
+// ===== INIT =====
+console.log('%c🚀 MK CYBER HUB - SCI-FI EDITION v9.0', 'font-size:24px;color:#00D4FF;font-weight:900;font-family:Orbitron');
+console.log('%c⚡ SYSTEM ONLINE - READY TO SCAN', 'font-size:14px;color:#00FF88');
+
+setTimeout(loadModel, 1000);
