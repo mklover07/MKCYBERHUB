@@ -9,9 +9,10 @@ body {
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* HEADER */
+/* HEADER - Glassmorphism */
 .header {
-    background: rgba(11, 26, 46, 0.95);
+    background: rgba(11, 26, 46, 0.85);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255,255,255,0.06);
     padding: 12px 0;
     position: fixed;
@@ -29,7 +30,7 @@ body {
 
 main { padding-top: 70px; }
 
-/* HERO */
+/* HERO - Gradient */
 .hero { padding: 40px 0; }
 .hero .container { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
 .hero-content { flex: 1; min-width: 300px; }
@@ -46,6 +47,7 @@ main { padding-top: 70px; }
     background: linear-gradient(135deg, #1B3A5C, #00D4FF);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     font-size: 18px; font-weight: 700; color: #fff;
+    box-shadow: 0 0 60px rgba(0, 212, 255, 0.1);
 }
 .globe i { font-size: 40px; margin-bottom: 4px; }
 
@@ -65,14 +67,17 @@ main { padding-top: 70px; }
 .section { padding: 16px 0; }
 .section h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
 
-/* CARDS */
+/* CARDS - Glassmorphism */
 .card {
     background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 16px;
+    transition: all 0.3s;
 }
+.card:hover { border-color: rgba(0, 212, 255, 0.15); }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
 /* CAMERA */
@@ -93,6 +98,7 @@ main { padding-top: 70px; }
 .camera-status {
     position: absolute; top: 12px; left: 12px;
     background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
     padding: 4px 14px;
     border-radius: 20px;
     font-size: 11px;
@@ -116,6 +122,7 @@ main { padding-top: 70px; }
 .detection-info {
     position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
     background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
     padding: 6px 16px;
     border-radius: 10px;
     display: flex; gap: 20px;
@@ -124,7 +131,7 @@ main { padding-top: 70px; }
 .detection-info span { color: #fff; }
 #detectedObject { color: #00D4FF; font-weight: 600; }
 
-/* BUTTONS */
+/* BUTTONS - Modern */
 .btn {
     padding: 8px 18px;
     border: none;
@@ -137,7 +144,7 @@ main { padding-top: 70px; }
     font-family: 'Inter', sans-serif;
 }
 .btn.primary { background: #00D4FF; color: #0B1A2E; }
-.btn.primary:hover { transform: scale(1.05); }
+.btn.primary:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(0,212,255,0.2); }
 .btn.danger { background: #FF4444; color: #fff; }
 .btn.danger:hover { transform: scale(1.05); }
 .btn.secondary { background: #D4A843; color: #0B1A2E; }
@@ -185,7 +192,7 @@ main { padding-top: 70px; }
 .result.success { border-left-color: #44DD88; background: rgba(68,221,136,0.06); }
 .result.error { border-left-color: #FF4444; background: rgba(255,68,68,0.06); }
 
-/* NEWS */
+/* NEWS TICKER */
 .news-ticker {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.06);
