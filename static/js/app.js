@@ -1,5 +1,5 @@
 // ================================================================
-// 🚀 MK CYBER HUB - MODERN SCANNER v10.0
+// 🚀 MK CYBER HUB - WORKING
 // ================================================================
 
 let model = null;
@@ -7,19 +7,7 @@ let stream = null;
 let running = false;
 let interval = null;
 
-// ================================================================
-// 🔄 PRELOADER
-// ================================================================
-
-window.addEventListener('load', () => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) setTimeout(() => preloader.classList.add('hidden'), 800);
-});
-
-// ================================================================
-// ⏰ CLOCK
-// ================================================================
-
+// ===== CLOCK =====
 function updateClock() {
     const now = new Date();
     const el = document.getElementById('currentTime');
@@ -32,41 +20,15 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// ================================================================
-// 🌙 THEME
-// ================================================================
-
-function toggleTheme() {
-    document.body.classList.toggle('light-mode');
-    const icon = document.querySelector('.theme-btn i');
-    if (document.body.classList.contains('light-mode')) {
-        icon.className = 'fas fa-sun';
-        localStorage.setItem('theme', 'light');
-    } else {
-        icon.className = 'fas fa-moon';
-        localStorage.setItem('theme', 'dark');
-    }
-}
-
-if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-mode');
-    document.querySelector('.theme-btn i').className = 'fas fa-sun';
-}
-
-// ================================================================
-// 📊 FETCH STATS
-// ================================================================
-
+// ===== FETCH STATS =====
 async function fetchStats() {
     try {
         const res = await fetch('/api/stats');
         const data = await res.json();
-        const ids = ['totalThreats', 'activeAttacks', 'vulnerabilities', 'countries'];
-        const vals = [data.threats, data.attacks, data.vulnerabilities, data.countries];
-        ids.forEach((id, i) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = vals[i]?.toLocaleString() || '0';
-        });
+        document.getElementById('totalThreats').textContent = data.threats?.toLocaleString() || '0';
+        document.getElementById('activeAttacks').textContent = data.attacks?.toLocaleString() || '0';
+        document.getElementById('vulnerabilities').textContent = data.vulnerabilities?.toLocaleString() || '0';
+        document.getElementById('countries').textContent = data.countries?.toLocaleString() || '0';
     } catch (e) {}
 }
 
@@ -74,8 +36,7 @@ async function fetchNews() {
     try {
         const res = await fetch('/api/news');
         const data = await res.json();
-        const el = document.getElementById('newsTicker');
-        if (el) el.innerHTML = `<span>🚨 ${data.news}</span>`;
+        document.getElementById('newsTicker').innerHTML = `<span>🚨 ${data.news}</span>`;
     } catch (e) {}
 }
 
@@ -84,15 +45,11 @@ fetchNews();
 setInterval(fetchStats, 15000);
 setInterval(fetchNews, 30000);
 
-// ================================================================
-// 🎯 AI VISION
-// ================================================================
-
+// ===== LOAD MODEL =====
 async function loadModel() {
     try {
         const status = document.getElementById('aiStatus');
         if (status) status.textContent = 'Loading...';
-        
         if (typeof cocoSsd !== 'undefined') {
             model = await cocoSsd.load();
             if (status) status.textContent = '✅ Ready';
@@ -109,16 +66,17 @@ async function loadModel() {
     }
 }
 
+// ===== START SCANNER =====
 async function startScanner() {
     const video = document.getElementById('video');
     const status = document.getElementById('cameraStatus');
 
     try {
         if (!model) {
-            if (status) status.innerHTML = '<span class="dot"></span> Loading AI...';
+            if (status) status.innerHTML = '⏳ LOADING AI...';
             await loadModel();
             if (!model) {
-                if (status) status.innerHTML = '<span class="dot"></span> AI Failed';
+                if (status) status.innerHTML = '❌ AI FAILED';
                 return;
             }
         }
@@ -128,7 +86,7 @@ async function startScanner() {
             stream = null;
         }
 
-        if (status) status.innerHTML = '<span class="dot"></span> Starting Camera...';
+        if (status) status.innerHTML = '📷 CAMERA...';
         stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } },
             audio: false
@@ -138,17 +96,16 @@ async function startScanner() {
         await video.play();
 
         running = true;
-        if (status) status.innerHTML = '<span class="dot"></span> Live Scanning';
-        document.getElementById('visionStatus').textContent = '🟢 Live';
-        document.getElementById('statusText').textContent = 'Live';
+        if (status) status.innerHTML = '<span class="dot"></span> LIVE SCANNING';
         startDetectionLoop();
 
     } catch (e) {
-        if (status) status.innerHTML = '⚠️ ' + e.message;
+        if (status) status.innerHTML = '❌ ' + e.message;
         console.error('Camera error:', e);
     }
 }
 
+// ===== DETECTION LOOP =====
 function startDetectionLoop() {
     if (interval) clearInterval(interval);
 
@@ -169,13 +126,9 @@ function startDetectionLoop() {
         canvas.height = h;
         ctx.clearRect(0, 0, w, h);
 
-        // FPS
         frameCount++;
         if (Date.now() - lastFpsTime > 1000) {
-            const fpsEl = document.getElementById('fps');
-            if (fpsEl) fpsEl.textContent = frameCount;
-            const fpsDisplay = document.getElementById('fpsDisplay');
-            if (fpsDisplay) fpsDisplay.textContent = 'FPS: ' + frameCount;
+            document.getElementById('fps').textContent = frameCount;
             frameCount = 0;
             lastFpsTime = Date.now();
         }
@@ -185,52 +138,34 @@ function startDetectionLoop() {
                 const predictions = await model.detect(video);
                 const filtered = predictions.filter(p => p.score > 0.35);
 
-                const objCount = document.getElementById('objCount');
-                if (objCount) objCount.textContent = filtered.length;
+                document.getElementById('objCount').textContent = filtered.length;
 
                 if (filtered.length > 0) {
                     filtered.forEach(p => {
-                        // Box
-                        ctx.shadowColor = '#00D4FF';
-                        ctx.shadowBlur = 10;
                         ctx.strokeStyle = '#00D4FF';
                         ctx.lineWidth = 2;
                         ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
-                        ctx.shadowBlur = 0;
 
-                        // Label
                         const label = p.class.toUpperCase() + ' (' + Math.round(p.score * 100) + '%)';
                         ctx.font = 'bold 12px Inter, sans-serif';
                         const metrics = ctx.measureText(label);
-                        
                         ctx.fillStyle = 'rgba(0,0,0,0.7)';
                         ctx.fillRect(p.bbox[0] - 2, p.bbox[1] - 24, metrics.width + 16, 24);
                         ctx.fillStyle = '#00D4FF';
                         ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 6);
                     });
 
-                    // Update UI
                     const top = filtered[0];
                     const confidence = Math.round(top.score * 100);
                     
-                    const detectedEl = document.getElementById('detectedObject');
-                    if (detectedEl) detectedEl.textContent = '🎯 ' + top.class.toUpperCase();
-                    
-                    const confEl = document.getElementById('detectedConfidence');
-                    if (confEl) confEl.textContent = 'Conf: ' + confidence + '%';
-                    
-                    const confDash = document.getElementById('confidence');
-                    if (confDash) confDash.textContent = confidence + '%';
+                    document.getElementById('detectedObject').textContent = '🔍 ' + top.class.toUpperCase();
+                    document.getElementById('detectedConfidence').textContent = 'Conf: ' + confidence + '%';
+                    document.getElementById('confidence').textContent = confidence + '%';
 
                 } else {
-                    const detectedEl = document.getElementById('detectedObject');
-                    if (detectedEl) detectedEl.textContent = '🔍 No Object';
-                    
-                    const confEl = document.getElementById('detectedConfidence');
-                    if (confEl) confEl.textContent = 'Conf: --%';
-                    
-                    const confDash = document.getElementById('confidence');
-                    if (confDash) confDash.textContent = '--%';
+                    document.getElementById('detectedObject').textContent = '🔍 No Object';
+                    document.getElementById('detectedConfidence').textContent = 'Conf: --%';
+                    document.getElementById('confidence').textContent = '--%';
                 }
 
             } catch (e) {
@@ -241,6 +176,7 @@ function startDetectionLoop() {
     }, 200);
 }
 
+// ===== STOP SCANNER =====
 function stopScanner() {
     running = false;
     if (interval) {
@@ -256,12 +192,10 @@ function stopScanner() {
         video.srcObject = null;
         video.pause();
     }
-    const status = document.getElementById('cameraStatus');
-    if (status) status.innerHTML = '<span class="dot"></span> Stopped';
-    document.getElementById('visionStatus').textContent = '⏸️ Paused';
-    document.getElementById('statusText').textContent = 'Stopped';
+    document.getElementById('cameraStatus').innerHTML = '<span class="dot"></span> STOPPED';
 }
 
+// ===== SWITCH CAMERA =====
 function switchCamera() {
     if (running) {
         stopScanner();
@@ -269,16 +203,13 @@ function switchCamera() {
     }
 }
 
-// ================================================================
-// 🔍 OSINT FUNCTIONS
-// ================================================================
-
+// ===== OSINT =====
 async function runDork() {
     const input = document.getElementById('dorkInput');
     const result = document.getElementById('dorkResult');
     const query = input ? input.value.trim() : 'example';
     if (result) {
-        result.innerHTML = '🔍 Scanning...';
+        result.innerHTML = '🔍 SCANNING...';
         result.className = 'result';
     }
     try {
@@ -305,7 +236,7 @@ async function runShodan() {
     const result = document.getElementById('shodanResult');
     const query = input ? input.value.trim() : 'example';
     if (result) {
-        result.innerHTML = '🌐 Scanning...';
+        result.innerHTML = '🌐 SCANNING...';
         result.className = 'result';
     }
     try {
@@ -327,16 +258,13 @@ async function runShodan() {
     }
 }
 
-// ================================================================
-// 🛡️ SECURITY FUNCTIONS
-// ================================================================
-
+// ===== SECURITY =====
 async function runThreat() {
     const input = document.getElementById('threatInput');
     const result = document.getElementById('threatResult');
     const query = input ? input.value.trim() : 'target';
     if (result) {
-        result.innerHTML = '🛡️ Analyzing...';
+        result.innerHTML = '🛡️ ANALYZING...';
         result.className = 'result';
     }
     try {
@@ -363,7 +291,7 @@ async function runSSL() {
     const result = document.getElementById('sslResult');
     const query = input ? input.value.trim() : 'example.com';
     if (result) {
-        result.innerHTML = '🔒 Checking...';
+        result.innerHTML = '🔒 CHECKING...';
         result.className = 'result';
     }
     try {
@@ -385,11 +313,6 @@ async function runSSL() {
     }
 }
 
-// ================================================================
-// 🚀 INIT
-// ================================================================
-
-console.log('%c🚀 MK CYBER HUB v10.0 - MODERN UI', 'font-size:20px;color:#00D4FF;font-weight:900');
-console.log('%c⚡ Glassmorphism • Smooth Animations • Gradient UI', 'font-size:14px;color:#D4A843');
-
+// ===== INIT =====
+console.log('%c⚡ MK CYBER HUB - WORKING', 'font-size:20px;color:#00D4FF;font-weight:900');
 setTimeout(loadModel, 1000);
