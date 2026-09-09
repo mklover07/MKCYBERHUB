@@ -1,5 +1,5 @@
 // ================================================================
-// 🚀 MK CYBER HUB - WORKING
+// 🚀 MK CYBER HUB - MODERN WORKING
 // ================================================================
 
 let model = null;
@@ -314,5 +314,5 @@ async function runSSL() {
 }
 
 // ===== INIT =====
-console.log('%c⚡ MK CYBER HUB - WORKING', 'font-size:20px;color:#00D4FF;font-weight:900');
+console.log('%c🚀 MK CYBER HUB - MODERN WORKING', 'font-size:20px;color:#00D4FF;font-weight:900');
 setTimeout(loadModel, 1000);
