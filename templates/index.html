@@ -3,19 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MK CYBER HUB — SCI-FI EDITION</title>
+    <title>MK CYBER HUB — Modern Intelligence</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- ===== HOLOGRAPHIC GRID BACKGROUND ===== -->
-    <div class="grid-bg"></div>
-    <div class="scanline"></div>
+    <!-- ===== PRELOADER ===== -->
+    <div class="preloader" id="preloader">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-text">MK</div>
+        </div>
+    </div>
 
     <!-- ===== HEADER ===== -->
-    <header class="header">
+    <header class="header glass">
         <div class="container">
             <div class="logo">
                 <div class="logo-icon">
@@ -26,15 +30,21 @@
                     <span class="sub">CYBER HUB</span>
                 </div>
             </div>
+            <nav class="nav">
+                <a href="#vision" class="nav-link">Vision</a>
+                <a href="#osint" class="nav-link">OSINT</a>
+                <a href="#security" class="nav-link">Security</a>
+                <a href="#map" class="nav-link">Threat Map</a>
+            </nav>
             <div class="header-right">
                 <div class="status-badge">
-                    <span class="pulse-dot"></span>
-                    <span class="status-text">SYSTEM ACTIVE</span>
+                    <span class="dot"></span>
+                    <span>Secure</span>
                 </div>
-                <div class="time" id="currentTime">--:--:--</div>
-                <div class="theme-toggle" onclick="toggleTheme()">
+                <span class="time" id="currentTime">--:--:--</span>
+                <button onclick="toggleTheme()" class="theme-btn">
                     <i class="fas fa-moon"></i>
-                </div>
+                </button>
             </div>
         </div>
     </header>
@@ -47,37 +57,33 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-badge">
-                        <span class="glitch-text" data-text="⚡ ENTERPRISE GRADE">⚡ ENTERPRISE GRADE</span>
-                        <span class="badge-divider">|</span>
-                        <span class="badge-text">AI-POWERED CYBER INTELLIGENCE</span>
+                        <span class="badge-glow">⚡ Next-Gen</span>
+                        <span class="badge-text">AI-Powered Cyber Intelligence</span>
                     </div>
                     <h1 class="hero-title">
-                        <span class="gradient-text">ADVANCED</span>
-                        <span class="hero-highlight glitch-text" data-text="CYBER INTELLIGENCE">CYBER INTELLIGENCE</span>
+                        <span class="gradient-text">Advanced</span>
+                        <span class="hero-highlight">Cyber Intelligence</span>
                     </h1>
                     <p class="hero-desc">
-                        <span class="typing-text">REAL-TIME AI DETECTION · ADVANCED OSINT · THREAT MONITORING</span>
+                        Real-time AI detection, advanced OSINT, threat monitoring, 
+                        and cyber security analytics — all in one modern platform.
                     </p>
                     <div class="hero-stats">
-                        <div class="stat-card hologram">
+                        <div class="stat-card">
                             <span class="stat-number" id="totalThreats">12,847</span>
-                            <span class="stat-label">TOTAL THREATS</span>
-                            <div class="stat-bar"></div>
+                            <span class="stat-label">Total Threats</span>
                         </div>
-                        <div class="stat-card hologram">
+                        <div class="stat-card">
                             <span class="stat-number" id="activeAttacks">342</span>
-                            <span class="stat-label">ACTIVE ATTACKS</span>
-                            <div class="stat-bar"></div>
+                            <span class="stat-label">Active Attacks</span>
                         </div>
-                        <div class="stat-card hologram">
+                        <div class="stat-card">
                             <span class="stat-number" id="vulnerabilities">1,204</span>
-                            <span class="stat-label">VULNERABILITIES</span>
-                            <div class="stat-bar"></div>
+                            <span class="stat-label">Vulnerabilities</span>
                         </div>
-                        <div class="stat-card hologram">
+                        <div class="stat-card">
                             <span class="stat-number" id="countries">189</span>
-                            <span class="stat-label">COUNTRIES</span>
-                            <div class="stat-bar"></div>
+                            <span class="stat-label">Countries</span>
                         </div>
                     </div>
                 </div>
@@ -88,7 +94,7 @@
                         <div class="orb orb-3"></div>
                         <div class="orb-center">
                             <i class="fas fa-globe-americas"></i>
-                            <span>GLOBAL</span>
+                            <span>Global</span>
                         </div>
                     </div>
                 </div>
@@ -96,13 +102,15 @@
         </section>
 
         <!-- ===== BANNER ===== -->
-        <section class="banner hologram">
+        <section class="brand-banner">
             <div class="container">
-                <span class="banner-icon">🏢</span>
-                <span>A DIVISION OF</span>
-                <span class="company">MK GLOBAL NEXUS</span>
-                <span class="banner-divider">◆</span>
-                <span class="founder">MANOJ MEENA</span>
+                <div class="banner-content">
+                    <span class="banner-icon">🏢</span>
+                    <span class="banner-text">A Division of</span>
+                    <span class="banner-company">MK Global Nexus</span>
+                    <span class="banner-divider">|</span>
+                    <span class="banner-founder">Manoj Meena</span>
+                </div>
             </div>
         </section>
 
@@ -110,55 +118,71 @@
         <section class="section" id="vision">
             <div class="container">
                 <div class="section-header">
-                    <h2><i class="fas fa-eye neon-icon"></i> AI VISION ENGINE</h2>
-                    <span class="section-badge live">🟢 ONLINE</span>
+                    <div class="section-title">
+                        <i class="fas fa-eye neon-icon"></i>
+                        <h2>AI Vision Engine</h2>
+                    </div>
+                    <span class="section-badge live" id="visionStatus">🟢 Active</span>
                 </div>
-                
+
                 <div class="card glass-card">
                     <div class="camera-wrapper">
                         <video id="video" autoplay playsinline muted></video>
                         <canvas id="canvas"></canvas>
-                        
+
                         <div class="camera-status" id="cameraStatus">
-                            <span class="pulse-dot"></span>
-                            <span id="statusText">STANDBY</span>
+                            <span class="dot"></span>
+                            <span id="statusText">Ready</span>
                         </div>
-                        
+
+                        <div class="detection-info">
+                            <div class="detection-item">
+                                <span class="detection-icon">🎯</span>
+                                <span id="detectedObject">Detecting...</span>
+                            </div>
+                            <div class="detection-item">
+                                <span class="detection-icon">📊</span>
+                                <span id="detectedConfidence">Conf: --%</span>
+                            </div>
+                            <div class="detection-item">
+                                <span class="detection-icon">⚡</span>
+                                <span id="fpsDisplay">FPS: --</span>
+                            </div>
+                        </div>
+
                         <div class="controls">
-                            <button onclick="startScanner()" class="btn neon-btn">
-                                <i class="fas fa-play"></i> INITIATE
+                            <button onclick="startScanner()" class="btn primary">
+                                <i class="fas fa-play"></i> Start
                             </button>
-                            <button onclick="stopScanner()" class="btn neon-btn danger">
-                                <i class="fas fa-stop"></i> TERMINATE
+                            <button onclick="stopScanner()" class="btn danger">
+                                <i class="fas fa-stop"></i> Stop
                             </button>
-                            <button onclick="switchCamera()" class="btn neon-btn secondary">
-                                <i class="fas fa-sync-alt"></i> SWITCH
+                            <button onclick="switchCamera()" class="btn secondary">
+                                <i class="fas fa-sync-alt"></i> Switch
                             </button>
-                        </div>
-                        
-                        <div class="detection-info hologram">
-                            <span id="detectedObject">🔍 SCANNING...</span>
-                            <span id="detectedConfidence">CONFIDENCE: --%</span>
-                            <span id="fpsDisplay">FPS: --</span>
                         </div>
                     </div>
-                    
+
                     <div class="dashboard">
-                        <div class="dash-item hologram">
-                            <span class="dash-label">OBJECTS</span>
+                        <div class="dash-item">
+                            <span class="dash-icon">🎯</span>
+                            <span class="dash-label">Objects</span>
                             <span class="dash-value" id="objCount">0</span>
                         </div>
-                        <div class="dash-item hologram">
-                            <span class="dash-label">CONFIDENCE</span>
+                        <div class="dash-item">
+                            <span class="dash-icon">📊</span>
+                            <span class="dash-label">Confidence</span>
                             <span class="dash-value" id="confidence">--%</span>
                         </div>
-                        <div class="dash-item hologram">
+                        <div class="dash-item">
+                            <span class="dash-icon">⚡</span>
                             <span class="dash-label">FPS</span>
                             <span class="dash-value" id="fps">--</span>
                         </div>
-                        <div class="dash-item hologram">
-                            <span class="dash-label">AI STATUS</span>
-                            <span class="dash-value" id="aiStatus" style="font-size:12px;">LOADING...</span>
+                        <div class="dash-item">
+                            <span class="dash-icon">🧠</span>
+                            <span class="dash-label">AI Status</span>
+                            <span class="dash-value" id="aiStatus" style="font-size:12px;">Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -166,67 +190,85 @@
         </section>
 
         <!-- ===== OSINT ===== -->
-        <section class="section">
+        <section class="section" id="osint">
             <div class="container">
                 <div class="section-header">
-                    <h2><i class="fas fa-tools neon-icon"></i> OSINT SUITE</h2>
-                    <span class="section-badge">ACTIVE</span>
+                    <div class="section-title">
+                        <i class="fas fa-tools neon-icon"></i>
+                        <h2>OSINT Suite</h2>
+                    </div>
+                    <span class="section-badge">8 Tools</span>
                 </div>
                 <div class="grid-2">
                     <div class="card glass-card">
-                        <h3><i class="fas fa-search"></i> GOOGLE DORKING</h3>
-                        <div class="input-group">
-                            <input type="text" id="dorkInput" placeholder="TARGET: example.com" class="neon-input">
-                            <button onclick="runDork()" class="btn neon-btn">EXECUTE</button>
+                        <div class="card-header">
+                            <span class="card-icon">🔍</span>
+                            <h3>Google Dorking</h3>
                         </div>
-                        <div id="dorkResult" class="result hologram"></div>
+                        <div class="input-group">
+                            <input type="text" id="dorkInput" placeholder="site:example.com">
+                            <button onclick="runDork()" class="btn primary">Run</button>
+                        </div>
+                        <div id="dorkResult" class="result"></div>
                     </div>
                     <div class="card glass-card">
-                        <h3><i class="fas fa-globe"></i> SHODAN</h3>
-                        <div class="input-group">
-                            <input type="text" id="shodanInput" placeholder="QUERY: apache port:80" class="neon-input">
-                            <button onclick="runShodan()" class="btn neon-btn">EXECUTE</button>
+                        <div class="card-header">
+                            <span class="card-icon">🌐</span>
+                            <h3>Shodan</h3>
                         </div>
-                        <div id="shodanResult" class="result hologram"></div>
+                        <div class="input-group">
+                            <input type="text" id="shodanInput" placeholder="apache port:80">
+                            <button onclick="runShodan()" class="btn primary">Run</button>
+                        </div>
+                        <div id="shodanResult" class="result"></div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ===== SECURITY ===== -->
-        <section class="section">
+        <section class="section" id="security">
             <div class="container">
                 <div class="section-header">
-                    <h2><i class="fas fa-shield-alt neon-icon"></i> CYBER SECURITY</h2>
-                    <span class="section-badge">PROTECTED</span>
+                    <div class="section-title">
+                        <i class="fas fa-shield-alt neon-icon"></i>
+                        <h2>Cyber Security</h2>
+                    </div>
+                    <span class="section-badge">6 Tools</span>
                 </div>
                 <div class="grid-2">
                     <div class="card glass-card">
-                        <h3><i class="fas fa-brain"></i> AI THREAT ANALYZER</h3>
-                        <div class="input-group">
-                            <input type="text" id="threatInput" placeholder="TARGET: IP or Domain" class="neon-input">
-                            <button onclick="runThreat()" class="btn neon-btn">ANALYZE</button>
+                        <div class="card-header">
+                            <span class="card-icon">🧠</span>
+                            <h3>AI Threat Analyzer</h3>
                         </div>
-                        <div id="threatResult" class="result hologram"></div>
+                        <div class="input-group">
+                            <input type="text" id="threatInput" placeholder="IP or Domain">
+                            <button onclick="runThreat()" class="btn primary">Analyze</button>
+                        </div>
+                        <div id="threatResult" class="result"></div>
                     </div>
                     <div class="card glass-card">
-                        <h3><i class="fas fa-lock"></i> SSL CHECKER</h3>
-                        <div class="input-group">
-                            <input type="text" id="sslInput" placeholder="DOMAIN: example.com" class="neon-input">
-                            <button onclick="runSSL()" class="btn neon-btn">CHECK</button>
+                        <div class="card-header">
+                            <span class="card-icon">🔒</span>
+                            <h3>SSL Checker</h3>
                         </div>
-                        <div id="sslResult" class="result hologram"></div>
+                        <div class="input-group">
+                            <input type="text" id="sslInput" placeholder="example.com">
+                            <button onclick="runSSL()" class="btn primary">Check</button>
+                        </div>
+                        <div id="sslResult" class="result"></div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ===== NEWS ===== -->
-        <section class="section">
+        <section class="section" id="map">
             <div class="container">
-                <div class="news-ticker hologram">
-                    <span class="label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
-                    <span class="scroll" id="newsTicker">🚀 LOADING INTELLIGENCE...</span>
+                <div class="news-ticker glass">
+                    <span class="label"><i class="fas fa-bolt"></i> Cyber News</span>
+                    <span class="scroll" id="newsTicker">🚀 Loading intelligence...</span>
                 </div>
             </div>
         </section>
@@ -235,13 +277,16 @@
         <section class="section">
             <div class="container">
                 <div class="card glass-card founder">
-                    <div class="founder-avatar hologram-border">
+                    <div class="founder-avatar">
                         <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="MANOJ MEENA" onerror="this.src='https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=0B1A2E&color=00D4FF&bold=true'">
                     </div>
                     <div class="founder-info">
-                        <h2 class="glitch-text" data-text="MANOJ MEENA">MANOJ MEENA</h2>
-                        <p class="title">FOUNDER &amp; CEO — MK GLOBAL NEXUS</p>
-                        <p class="bio">PIONEER IN CYBER INTELLIGENCE · DIGITAL FRAUD INVESTIGATOR · CYBER CRIME ANALYST</p>
+                        <h2>MANOJ MEENA</h2>
+                        <p class="title">Founder, Owner &amp; CEO — MK Global Nexus</p>
+                        <p class="bio">
+                            <strong>MANOJ MEENA</strong> is the <strong>Founder, Owner &amp; CEO</strong> of 
+                            <strong>MK Global Nexus</strong>, a professional cyber intelligence organization.
+                        </p>
                         <div class="social">
                             <a href="#"><i class="fab fa-twitter"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
@@ -259,13 +304,13 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-brand">
-                <span>⚡ MK GLOBAL NEXUS</span>
-                <span class="footer-divider">◆</span>
-                <span>MK CYBER HUB</span>
+                <span>⚡ MK Global Nexus</span>
+                <span class="footer-divider">→</span>
+                <span>MK Cyber Hub</span>
             </div>
-            <p class="motto">TECHNOLOGY WITH INTEGRITY. INTELLIGENCE WITH PURPOSE.</p>
-            <p class="copy">© MK GLOBAL NEXUS — ALL RIGHTS RESERVED</p>
-            <p class="version">VERSION 9.0 — SCI-FI EDITION</p>
+            <p class="motto">Technology with Integrity. Intelligence with Purpose.</p>
+            <p class="copy">© 2026 MK Global Nexus. All Rights Reserved.</p>
+            <p class="version">Version 10.0 — Modern</p>
         </div>
     </footer>
 
