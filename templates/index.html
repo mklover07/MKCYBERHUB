@@ -10,99 +10,132 @@
 </head>
 <body>
 
+    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container">
             <div class="logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">MK <span class="highlight">CYBER HUB</span></span>
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <span class="brand">MK</span>
+                    <span class="sub">CYBER HUB</span>
+                </div>
             </div>
             <div class="header-right">
-                <span class="status">🟢 SECURE</span>
-                <span class="time" id="currentTime">--:--:--</span>
+                <span class="status">
+                    <span class="pulse"></span> Secure
+                </span>
+                <span class="time" id="clock">--:--:--</span>
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
             </div>
         </div>
     </header>
 
+    <!-- ===== MAIN ===== -->
     <main>
 
-        <!-- HERO -->
+        <!-- ===== HERO ===== -->
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h1>ADVANCED <span class="highlight">CYBER INTELLIGENCE</span></h1>
-                    <p class="subtitle">Real-time AI Detection · OSINT · Threat Monitoring</p>
-                    <div class="stats">
+                    <div class="hero-badge">
+                        <span class="badge-glow">⚡ Next-Gen</span>
+                        <span class="badge-text">AI-Powered Intelligence</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="gradient">Advanced</span>
+                        <span class="white">Cyber Intelligence</span>
+                    </h1>
+                    <p class="hero-desc">
+                        Real-time AI detection, advanced OSINT, threat monitoring 
+                        and cyber security analytics — all in one modern platform.
+                    </p>
+                    <div class="hero-stats">
                         <div class="stat">
-                            <span class="number" id="totalThreats">12,847</span>
-                            <span class="label">Total Threats</span>
+                            <span class="stat-number" id="totalThreats">12,847</span>
+                            <span class="stat-label">Threats</span>
                         </div>
                         <div class="stat">
-                            <span class="number" id="activeAttacks">342</span>
-                            <span class="label">Active Attacks</span>
+                            <span class="stat-number" id="activeAttacks">342</span>
+                            <span class="stat-label">Attacks</span>
                         </div>
                         <div class="stat">
-                            <span class="number" id="vulnerabilities">1,204</span>
-                            <span class="label">Vulnerabilities</span>
+                            <span class="stat-number" id="vulnerabilities">1,204</span>
+                            <span class="stat-label">Vulnerabilities</span>
                         </div>
                         <div class="stat">
-                            <span class="number" id="countries">189</span>
-                            <span class="label">Countries</span>
+                            <span class="stat-number" id="countries">189</span>
+                            <span class="stat-label">Countries</span>
                         </div>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <div class="globe">
-                        <i class="fas fa-globe-americas"></i>
-                        <span>GLOBAL</span>
+                <div class="hero-visual">
+                    <div class="globe-container">
+                        <div class="globe-ring"></div>
+                        <div class="globe-ring"></div>
+                        <div class="globe-ring"></div>
+                        <div class="globe-center">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>GLOBAL</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- BANNER -->
+        <!-- ===== BANNER ===== -->
         <section class="banner">
             <div class="container">
-                <span>🏢 A DIVISION OF</span>
-                <span class="company">MK GLOBAL NEXUS</span>
-                <span class="founder">— MANOJ MEENA</span>
+                <div class="banner-content">
+                    <span>🏢 A Division of</span>
+                    <strong>MK GLOBAL NEXUS</strong>
+                    <span class="divider">|</span>
+                    <span class="gold">MANOJ MEENA</span>
+                </div>
             </div>
         </section>
 
-        <!-- AI VISION -->
-        <section class="section" id="vision">
+        <!-- ===== FEATURES ===== -->
+        <section class="section">
             <div class="container">
-                <h2><i class="fas fa-eye" style="color:#00D4FF;"></i> AI Vision Engine</h2>
+                <div class="section-header">
+                    <h2><i class="fas fa-eye"></i> AI Vision Engine</h2>
+                    <span class="badge-live">🟢 Live</span>
+                </div>
                 <div class="card">
                     <div class="camera-wrapper">
                         <video id="video" autoplay playsinline muted></video>
                         <canvas id="canvas"></canvas>
                         <div class="camera-status" id="cameraStatus">
-                            <span class="dot"></span> READY
+                            <span class="pulse"></span> Ready
                         </div>
                         <div class="controls">
-                            <button onclick="startScanner()" class="btn primary">▶ START</button>
-                            <button onclick="stopScanner()" class="btn danger">⏹ STOP</button>
-                            <button onclick="switchCamera()" class="btn secondary">🔄 SWITCH</button>
+                            <button onclick="startScanner()" class="btn primary">▶ Start</button>
+                            <button onclick="stopScanner()" class="btn danger">⏹ Stop</button>
+                            <button onclick="switchCamera()" class="btn secondary">🔄 Switch</button>
                         </div>
                         <div class="detection-info">
-                            <span id="detectedObject">🔍 DETECTING...</span>
+                            <span id="detectedObject">🔍 Detecting...</span>
                             <span id="detectedConfidence">Conf: --%</span>
                         </div>
                     </div>
                     <div class="dashboard">
                         <div class="dash-item">
+                            <span class="dash-icon">🎯</span>
                             <span class="dash-label">Objects</span>
                             <span class="dash-value" id="objCount">0</span>
                         </div>
                         <div class="dash-item">
+                            <span class="dash-icon">📊</span>
                             <span class="dash-label">Confidence</span>
                             <span class="dash-value" id="confidence">--%</span>
                         </div>
                         <div class="dash-item">
+                            <span class="dash-icon">⚡</span>
                             <span class="dash-label">FPS</span>
                             <span class="dash-value" id="fps">--</span>
                         </div>
                         <div class="dash-item">
+                            <span class="dash-icon">🧠</span>
                             <span class="dash-label">AI Status</span>
                             <span class="dash-value" id="aiStatus" style="font-size:12px;">Loading...</span>
                         </div>
@@ -111,24 +144,33 @@
             </div>
         </section>
 
-        <!-- OSINT -->
+        <!-- ===== OSINT ===== -->
         <section class="section">
             <div class="container">
-                <h2><i class="fas fa-tools" style="color:#00D4FF;"></i> OSINT Suite</h2>
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> OSINT Suite</h2>
+                    <span class="badge">2 Tools</span>
+                </div>
                 <div class="grid-2">
                     <div class="card">
-                        <h3>🔍 Google Dorking</h3>
+                        <div class="card-head">
+                            <span class="card-icon">🔍</span>
+                            <h3>Google Dorking</h3>
+                        </div>
                         <div class="input-group">
                             <input type="text" id="dorkInput" placeholder="site:example.com">
-                            <button onclick="runDork()" class="btn primary">RUN</button>
+                            <button onclick="runDork()" class="btn primary">Run</button>
                         </div>
                         <div id="dorkResult" class="result"></div>
                     </div>
                     <div class="card">
-                        <h3>🌐 Shodan</h3>
+                        <div class="card-head">
+                            <span class="card-icon">🌐</span>
+                            <h3>Shodan</h3>
+                        </div>
                         <div class="input-group">
                             <input type="text" id="shodanInput" placeholder="apache port:80">
-                            <button onclick="runShodan()" class="btn primary">RUN</button>
+                            <button onclick="runShodan()" class="btn primary">Run</button>
                         </div>
                         <div id="shodanResult" class="result"></div>
                     </div>
@@ -136,24 +178,33 @@
             </div>
         </section>
 
-        <!-- SECURITY -->
+        <!-- ===== SECURITY ===== -->
         <section class="section">
             <div class="container">
-                <h2><i class="fas fa-shield-alt" style="color:#D4A843;"></i> Cyber Security</h2>
+                <div class="section-header">
+                    <h2><i class="fas fa-shield-alt"></i> Cyber Security</h2>
+                    <span class="badge">2 Tools</span>
+                </div>
                 <div class="grid-2">
                     <div class="card">
-                        <h3>🧠 AI Threat Analyzer</h3>
+                        <div class="card-head">
+                            <span class="card-icon">🧠</span>
+                            <h3>AI Threat Analyzer</h3>
+                        </div>
                         <div class="input-group">
                             <input type="text" id="threatInput" placeholder="IP or Domain">
-                            <button onclick="runThreat()" class="btn primary">ANALYZE</button>
+                            <button onclick="runThreat()" class="btn primary">Analyze</button>
                         </div>
                         <div id="threatResult" class="result"></div>
                     </div>
                     <div class="card">
-                        <h3>🔒 SSL Checker</h3>
+                        <div class="card-head">
+                            <span class="card-icon">🔒</span>
+                            <h3>SSL Checker</h3>
+                        </div>
                         <div class="input-group">
                             <input type="text" id="sslInput" placeholder="example.com">
-                            <button onclick="runSSL()" class="btn primary">CHECK</button>
+                            <button onclick="runSSL()" class="btn primary">Check</button>
                         </div>
                         <div id="sslResult" class="result"></div>
                     </div>
@@ -161,25 +212,32 @@
             </div>
         </section>
 
-        <!-- NEWS -->
+        <!-- ===== NEWS ===== -->
         <section class="section">
             <div class="container">
                 <div class="news-ticker">
-                    <span class="label"><i class="fas fa-bolt"></i> CYBER NEWS</span>
-                    <span class="scroll" id="newsTicker">🚨 Loading news...</span>
+                    <span class="news-label">⚡ Cyber News</span>
+                    <span class="news-scroll" id="newsTicker">Loading...</span>
                 </div>
             </div>
         </section>
 
-        <!-- FOUNDER -->
+        <!-- ===== FOUNDER ===== -->
         <section class="section">
             <div class="container">
                 <div class="card founder">
-                    <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="MANOJ MEENA" onerror="this.src='https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=1B3A5C&color=fff&bold=true'">
+                    <div class="founder-avatar">
+                        <img src="{{ url_for('static', filename='images/founder.jpg') }}" 
+                             alt="MANOJ MEENA"
+                             onerror="this.src='https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=00D4FF&color=0B1A2E&bold=true'">
+                    </div>
                     <div class="founder-info">
                         <h2>MANOJ MEENA</h2>
-                        <p class="title">Founder, Owner &amp; CEO — MK Global Nexus</p>
-                        <p class="bio"><strong>MANOJ MEENA</strong> is the <strong>Founder, Owner &amp; CEO</strong> of <strong>MK Global Nexus</strong>, a professional cyber intelligence organization.</p>
+                        <p class="founder-title">Founder & CEO — MK Global Nexus</p>
+                        <p class="founder-bio">
+                            <strong>MANOJ MEENA</strong> is the <strong>Founder, Owner & CEO</strong> 
+                            of <strong>MK Global Nexus</strong>, a professional cyber intelligence organization.
+                        </p>
                         <div class="social">
                             <a href="#"><i class="fab fa-twitter"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
@@ -193,11 +251,17 @@
 
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container">
-            <p>⚡ MK GLOBAL NEXUS → MK CYBER HUB</p>
-            <p class="motto">Technology with Integrity. Intelligence with Purpose.</p>
-            <p class="copy">© MK Global Nexus. All Rights Reserved.</p>
+            <div class="footer-brand">
+                <span>⚡ MK GLOBAL NEXUS</span>
+                <span class="arrow">→</span>
+                <span>MK CYBER HUB</span>
+            </div>
+            <p class="footer-motto">Technology with Integrity. Intelligence with Purpose.</p>
+            <p class="footer-copy">© 2026 MK Global Nexus. All Rights Reserved.</p>
+            <p class="footer-version">Version 11.0 — Modern</p>
         </div>
     </footer>
 
