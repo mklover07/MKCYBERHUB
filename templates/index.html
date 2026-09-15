@@ -1,144 +1,271 @@
---- index.html (原始)
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coder-app-name</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
-      /* 内联样式确保主题色立即生效，避免闪烁 */
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-      }
-      html.light,
-      html.light body {
-        background-color: #ffffff !important;
-        color: #000000;
-      }
-      html.dark,
-      html.dark body {
-        background-color: #1a1a1a !important;
-        color: #ffffff;
-      }
-    </style>
-    <script>
-      // 在 React 加载前立即设置主题，避免闪烁
-      (function () {
-        const isInIframe = window.self !== window.top;
-
-        function applyThemeToDOM(theme) {
-          document.documentElement.classList.remove("light", "dark");
-          document.documentElement.classList.add(theme);
-          document.documentElement.setAttribute("data-theme", theme);
-        }
-
-        if (isInIframe) {
-          // 监听父窗口主动推送的主题消息
-          window.addEventListener("message", function (event) {
-            if (event.data && typeof event.data.theme === "string") {
-              const theme = event.data.theme;
-              if (theme === "light" || theme === "dark") {
-                applyThemeToDOM(theme);
-              }
-            }
-          });
-        } else {
-          // 非 iframe 环境，使用默认 light 主题
-          applyThemeToDOM("light");
-        }
-      })();
-    </script>
-      <script>
-      (function () {
-        if (window.self === window.top) return;
-        var reported = {};
-        window.addEventListener("error", function (event) {
-          // 资源加载失败的 error 事件没有 message，此处仅上报 JS 运行时错误
-          if (!event || !event.message) return;
-          var key =
-            event.message + "|" + (event.filename || "") + "|" + (event.lineno || 0);
-          if (reported[key]) return; // 相同错误只上报一次，避免渲染循环刷屏
-          reported[key] = true;
-          try {
-            window.parent.postMessage(
-              {
-                type: "sandbox-runtime-error",
-                payload: {
-                  message: String(event.message).slice(0, 500),
-                  filename: event.filename || "",
-                  lineno: event.lineno || 0,
-                  colno: event.colno || 0,
-                  stack:
-                    event.error && event.error.stack
-                      ? String(event.error.stack).slice(0, 2000)
-                      : ""
-                }
-              },
-              "*"
-            );
-          } catch (e) {
-            /* 上报失败不影响页面运行 */
-          }
-        });
-      })();
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
-
-
-+++ index.html (修改后)
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MK CYBER HUB - Advanced Cyber Intelligence Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        font-family: 'Inter', sans-serif;
-      }
-      html.dark, html.dark body {
-        background-color: #0B1A2E !important;
-        color: #E8EDF2;
-      }
-      html.light, html.light body {
-        background-color: #f0f4f8 !important;
-        color: #1a1a2e;
-      }
-    </style>
-    <script>
-      (function () {
-        function applyThemeToDOM(theme) {
-          document.documentElement.classList.remove("light", "dark");
-          document.documentElement.classList.add(theme);
-          document.documentElement.setAttribute("data-theme", theme);
-        }
-        applyThemeToDOM("dark");
-      })();
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK CYBER HUB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <span class="brand">MK</span>
+                    <span class="sub">CYBER HUB</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <span class="status"><span class="pulse"></span> SECURE</span>
+                <span class="time" id="clock">--:--:--</span>
+                <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-glow">⚡ Next-Gen</span>
+                        <span class="badge-text">AI-Powered Intelligence</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="gradient">Advanced</span>
+                        <span class="white">Cyber Intelligence</span>
+                    </h1>
+                    <p class="hero-desc">
+                        Real-time AI detection, advanced OSINT, threat monitoring 
+                        and cyber security analytics.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="totalThreats">12,847</span>
+                            <span class="stat-label">Threats</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="activeAttacks">342</span>
+                            <span class="stat-label">Attacks</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="vulnerabilities">1,204</span>
+                            <span class="stat-label">Vulnerabilities</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="countries">189</span>
+                            <span class="stat-label">Countries</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="globe-container">
+                        <div class="globe-ring"></div>
+                        <div class="globe-ring"></div>
+                        <div class="globe-ring"></div>
+                        <div class="globe-center">
+                            <i class="fas fa-globe-americas"></i>
+                            <span>GLOBAL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BANNER -->
+        <section class="banner">
+            <div class="container">
+                <div class="banner-content">
+                    <span>🏢 A Division of</span>
+                    <strong>MK GLOBAL NEXUS</strong>
+                    <span class="divider">|</span>
+                    <span class="gold">MANOJ MEENA</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI VISION -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-eye"></i> AI Vision Engine</h2>
+                    <span class="badge-live" id="visionStatus">🟢 Ready</span>
+                </div>
+                <div class="card">
+                    <div class="camera-wrapper">
+                        <video id="video" autoplay playsinline muted></video>
+                        <canvas id="canvas"></canvas>
+                        <div class="camera-status" id="cameraStatus">
+                            <span class="pulse"></span> Ready
+                        </div>
+                        <div class="controls">
+                            <button onclick="startScanner()" class="btn primary">▶ Start</button>
+                            <button onclick="stopScanner()" class="btn danger">⏹ Stop</button>
+                            <button onclick="switchCamera()" class="btn secondary">🔄 Switch</button>
+                        </div>
+                        <div class="detection-info">
+                            <span id="detectedObject">🔍 Detecting...</span>
+                            <span id="detectedConfidence">Conf: --%</span>
+                        </div>
+                    </div>
+                    <div class="dashboard">
+                        <div class="dash-item">
+                            <span class="dash-icon">🎯</span>
+                            <span class="dash-label">Objects</span>
+                            <span class="dash-value" id="objCount">0</span>
+                        </div>
+                        <div class="dash-item">
+                            <span class="dash-icon">📊</span>
+                            <span class="dash-label">Confidence</span>
+                            <span class="dash-value" id="confidence">--%</span>
+                        </div>
+                        <div class="dash-item">
+                            <span class="dash-icon">⚡</span>
+                            <span class="dash-label">FPS</span>
+                            <span class="dash-value" id="fps">--</span>
+                        </div>
+                        <div class="dash-item">
+                            <span class="dash-icon">🧠</span>
+                            <span class="dash-label">AI Status</span>
+                            <span class="dash-value" id="aiStatus" style="font-size:12px;">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OSINT -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> OSINT Suite</h2>
+                    <span class="badge">2 Tools</span>
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-head">
+                            <span class="card-icon">🔍</span>
+                            <h3>Google Dorking</h3>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="dorkInput" placeholder="site:example.com">
+                            <button onclick="runDork()" class="btn primary">Run</button>
+                        </div>
+                        <div id="dorkResult" class="result"></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <span class="card-icon">🌐</span>
+                            <h3>Shodan</h3>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="shodanInput" placeholder="apache port:80">
+                            <button onclick="runShodan()" class="btn primary">Run</button>
+                        </div>
+                        <div id="shodanResult" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECURITY -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-shield-alt"></i> Cyber Security</h2>
+                    <span class="badge">2 Tools</span>
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-head">
+                            <span class="card-icon">🧠</span>
+                            <h3>AI Threat Analyzer</h3>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="threatInput" placeholder="IP or Domain">
+                            <button onclick="runThreat()" class="btn primary">Analyze</button>
+                        </div>
+                        <div id="threatResult" class="result"></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-head">
+                            <span class="card-icon">🔒</span>
+                            <h3>SSL Checker</h3>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="sslInput" placeholder="example.com">
+                            <button onclick="runSSL()" class="btn primary">Check</button>
+                        </div>
+                        <div id="sslResult" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEWS -->
+        <section class="section">
+            <div class="container">
+                <div class="news-ticker">
+                    <span class="news-label">⚡ Cyber News</span>
+                    <span class="news-scroll" id="newsTicker">Loading...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOUNDER -->
+        <section class="section">
+            <div class="container">
+                <div class="card founder">
+                    <div class="founder-avatar">
+                        <img src="{{ url_for('static', filename='images/founder.jpg') }}" 
+                             alt="MANOJ MEENA"
+                             onerror="this.src='https://ui-avatars.com/api/?name=Manoj+Meena&size=120&background=00D4FF&color=0B1A2E&bold=true'">
+                    </div>
+                    <div class="founder-info">
+                        <h2>MANOJ MEENA</h2>
+                        <p class="founder-title">Founder & CEO — MK Global Nexus</p>
+                        <p class="founder-bio">
+                            <strong>MANOJ MEENA</strong> is the <strong>Founder, Owner & CEO</strong> 
+                            of <strong>MK Global Nexus</strong>, a professional cyber intelligence organization.
+                        </p>
+                        <div class="social">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">
+                <span>⚡ MK GLOBAL NEXUS</span>
+                <span class="arrow">→</span>
+                <span>MK CYBER HUB</span>
+            </div>
+            <p class="footer-motto">Technology with Integrity. Intelligence with Purpose.</p>
+            <p class="footer-copy">© 2026 MK Global Nexus. All Rights Reserved.</p>
+            <p class="footer-version">Version 12.0</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@latest"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
 </html>
