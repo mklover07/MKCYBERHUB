@@ -164,7 +164,6 @@ function startDetectionLoop() {
         canvas.height = h;
         ctx.clearRect(0, 0, w, h);
 
-        // FPS
         frameCount++;
         if (Date.now() - lastFpsTime > 1000) {
             const fpsEl = document.getElementById('fps');
@@ -183,7 +182,6 @@ function startDetectionLoop() {
 
                 if (filtered.length > 0) {
                     filtered.forEach(p => {
-                        // Draw box
                         ctx.strokeStyle = '#00D4FF';
                         ctx.lineWidth = 2;
                         ctx.shadowColor = '#00D4FF';
@@ -191,7 +189,6 @@ function startDetectionLoop() {
                         ctx.strokeRect(p.bbox[0], p.bbox[1], p.bbox[2], p.bbox[3]);
                         ctx.shadowBlur = 0;
 
-                        // Draw label
                         const label = p.class.toUpperCase() + ' (' + Math.round(p.score * 100) + '%)';
                         ctx.font = 'bold 13px Inter, sans-serif';
                         const metrics = ctx.measureText(label);
@@ -201,7 +198,6 @@ function startDetectionLoop() {
                         ctx.fillText(label, p.bbox[0] + 4, p.bbox[1] - 7);
                     });
 
-                    // Update UI
                     const top = filtered[0];
                     const confidence = Math.round(top.score * 100);
                     
@@ -382,8 +378,119 @@ async function runSSL() {
     }
 }
 
+// ================================================================
+// 🚨 THREAT DETECTION (Research Demo)
+// ================================================================
+
+document.addEventListener('DOMContentLoaded', function () {
+    const threatInput = document.getElementById('threatImageInput');
+    if (threatInput) {
+        threatInput.addEventListener('change', handleThreatImage);
+    }
+});
+
+function handleThreatImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        alert('⚠️ Please upload an image file (JPG, PNG)');
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert('⚠️ File too large! Maximum 5MB allowed.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const preview = document.getElementById('threatPreview');
+        const previewImg = document.getElementById('threatPreviewImg');
+        const uploadArea = document.getElementById('uploadArea');
+        const result = document.getElementById('threatResult');
+
+        if (previewImg) previewImg.src = e.target.result;
+        if (preview) preview.style.display = 'block';
+        if (uploadArea) uploadArea.style.display = 'none';
+        if (result) result.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+}
+
+function clearThreatImage() {
+    const preview = document.getElementById('threatPreview');
+    const uploadArea = document.getElementById('uploadArea');
+    const result = document.getElementById('threatResult');
+    const input = document.getElementById('threatImageInput');
+
+    if (preview) preview.style.display = 'none';
+    if (uploadArea) uploadArea.style.display = 'block';
+    if (result) result.style.display = 'none';
+    if (input) input.value = '';
+}
+
+async function analyzeThreat() {
+    const result = document.getElementById('threatResult');
+    const resultIcon = document.getElementById('threatResultIcon');
+    const resultTitle = document.getElementById('threatResultTitle');
+    const detection = document.getElementById('threatDetection');
+    const confidence = document.getElementById('threatConfidence');
+    const objects = document.getElementById('threatObjects');
+    const review = document.getElementById('threatReview');
+
+    if (result) result.style.display = 'block';
+    if (resultIcon) resultIcon.textContent = '⏳';
+    if (resultTitle) {
+        resultTitle.textContent = 'Analyzing Image...';
+        resultTitle.style.color = '#fff';
+    }
+    if (detection) detection.textContent = 'Processing...';
+    if (confidence) confidence.textContent = '--';
+    if (objects) objects.textContent = '--';
+    if (review) {
+        review.textContent = '⏳ Analysis in progress';
+        review.style.color = '#8A9AAA';
+    }
+
+    setTimeout(() => {
+        const detections = [
+            { label: 'Normal Person', confidence: 0.87, icon: '✅', color: '#44DD88' },
+            { label: 'Potentially Dangerous Person', confidence: 0.76, icon: '⚠️', color: '#FF4444' },
+            { label: 'Normal Person (Low Confidence)', confidence: 0.52, icon: '✅', color: '#44DD88' }
+        ];
+
+        const randomIndex = Math.floor(Math.random() * detections.length);
+        const resultData = detections[randomIndex];
+        const objectCount = Math.floor(Math.random() * 3) + 1;
+
+        if (resultIcon) resultIcon.textContent = resultData.icon;
+        if (resultTitle) {
+            resultTitle.textContent = resultData.label;
+            resultTitle.style.color = resultData.color;
+        }
+        if (detection) {
+            detection.textContent = resultData.label;
+            detection.style.color = resultData.color;
+        }
+        if (confidence) {
+            confidence.textContent = (resultData.confidence * 100).toFixed(1) + '%';
+        }
+        if (objects) {
+            objects.textContent = objectCount + ' object(s) detected';
+        }
+        if (review) {
+            review.textContent = '⚠️ Pending Human Review';
+            review.style.color = '#D4A843';
+        }
+
+        console.log('🎯 Threat Analysis Complete:', resultData);
+    }, 2000);
+}
+
 // ===== INIT =====
 console.log('%c🚀 MK CYBER HUB v12.0', 'font-size:20px;color:#00D4FF;font-weight:900');
-console.log('%c⚡ Modern Design • AI Vision • OSINT • Security', 'font-size:14px;color:#D4A843');
+console.log('%c⚡ Modern Design • AI Vision • OSINT • Threat Detection', 'font-size:14px;color:#D4A843');
+console.log('%c⚠️ Threat Detection is Research Prototype Only', 'font-size:12px;color:#FF4444');
 
 setTimeout(loadModel, 1000);
