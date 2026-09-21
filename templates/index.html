@@ -210,6 +210,124 @@
             </div>
         </section>
 
+        <!-- THREAT DETECTION (RESEARCH) -->
+        <section class="section" id="threat-detection">
+            <div class="container">
+                <div class="section-header">
+                    <h2>
+                        <i class="fas fa-exclamation-triangle" style="color:#FF4444;"></i> 
+                        Threat Detection
+                    </h2>
+                    <span class="badge-warning">⚠️ Research Prototype</span>
+                </div>
+
+                <!-- Warning Banner -->
+                <div class="warning-banner">
+                    <div class="warning-icon">⚠️</div>
+                    <div class="warning-text">
+                        <strong>RESEARCH PURPOSE ONLY</strong>
+                        <p>
+                            This is an academic prototype based on YOLO11 research. 
+                            Results are prompts for human review only. Do not use for 
+                            automated decisions, identity recognition, or punitive actions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card glass-card">
+                    <!-- Research Info -->
+                    <div class="research-info">
+                        <div class="research-icon">🎓</div>
+                        <div class="research-content">
+                            <h3>YOLO11 Dangerous Object Detection</h3>
+                            <p>
+                                Based on: <strong>Tran Si Nam's Graduation Thesis</strong><br>
+                                VNUHCM - University of Science
+                            </p>
+                            <div class="research-stats">
+                                <span class="stat-pill">📊 Precision: 0.87</span>
+                                <span class="stat-pill">📊 Recall: 0.69</span>
+                                <span class="stat-pill">📊 mAP50: 0.80</span>
+                                <span class="stat-pill">📊 F1: 0.77</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upload Area -->
+                    <div class="upload-area" id="uploadArea">
+                        <input 
+                            type="file" 
+                            id="threatImageInput" 
+                            accept="image/*" 
+                            style="display:none;"
+                        >
+                        <div class="upload-content" onclick="document.getElementById('threatImageInput').click()">
+                            <div class="upload-icon">📸</div>
+                            <p class="upload-title">Click to Upload Image</p>
+                            <span class="upload-hint">Supports: JPG, PNG (Max 5MB)</span>
+                        </div>
+                    </div>
+
+                    <!-- Preview Area -->
+                    <div id="threatPreview" style="display:none;">
+                        <div class="preview-wrapper">
+                            <img id="threatPreviewImg" src="" alt="Preview">
+                        </div>
+                        <div class="preview-actions">
+                            <button onclick="analyzeThreat()" class="btn primary">
+                                <i class="fas fa-search"></i> Analyze Image
+                            </button>
+                            <button onclick="clearThreatImage()" class="btn danger">
+                                <i class="fas fa-times"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Result Area -->
+                    <div id="threatResult" style="display:none;" class="threat-result">
+                        <div class="result-header">
+                            <span id="threatResultIcon" class="result-icon">⏳</span>
+                            <h4 id="threatResultTitle">Analyzing...</h4>
+                        </div>
+                        <div class="result-body">
+                            <div class="result-item">
+                                <strong>Detection:</strong>
+                                <span id="threatDetection">-</span>
+                            </div>
+                            <div class="result-item">
+                                <strong>Confidence:</strong>
+                                <span id="threatConfidence">-</span>
+                            </div>
+                            <div class="result-item">
+                                <strong>Objects Found:</strong>
+                                <span id="threatObjects">-</span>
+                            </div>
+                            <div class="result-item">
+                                <strong>Review Status:</strong>
+                                <span id="threatReview" style="color:#D4A843;">⚠️ Pending Human Review</span>
+                            </div>
+                        </div>
+                        <div class="result-warning">
+                            ⚠️ This is a research prototype output. 
+                            Human review required before any action.
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="research-footer">
+                        <a 
+                            href="https://github.com/Nambekai/dangerous-person-detection-yolo11" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="btn secondary"
+                        >
+                            <i class="fab fa-github"></i> View Original Research
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- NEWS -->
         <section class="section">
             <div class="container">
